@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using System.Web;
 using Microsoft.Extensions.Configuration;
 using Rem.FlexiBeeSDK.Client;
 using Rem.FlexiBeeSDK.Client.Clients;
@@ -36,7 +37,7 @@ namespace Rem.FlexiBeeSDK.Tests
             {
                 Format = Format.Json,
                 LevelOfDetail = LevelOfDetail.Full,
-                QueryString = "kod='S+00440/2020'",
+                QueryString = $"kod='{HttpUtility.UrlEncode("S+00440/2020'")}",
                 Relations = new List<Relations>()
                 {
                     Relations.PolozkyDokladu

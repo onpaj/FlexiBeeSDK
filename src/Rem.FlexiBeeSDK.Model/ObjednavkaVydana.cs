@@ -40,7 +40,7 @@ namespace Rem.FlexiBeeSDK.Model
         public string Popis { get; set; }
 
         [JsonProperty("polozkyDokladu", NullValueHandling = NullValueHandling.Ignore)]
-        public List<PolozkaDokladu> PolozkyDokladu { get; set; }
+        public List<PolozkaFakturyPrijate> PolozkyDokladu { get; set; }
 
         [JsonProperty("vazebni-doklady", NullValueHandling = NullValueHandling.Ignore)]
         public List<VazebniDoklad> VazebniDoklady { get; set; }

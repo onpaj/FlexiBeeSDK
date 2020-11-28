@@ -324,7 +324,7 @@ namespace Rem.FlexiBeeSDK.Model
         [JsonProperty("inventura", NullValueHandling = NullValueHandling.Ignore)]
         public string Inventura { get; set; }
 
-        [JsonProperty("skladovePolozky", NullValueHandling = NullValueHandling.Ignore)]
-        public List<PolozkaDokladu> PolozkyDokladu { get; set; }
+        [JsonProperty("polozkyDokladu", NullValueHandling = NullValueHandling.Ignore)]
+        public List<PolozkaSkladovehoDokladu> PolozkyDokladu { get; set; }
     }
 }

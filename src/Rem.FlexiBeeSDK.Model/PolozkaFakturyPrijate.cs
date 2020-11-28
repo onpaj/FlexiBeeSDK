@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model
 {
-    public class PolozkaDokladu
+    public class PolozkaFakturyPrijate
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }

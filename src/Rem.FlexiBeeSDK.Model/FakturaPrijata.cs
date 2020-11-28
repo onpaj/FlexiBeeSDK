@@ -67,6 +67,6 @@ namespace Rem.FlexiBeeSDK.Model
         public string Popis { get; set; }
 
         [JsonProperty("polozkyDokladu", NullValueHandling = NullValueHandling.Ignore)]
-        public List<PolozkaDokladu> PolozkyDokladu { get; set; }
+        public List<PolozkaFakturyPrijate> PolozkyDokladu { get; set; }
     }
 }
