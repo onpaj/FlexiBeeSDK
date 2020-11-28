@@ -2,10 +2,10 @@
 {
     public class RequestSpecs
     {
-        public LevelOfDetail LevelOfDetail { get; set; }
+        public LevelOfDetail LevelOfDetail { get; set; } = LevelOfDetail.Undefined;
         public Format Format { get; set; } = Format.Json;
 
-        protected string FormatString => Format == Format.Json ? "json" : "xml";
-        protected string LevelOfDetailString => LevelOfDetail == LevelOfDetail.Full ? "full" : "mini";
+        protected string FormatString => Format.ToString().ToLower();
+        protected string LevelOfDetailString => LevelOfDetail.ToString().ToLower();
     }
 }

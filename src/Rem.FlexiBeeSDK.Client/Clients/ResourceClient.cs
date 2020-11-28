@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Buffers.Text;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web;
 using Newtonsoft.Json.Linq;
 
-namespace Rem.FlexiBeeSDK.Client
+namespace Rem.FlexiBeeSDK.Client.Clients
 {
-    public abstract class ResourceClient<TEntity>  
+    public abstract class ResourceClient<TEntity> : IResourceClient<TEntity>
     {
         private readonly FlexiBeeConnection _connection;
         private readonly HttpClient _httpClient;
@@ -28,7 +28,7 @@ namespace Rem.FlexiBeeSDK.Client
             return System.Convert.ToBase64String(bytes);
         }
 
-        public virtual async Task<IList<TEntity>> GetAsync(Query query, CancellationToken cancellationToken = default)
+        public virtual async Task<IList<TEntity>> FindAsync(Query query, CancellationToken cancellationToken = default)
         {
             var uri = GetUri(query);
 
@@ -43,11 +43,11 @@ namespace Rem.FlexiBeeSDK.Client
             return list.ToObject<List<TEntity>>();
         }
 
-        private Uri GetUri(Query query)
+        protected Uri GetUri(Query query)
         {
             return new Uri($"{_connection.Server}/c/{_connection.Company}/{ResourceIdentifier}/{query}");
         }
 
-        public abstract string ResourceIdentifier { get; }
+        protected abstract string ResourceIdentifier { get; }
     }
 }

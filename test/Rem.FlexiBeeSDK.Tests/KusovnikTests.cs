@@ -1,20 +1,23 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Rem.FlexiBeeSDK.Client;
+using Rem.FlexiBeeSDK.Client.Clients;
 using Xunit;
 
 namespace Rem.FlexiBeeSDK.Tests
 {
-    public class FlexiBeeConnectionTests
+    public class KusovnikTests
     {
         private FlexiBeeConnection _connection;
 
-        public FlexiBeeConnectionTests()
+        public KusovnikTests()
         {
             var configuration = new ConfigurationBuilder()
-                .AddUserSecrets<FlexiBeeConnectionTests>()
+                .AddUserSecrets<FakturyPrijateTests>()
                 .Build();
 
             _connection = configuration.GetSection("FlexiBeeConnection").Get<FlexiBeeConnection>();
@@ -24,7 +27,7 @@ namespace Rem.FlexiBeeSDK.Tests
 
 
         [Fact]
-        public async Task GetKusovnik()
+        public async Task FindKusovnik()
         {
             var httpClient = HttpClientFactory.Create();
             var client = new KusovnikClient(_connection, httpClient);
@@ -36,27 +39,31 @@ namespace Rem.FlexiBeeSDK.Tests
                 QueryString = "otecCenik='code:SER001030'",
             };
 
-            var kusovnik = await client.GetAsync(query);
+            var kusovnik = await client.FindAsync(query);
 
             Assert.NotEmpty(kusovnik);
         }
 
         [Fact]
-        public async Task GetFakturyPrijate()
+        public async Task GetKusovnik()
         {
             var httpClient = HttpClientFactory.Create();
             var client = new KusovnikClient(_connection, httpClient);
 
-            var query = new Query()
-            {
-                Format = Format.Json,
-                LevelOfDetail = LevelOfDetail.Full,
-                QueryString = "otecCenik='code:SER001030'",
-            };
-
-            var kusovnik = await client.GetAsync(query);
+            var kusovnik = await client.GetAsync("SER001030");
 
             Assert.NotEmpty(kusovnik);
+        }
+
+
+
+        [Fact]
+        public async Task GetKusovnikNotFoundThrows()
+        {
+            var httpClient = HttpClientFactory.Create();
+            var client = new KusovnikClient(_connection, httpClient);
+
+            await Assert.ThrowsAnyAsync<Exception>(() => client.GetAsync("xxxxx"));
         }
     }
 }

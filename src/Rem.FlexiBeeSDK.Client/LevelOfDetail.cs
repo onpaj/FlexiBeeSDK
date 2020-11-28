@@ -2,6 +2,8 @@
 {
     public enum LevelOfDetail
     {
+        Undefined,
         Full,
+        Summary
     }
 }
