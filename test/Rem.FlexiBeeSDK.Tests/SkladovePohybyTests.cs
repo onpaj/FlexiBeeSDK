@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
+using AutoFixture;
 using Microsoft.Extensions.Configuration;
 using Rem.FlexiBeeSDK.Client;
 using Rem.FlexiBeeSDK.Client.Clients;
@@ -13,25 +14,18 @@ namespace Rem.FlexiBeeSDK.Tests
 {
     public class SkladovePohybyTests
     {
-        private FlexiBeeConnection _connection;
+        private IFixture _fixture;
 
         public SkladovePohybyTests()
         {
-            var configuration = new ConfigurationBuilder()
-                .AddUserSecrets<SkladovePohybyTests>()
-                .Build();
-
-            _connection = configuration.GetSection("FlexiBeeConnection").Get<FlexiBeeConnection>();
-            if(_connection == null)
-             throw new ApplicationException($"{nameof(FlexiBeeConnection)} settings missing. Add configuration to user secrets");
+            _fixture = FlexiFixture.Setup();
         }
 
 
         [Fact]
         public async Task FindSkladovePohyby()
         {
-            var httpClient = HttpClientFactory.Create();
-            var client = new SkladovyPohybClient(_connection, httpClient);
+            var client = _fixture.Create<SkladovyPohybClient>();
 
             var query = new Query()
             {
@@ -53,8 +47,7 @@ namespace Rem.FlexiBeeSDK.Tests
         [Fact]
         public async Task GetSkladovePohyby()
         {
-            var httpClient = HttpClientFactory.Create();
-            var client = new SkladovyPohybClient(_connection, httpClient);
+            var client = _fixture.Create<SkladovyPohybClient>();
 
             var skladovyPohyb = await client.GetAsync("S+00440/2020");
 
@@ -65,8 +58,7 @@ namespace Rem.FlexiBeeSDK.Tests
         [Fact]
         public async Task GetSkladovePohybyNotFoundThrows()
         {
-            var httpClient = HttpClientFactory.Create();
-            var client = new SkladovyPohybClient(_connection, httpClient);
+            var client = _fixture.Create<SkladovyPohybClient>();
 
             await Assert.ThrowsAnyAsync<Exception>(() => client.GetAsync("xxxxx"));
         }

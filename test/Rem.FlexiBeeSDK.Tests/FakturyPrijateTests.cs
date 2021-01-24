@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AutoFixture;
 using Microsoft.Extensions.Configuration;
 using Rem.FlexiBeeSDK.Client;
 using Rem.FlexiBeeSDK.Client.Clients;
@@ -12,25 +13,18 @@ namespace Rem.FlexiBeeSDK.Tests
 {
     public class FakturyPrijateTests
     {
-        private FlexiBeeConnection _connection;
+        private IFixture _fixture;
 
         public FakturyPrijateTests()
         {
-            var configuration = new ConfigurationBuilder()
-                .AddUserSecrets<FakturyPrijateTests>()
-                .Build();
-
-            _connection = configuration.GetSection("FlexiBeeConnection").Get<FlexiBeeConnection>();
-            if(_connection == null)
-             throw new ApplicationException($"{nameof(FlexiBeeConnection)} settings missing. Add configuration to user secrets");
+            _fixture = FlexiFixture.Setup();
         }
 
 
         [Fact]
         public async Task FindFakturyPrijate()
         {
-            var httpClient = HttpClientFactory.Create();
-            var client = new FakturaPrijataClient(_connection, httpClient);
+            var client = _fixture.Create<FakturaPrijataClient>();
 
             var query = new Query()
             {
@@ -52,8 +46,7 @@ namespace Rem.FlexiBeeSDK.Tests
         [Fact]
         public async Task GetFakturyPrijate()
         {
-            var httpClient = HttpClientFactory.Create();
-            var client = new FakturaPrijataClient(_connection, httpClient);
+            var client = _fixture.Create<FakturaPrijataClient>();
 
             var faktura = await client.GetAsync("PF00492");
 
@@ -64,8 +57,7 @@ namespace Rem.FlexiBeeSDK.Tests
         [Fact]
         public async Task GetFakturyPrijateNotFoundThrows()
         {
-            var httpClient = HttpClientFactory.Create();
-            var client = new FakturaPrijataClient(_connection, httpClient);
+            var client = _fixture.Create<FakturaPrijataClient>();
 
             await Assert.ThrowsAnyAsync<Exception>(() => client.GetAsync("xxxxx"));
         }

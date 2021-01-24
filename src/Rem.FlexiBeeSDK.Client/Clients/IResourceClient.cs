@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
-    public interface IResourceClient<T>
+    public interface IResourceClient<T> : IReadOnlyResourceClient<T>
     {
-        Task<IList<T>> FindAsync(Query query, CancellationToken cancellationToken = default);
+        Task<OperationResult> SaveAsync(T document, CancellationToken cancellationToken = default);
     }
 }

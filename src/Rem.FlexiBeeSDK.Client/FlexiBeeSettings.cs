@@ -1,6 +1,6 @@
 ﻿namespace Rem.FlexiBeeSDK.Client
 {
-    public class FlexiBeeConnection
+    public class FlexiBeeSettings
     {
         public string Server { get; set; }
         public string Company { get; set; }

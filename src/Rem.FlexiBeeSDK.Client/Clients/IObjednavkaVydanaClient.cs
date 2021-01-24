@@ -6,7 +6,7 @@ using Rem.FlexiBeeSDK.Model;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
-    public interface IObjednavkaVydanaClient : IResourceClient<ObjednavkaVydana>
+    public interface IObjednavkaVydanaClient : IReadOnlyResourceClient<ObjednavkaVydana>
     {
         Task<ObjednavkaVydana> GetAsync(string code, CancellationToken cancellationToken = default);
 

@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+using AutoFixture;
+using Microsoft.Extensions.Logging.Abstractions;
 using Rem.FlexiBeeSDK.Client;
 using Rem.FlexiBeeSDK.Client.Clients;
 using Xunit;
@@ -12,25 +12,18 @@ namespace Rem.FlexiBeeSDK.Tests
 {
     public class ObjednavkyVydaneTests
     {
-        private FlexiBeeConnection _connection;
+        private IFixture _fixture;
 
         public ObjednavkyVydaneTests()
         {
-            var configuration = new ConfigurationBuilder()
-                .AddUserSecrets<ObjednavkyVydaneTests>()
-                .Build();
-
-            _connection = configuration.GetSection("FlexiBeeConnection").Get<FlexiBeeConnection>();
-            if(_connection == null)
-             throw new ApplicationException($"{nameof(FlexiBeeConnection)} settings missing. Add configuration to user secrets");
+            _fixture = FlexiFixture.Setup();
         }
 
 
         [Fact]
         public async Task FindObjednavkyVydane()
         {
-            var httpClient = HttpClientFactory.Create();
-            var client = new ObjednavkaVydanaClient(_connection, httpClient);
+            var client = _fixture.Create<ObjednavkaVydanaClient>();
 
             var query = new Query()
             {
@@ -52,8 +45,7 @@ namespace Rem.FlexiBeeSDK.Tests
         [Fact]
         public async Task GetObjednavkyVydane()
         {
-            var httpClient = HttpClientFactory.Create();
-            var client = new ObjednavkaVydanaClient(_connection, httpClient);
+            var client = _fixture.Create<ObjednavkaVydanaClient>();
 
             var objednavka = await client.GetAsync("VYR00405");
 
@@ -64,8 +56,7 @@ namespace Rem.FlexiBeeSDK.Tests
         [Fact]
         public async Task GetLinkedItems()
         {
-            var httpClient = HttpClientFactory.Create();
-            var client = new ObjednavkaVydanaClient(_connection, httpClient);
+            var client = _fixture.Create<ObjednavkaVydanaClient>();
 
             var linkedItems = await client.GetLinkedItems("VYR00406");
 
@@ -75,8 +66,7 @@ namespace Rem.FlexiBeeSDK.Tests
         [Fact]
         public async Task GetObjednavkyVydaneNotFoundThrows()
         {
-            var httpClient = HttpClientFactory.Create();
-            var client = new ObjednavkaVydanaClient(_connection, httpClient);
+            var client = _fixture.Create<ObjednavkaVydanaClient>();
 
             await Assert.ThrowsAnyAsync<Exception>(() => client.GetAsync("xxxxx"));
         }

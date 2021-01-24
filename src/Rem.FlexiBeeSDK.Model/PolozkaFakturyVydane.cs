@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model
 {
-    public class PolozkaFakturyPrijate
+    public class PolozkaFakturyVydane
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }
@@ -42,5 +42,18 @@ namespace Rem.FlexiBeeSDK.Model
 
         [JsonProperty("mena@showAs", NullValueHandling = NullValueHandling.Ignore)]
         public string MenaShowAs { get; set; }
+        
+        [JsonProperty("mj", NullValueHandling = NullValueHandling.Ignore)]
+        public string Mj { get; set; }
+        [JsonProperty("cenaMj", NullValueHandling = NullValueHandling.Ignore)]
+        public double CenaMj { get; set; }
+        [JsonProperty("sumZklMen", NullValueHandling = NullValueHandling.Ignore)]
+        public double SumZklMen { get; set; }
+        [JsonProperty("sumZkl", NullValueHandling = NullValueHandling.Ignore)] 
+        public object SumZkl { get; set; }
+        [JsonProperty("typSzbDphK", NullValueHandling = NullValueHandling.Ignore)]
+        public string TypSzbDphK { get; set; }
+        [JsonProperty("typCenyDphK", NullValueHandling = NullValueHandling.Ignore)] 
+        public string TypCenyDphK { get; set; }
     }
 }

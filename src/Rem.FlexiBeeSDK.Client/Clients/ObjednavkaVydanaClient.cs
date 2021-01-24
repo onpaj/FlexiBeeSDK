@@ -3,14 +3,19 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Rem.FlexiBeeSDK.Model;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
     public class ObjednavkaVydanaClient : ResourceClient<ObjednavkaVydana>, IObjednavkaVydanaClient
     {
-        public ObjednavkaVydanaClient(FlexiBeeConnection connection, HttpClient httpClient)
-            : base(connection, httpClient)
+        public ObjednavkaVydanaClient(
+            FlexiBeeSettings connection,
+            IHttpClientFactory httpClientFactory,
+            ILogger<ObjednavkaVydanaClient> logger
+        )
+            : base(connection, httpClientFactory, logger)
         {
         }
 

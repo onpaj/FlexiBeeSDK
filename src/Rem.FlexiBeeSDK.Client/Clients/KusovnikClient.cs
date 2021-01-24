@@ -2,14 +2,19 @@
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using Rem.FlexiBeeSDK.Model;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
     public class KusovnikClient : ResourceClient<Kusovnik>, IKusovnikClient
     {
-        public KusovnikClient(FlexiBeeConnection connection, HttpClient httpClient) 
-            : base(connection, httpClient)
+        public KusovnikClient(
+            FlexiBeeSettings connection,
+            IHttpClientFactory httpClientFactory,
+            ILogger<KusovnikClient> logger
+        )
+            : base(connection, httpClientFactory, logger)
         {
         }
 

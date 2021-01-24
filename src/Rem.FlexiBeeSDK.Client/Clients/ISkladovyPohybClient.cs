@@ -4,7 +4,7 @@ using Rem.FlexiBeeSDK.Model;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
-    public interface ISkladovyPohybClient : IResourceClient<SkladovyPohyb>
+    public interface ISkladovyPohybClient : IReadOnlyResourceClient<SkladovyPohyb>
     {
         Task<SkladovyPohyb> GetAsync(string code, CancellationToken cancellationToken = default);
     }

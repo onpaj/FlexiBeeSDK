@@ -4,14 +4,19 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.Extensions.Logging;
 using Rem.FlexiBeeSDK.Model;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
     public class FakturaPrijataClient : ResourceClient<FakturaPrijata>, IFakturaPrijataClient
     {
-        public FakturaPrijataClient(FlexiBeeConnection connection, HttpClient httpClient)
-            : base(connection, httpClient)
+        public FakturaPrijataClient(
+            FlexiBeeSettings connection, 
+            IHttpClientFactory httpClientFactory,
+            ILogger<FakturaPrijataClient> logger
+            )
+            : base(connection, httpClientFactory, logger)
         {
         }
 
@@ -35,8 +40,12 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
     public class SkladovyPohybClient : ResourceClient<SkladovyPohyb>, ISkladovyPohybClient
     {
-        public SkladovyPohybClient(FlexiBeeConnection connection, HttpClient httpClient)
-            : base(connection, httpClient)
+        public SkladovyPohybClient(
+            FlexiBeeSettings connection,
+            IHttpClientFactory httpClientFactory,
+            ILogger<SkladovyPohybClient> logger
+        )
+            : base(connection, httpClientFactory, logger)
         {
         }
 

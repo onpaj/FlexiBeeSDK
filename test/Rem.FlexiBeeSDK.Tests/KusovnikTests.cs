@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using AutoFixture;
 using Microsoft.Extensions.Configuration;
 using Rem.FlexiBeeSDK.Client;
 using Rem.FlexiBeeSDK.Client.Clients;
@@ -12,25 +13,18 @@ namespace Rem.FlexiBeeSDK.Tests
 {
     public class KusovnikTests
     {
-        private FlexiBeeConnection _connection;
+        private IFixture _fixture;
 
         public KusovnikTests()
         {
-            var configuration = new ConfigurationBuilder()
-                .AddUserSecrets<FakturyPrijateTests>()
-                .Build();
-
-            _connection = configuration.GetSection("FlexiBeeConnection").Get<FlexiBeeConnection>();
-            if(_connection == null)
-             throw new ApplicationException($"{nameof(FlexiBeeConnection)} settings missing. Add configuration to user secrets");
+            _fixture = FlexiFixture.Setup();
         }
 
 
         [Fact]
         public async Task FindKusovnik()
         {
-            var httpClient = HttpClientFactory.Create();
-            var client = new KusovnikClient(_connection, httpClient);
+            var client = _fixture.Create<KusovnikClient>();
 
             var query = new Query()
             {
@@ -47,8 +41,7 @@ namespace Rem.FlexiBeeSDK.Tests
         [Fact]
         public async Task GetKusovnik()
         {
-            var httpClient = HttpClientFactory.Create();
-            var client = new KusovnikClient(_connection, httpClient);
+            var client = _fixture.Create<KusovnikClient>();
 
             var kusovnik = await client.GetAsync("SER001030");
 
@@ -60,8 +53,7 @@ namespace Rem.FlexiBeeSDK.Tests
         [Fact]
         public async Task GetKusovnikNotFoundThrows()
         {
-            var httpClient = HttpClientFactory.Create();
-            var client = new KusovnikClient(_connection, httpClient);
+            var client = _fixture.Create<KusovnikClient>();
 
             await Assert.ThrowsAnyAsync<Exception>(() => client.GetAsync("xxxxx"));
         }
