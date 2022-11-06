@@ -4,7 +4,7 @@ using Rem.FlexiBeeSDK.Model;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
-    public interface  IFakturaPrijataClient : IReadOnlyResourceClient<FakturaPrijata>
+    public interface  IFakturaPrijataClient : IResourceClient<FakturaPrijata>
     {
         Task<FakturaPrijata> GetAsync(string code, CancellationToken cancellationToken = default);
     }

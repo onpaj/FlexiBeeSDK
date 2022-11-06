@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model
@@ -89,15 +90,46 @@ namespace Rem.FlexiBeeSDK.Model
         public string Ic { get; set; }
         [JsonProperty("dic", NullValueHandling = NullValueHandling.Ignore)]
         public string Dic { get; set; }
-        [JsonProperty("ZaokrNaSumM", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("zaokrNaSumM", NullValueHandling = NullValueHandling.Ignore)]
         public string ZaokrNaSumM { get; set; }
         [JsonProperty("zaokrNaDphM", NullValueHandling = NullValueHandling.Ignore)]
         public string ZaokrNaDphM { get; set; }
+        [JsonProperty("zaokrNaSumK", NullValueHandling = NullValueHandling.Ignore)]
+        public string ZaokrNaSumK { get; set; }
+        [JsonProperty("zaokrNaDphK", NullValueHandling = NullValueHandling.Ignore)]
+        public string ZaokrNaDphK { get; set; }
         [JsonProperty("bezPolozek", NullValueHandling = NullValueHandling.Ignore)]
         public bool BezPolozek { get; set; }
         [JsonProperty("formaDopravy", NullValueHandling = NullValueHandling.Ignore)]
         public string FormaDopravy { get; set; }
         [JsonProperty("formaUhradyCis", NullValueHandling = NullValueHandling.Ignore)]
         public object FormaUhradyCis { get; set; }
+
+
+        public void OpravaCen()
+        {
+            if (Mena == "code:CZK")
+            {
+            }
+            else
+            {
+                ZaokrNaSumK = "zaokrNa.setiny";
+                ZaokrNaDphK = "zaokrNa.setiny";
+                ZaokrNaSumM = "zaokrNa.setiny";
+                ZaokrNaDphM = "zaokrNa.setiny";
+            }
+        }
+
+        public void OpravaSkladu()
+        {
+            foreach(var p in PolozkyDokladu)
+                OpravaSkladu(p);
+        }
+
+        private void OpravaSkladu(PolozkaFakturyVydane p)
+        {
+            if (p.Kod == "DARBAL")
+                p.Sklad = null;
+        }
     }
 }

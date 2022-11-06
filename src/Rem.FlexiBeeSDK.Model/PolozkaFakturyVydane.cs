@@ -29,10 +29,10 @@ namespace Rem.FlexiBeeSDK.Model
         public string MnozMj { get; set; }
 
         [JsonProperty("sumCelkem", NullValueHandling = NullValueHandling.Ignore)]
-        public string SumCelkem { get; set; }
+        public decimal? SumCelkem { get; set; }
 
         [JsonProperty("sumCelkemMen", NullValueHandling = NullValueHandling.Ignore)]
-        public string SumCelkemMen { get; set; }
+        public decimal? SumCelkemMen { get; set; }
 
         [JsonProperty("mena", NullValueHandling = NullValueHandling.Ignore)]
         public string Mena { get; set; }
@@ -46,11 +46,11 @@ namespace Rem.FlexiBeeSDK.Model
         [JsonProperty("mj", NullValueHandling = NullValueHandling.Ignore)]
         public string Mj { get; set; }
         [JsonProperty("cenaMj", NullValueHandling = NullValueHandling.Ignore)]
-        public double CenaMj { get; set; }
+        public decimal CenaMj { get; set; }
         [JsonProperty("sumZklMen", NullValueHandling = NullValueHandling.Ignore)]
-        public double SumZklMen { get; set; }
+        public decimal? SumZklMen { get; set; }
         [JsonProperty("sumZkl", NullValueHandling = NullValueHandling.Ignore)] 
-        public object SumZkl { get; set; }
+        public decimal? SumZkl { get; set; }
         [JsonProperty("typSzbDphK", NullValueHandling = NullValueHandling.Ignore)]
         public string TypSzbDphK { get; set; }
         [JsonProperty("typCenyDphK", NullValueHandling = NullValueHandling.Ignore)] 
