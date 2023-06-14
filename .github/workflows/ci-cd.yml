@@ -32,7 +32,7 @@ jobs:
           dotnet-version: '6.0.x' # Replace this with your .NET version
           source-url: https://api.nuget.org/v3/index.json
         env:
-          NUGET_API_KEY: ${{secrets.NUGET_API_KEY}}
+          NUGET_AUTH_TOKEN: ${{secrets.NUGET_API_KEY}}
 
       - name: Publish
         run: dotnet nuget push "**/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
