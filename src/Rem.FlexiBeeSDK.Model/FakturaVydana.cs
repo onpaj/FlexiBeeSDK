@@ -7,6 +7,13 @@ namespace Rem.FlexiBeeSDK.Model
 {
     public class FakturaVydana
     {
+        private static Dictionary<string, string> ProductMap = new Dictionary<string, string>
+        {
+            { "1074/100", "SEZ001100" },
+        };
+        
+        
+        
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
 
@@ -130,6 +137,27 @@ namespace Rem.FlexiBeeSDK.Model
         {
             if (p.Kod == "DARBAL")
                 p.Sklad = null;
+        }
+
+        public void MapovaniProduktu()
+        {
+            foreach (var p in PolozkyDokladu)
+            {
+                if (string.IsNullOrEmpty(p.Kod))
+                    continue;
+                
+                // if (p.Kod.EndsWith("D"))
+                // {
+                //     p.Kod = p.Kod.Substring(-1);
+                //     p.Cenik = $"code:{p.Kod}";
+                // }
+
+                if (ProductMap.ContainsKey(p.Kod))
+                {
+                    p.Kod = ProductMap[p.Kod];
+                    p.Cenik = $"code:{p.Kod}";
+                }
+            }
         }
     }
 }

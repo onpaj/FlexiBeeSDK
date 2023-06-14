@@ -54,9 +54,9 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             return list.ToObject<List<TEntity>>();
         }
 
-        public async Task<OperationResult> SaveAsync(TEntity document, CancellationToken cancellationToken = default)
+        public virtual async Task<OperationResult> SaveAsync(TEntity document, CancellationToken cancellationToken = default)
         {
-            var uri = GetUri();
+            var uri = GetUri(document);
             var client = GetClient();
 
             _logger.LogDebug($"HttpRequest: POST {uri}");
@@ -88,12 +88,12 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
 
 
-        protected Uri GetUri(Query query)
+        protected virtual Uri GetUri(Query query)
         {
             return new Uri($"{_connection.Server}/c/{_connection.Company}/{ResourceIdentifier}/{query}");
         }
 
-        protected Uri GetUri()
+        protected virtual Uri GetUri(TEntity document = default)
         {
             return new Uri($"{_connection.Server}/c/{_connection.Company}/{ResourceIdentifier}");
         }
@@ -103,6 +103,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         private HttpClient GetClient()
         {
             var client = _httpClientFactory.CreateClient(this.GetType().Name);
+            client.Timeout = TimeSpan.FromMinutes(5);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Encode(_connection.Login, _connection.Password));
 
             return client;
