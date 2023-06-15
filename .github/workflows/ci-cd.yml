@@ -32,10 +32,10 @@ jobs:
         run: dotnet restore
 
       - name: Build
-        run: dotnet build /p:Version=${{ steps.gitversion.outputs.majorMinorPatch }} --configuration Release --no-restore
+        run: dotnet build /p:Version=${{ env.GitVersion_MajorMinorPatch }} --configuration Release --no-restore
 
       - name: Pack
-        run: dotnet pack /p:PackageVersion=${{ steps.gitversion.outputs.semanticVersion }} --no-build --configuration Release --output out
+        run: dotnet pack /p:PackageVersion=${{ env.GitVersion_SemVer }} --no-build --configuration Release --output out
 
       - name: Push
         uses: actions/setup-dotnet@v1
