@@ -21,7 +21,7 @@ namespace Rem.FlexiBeeSDK.Client
 
             if (Relations.Any())
             {
-                args.Add($"relations={string.Join(',', Relations)}");
+                args.Add($"relations={string.Join(",", Relations)}");
             }
 
             for (int i = 0; i < args.Count; i++)

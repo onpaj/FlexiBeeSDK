@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -78,7 +77,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             var result = await client.PostAsync(uri, content, cancellationToken);
             _logger.LogDebug($"HttpResult: {result.StatusCode}");
 
-            var resultContent = await result.Content.ReadAsStringAsync(cancellationToken);
+            var resultContent = await result.Content.ReadAsStringAsync();
             if (!result.IsSuccessStatusCode)
             {
                 _logger.LogError(resultContent);

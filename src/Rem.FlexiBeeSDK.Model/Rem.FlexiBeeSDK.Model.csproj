@@ -1,8 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>.net5</TargetFramework>
+	  <TargetFramework>netstandard2.0</TargetFramework>
     <UserSecretsId>9fcce48a-2041-4959-8fba-5d38b235348b</UserSecretsId>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
