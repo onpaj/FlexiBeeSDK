@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model
 {
-    public class PolozkaFakturyVydane
+    public class IssuedInvoiceItem
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }
@@ -12,48 +12,48 @@ namespace Rem.FlexiBeeSDK.Model
         public DateTimeOffset? LastUpdate { get; set; }
 
         [JsonProperty("kod", NullValueHandling = NullValueHandling.Ignore)]
-        public string Kod { get; set; }
+        public string Code { get; set; }
         [JsonProperty("nazev", NullValueHandling = NullValueHandling.Ignore)]
-        public string Nazev { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("datVyst", NullValueHandling = NullValueHandling.Ignore)]
-        public string DatVyst { get; set; }
+        public string DateCreated { get; set; }
 
         [JsonProperty("cenik", NullValueHandling = NullValueHandling.Ignore)]
-        public string Cenik { get; set; }
+        public string PriceList { get; set; }
 
         [JsonProperty("sklad", NullValueHandling = NullValueHandling.Ignore)]
-        public string Sklad { get; set; }
+        public string Store { get; set; }
 
         [JsonProperty("mnozMj", NullValueHandling = NullValueHandling.Ignore)]
-        public string MnozMj { get; set; }
+        public string Amount { get; set; }
 
         [JsonProperty("sumCelkem", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? SumCelkem { get; set; }
+        public decimal? SumTotal { get; set; }
 
         [JsonProperty("sumCelkemMen", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? SumCelkemMen { get; set; }
+        public decimal? SumTotalC { get; set; }
 
         [JsonProperty("mena", NullValueHandling = NullValueHandling.Ignore)]
-        public string Mena { get; set; }
+        public string Currency { get; set; }
 
         [JsonProperty("mena@ref", NullValueHandling = NullValueHandling.Ignore)]
-        public string MenaRef { get; set; }
+        public string CurrencyRef { get; set; }
 
         [JsonProperty("mena@showAs", NullValueHandling = NullValueHandling.Ignore)]
-        public string MenaShowAs { get; set; }
+        public string CurrencyShowAs { get; set; }
         
         [JsonProperty("mj", NullValueHandling = NullValueHandling.Ignore)]
-        public string Mj { get; set; }
+        public string MeasureUnit { get; set; }
         [JsonProperty("cenaMj", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal CenaMj { get; set; }
+        public decimal PricePerUnit { get; set; }
         [JsonProperty("sumZklMen", NullValueHandling = NullValueHandling.Ignore)]
-        public decimal? SumZklMen { get; set; }
+        public decimal? SumBaseC { get; set; }
         [JsonProperty("sumZkl", NullValueHandling = NullValueHandling.Ignore)] 
-        public decimal? SumZkl { get; set; }
+        public decimal? SumBase { get; set; }
         [JsonProperty("typSzbDphK", NullValueHandling = NullValueHandling.Ignore)]
-        public string TypSzbDphK { get; set; }
+        public string VatRateType { get; set; }
         [JsonProperty("typCenyDphK", NullValueHandling = NullValueHandling.Ignore)] 
-        public string TypCenyDphK { get; set; }
+        public string PriceVatType { get; set; }
     }
 }

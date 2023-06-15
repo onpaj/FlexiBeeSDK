@@ -17,14 +17,23 @@ jobs:
         with:
           dotnet-version: '6.0.x' # Replace this with your .NET version
 
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.x'
+
+      - name: Use GitVersion
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.7
+          
       - name: Restore dependencies
         run: dotnet restore
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build /p:Version=${{ steps.gitversion.outputs.majorMinorPatch }} --configuration Release --no-restore
 
       - name: Pack
-        run: dotnet pack --no-build --configuration Release --output out
+        run: dotnet pack /p:PackageVersion=${{ steps.gitversion.outputs.semanticVersion }} --no-build --configuration Release --output out
 
       - name: Push
         uses: actions/setup-dotnet@v1

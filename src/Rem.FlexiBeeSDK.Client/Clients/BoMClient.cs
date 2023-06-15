@@ -7,19 +7,19 @@ using Rem.FlexiBeeSDK.Model;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
-    public class KusovnikClient : ResourceClient<Kusovnik>, IKusovnikClient
+    public class BoMClient : ResourceClient<BoM>, IBoMClient
     {
-        public KusovnikClient(
+        public BoMClient(
             FlexiBeeSettings connection,
             IHttpClientFactory httpClientFactory,
-            ILogger<KusovnikClient> logger
+            ILogger<BoMClient> logger
         )
             : base(connection, httpClientFactory, logger)
         {
         }
 
         protected override string ResourceIdentifier => "kusovnik";
-        public Task<IList<Kusovnik>> GetAsync(string code, CancellationToken cancellationToken = default)
+        public Task<IList<BoM>> GetAsync(string code, CancellationToken cancellationToken = default)
         {
             var query = new QueryBuilder()
                 .Raw($"otecCenik='code:{code}'")

@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model
 {
+    [Obsolete]
     public class ObjednavkaVydana
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
@@ -40,7 +41,7 @@ namespace Rem.FlexiBeeSDK.Model
         public string Popis { get; set; }
 
         [JsonProperty("polozkyDokladu", NullValueHandling = NullValueHandling.Ignore)]
-        public List<PolozkaFakturyPrijate> PolozkyDokladu { get; set; }
+        public List<ReceivedInvoiceItem> PolozkyDokladu { get; set; }
 
         [JsonProperty("vazebni-doklady", NullValueHandling = NullValueHandling.Ignore)]
         public List<VazebniDoklad> VazebniDoklady { get; set; }

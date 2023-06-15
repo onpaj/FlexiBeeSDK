@@ -9,20 +9,20 @@ using Rem.FlexiBeeSDK.Model;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
-    public class FakturaVydanaClient : ResourceClient<FakturaVydana>, IFakturaVydanaClient
+    public class ReceivedInvoiceClient : ResourceClient<ReceivedInvoice>, IReceivedInvoiceClient
     {
-        public FakturaVydanaClient(
+        public ReceivedInvoiceClient(
             FlexiBeeSettings connection, 
             IHttpClientFactory httpClientFactory,
-            ILogger<FakturaVydanaClient> logger
+            ILogger<ReceivedInvoiceClient> logger
             )
             : base(connection, httpClientFactory, logger)
         {
         }
 
-        protected override string ResourceIdentifier => "faktura-vydana";
+        protected override string ResourceIdentifier => "faktura-prijata";
 
-        public async Task<FakturaVydana> GetAsync(string code, CancellationToken cancellationToken = default)
+        public async Task<ReceivedInvoice> GetAsync(string code, CancellationToken cancellationToken = default)
         {
             var query = new QueryBuilder()
                 .Raw($"kod='{code}'")
@@ -32,7 +32,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
            var found = await FindAsync(query, cancellationToken);
 
            if(!found.Any())
-               throw new KeyNotFoundException($"Entity {nameof(FakturaVydana)} with key {code} not found");
+               throw new KeyNotFoundException($"Entity {nameof(ReceivedInvoice)} with key {code} not found");
 
            return found.Single();
         }

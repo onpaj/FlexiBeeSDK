@@ -8,12 +8,12 @@ using Rem.FlexiBeeSDK.Model;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
-    public class AdresarClient : ResourceClient<Adresar>, IAdresarClient
+    public class ContactClient : ResourceClient<Contact>, IContactClient
     {
-        public AdresarClient(
+        public ContactClient(
             FlexiBeeSettings connection,
             IHttpClientFactory httpClientFactory,
-            ILogger<AdresarClient> logger
+            ILogger<ContactClient> logger
         )
             : base(connection, httpClientFactory, logger)
         {
@@ -21,17 +21,17 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
         protected override string ResourceIdentifier => "adresar";
 
-        public Task<Adresar> GetAsync(string code, CancellationToken cancellationToken = default)
+        public Task<Contact> GetAsync(string code, CancellationToken cancellationToken = default)
         {
             return GetByQueryAsync($"kod='{code}'", cancellationToken);
         }
 
-        public Task<Adresar> GetByIcAsync(string ic, CancellationToken cancellationToken = default)
+        public Task<Contact> GetByIcAsync(string ic, CancellationToken cancellationToken = default)
         {
             return GetByQueryAsync($"ic='{ic}'", cancellationToken);
         }
 
-        private async Task<Adresar> GetByQueryAsync(string query, CancellationToken cancellationToken = default)
+        private async Task<Contact> GetByQueryAsync(string query, CancellationToken cancellationToken = default)
         {
             var q = new QueryBuilder()
                 .Raw(query)
@@ -40,7 +40,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             var found = await FindAsync(q, cancellationToken);
 
             if (!found.Any())
-                throw new KeyNotFoundException($"Entity {nameof(Adresar)} with query {query} not found");
+                throw new KeyNotFoundException($"Entity {nameof(Contact)} with query {query} not found");
 
             return found.Single();
         }

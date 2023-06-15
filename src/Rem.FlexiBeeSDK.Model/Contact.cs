@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model
 {
-    public class Adresar
+    public class Contact
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }
@@ -12,33 +12,33 @@ namespace Rem.FlexiBeeSDK.Model
         public DateTimeOffset? LastUpdate { get; set; }
 
         [JsonProperty("kod", NullValueHandling = NullValueHandling.Ignore)]
-        public string Kod { get; set; }
+        public string Code { get; set; }
 
         [JsonProperty("nazev", NullValueHandling = NullValueHandling.Ignore)]
-        public string Nazev { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("ic", NullValueHandling = NullValueHandling.Ignore)]
-        public string Ic { get; set; }
+        public string CIN { get; set; }
 
         [JsonProperty("dic", NullValueHandling = NullValueHandling.Ignore)]
-        public string Dic { get; set; }
+        public string VATIN { get; set; }
 
         [JsonProperty("ulice", NullValueHandling = NullValueHandling.Ignore)]
-        public string Ulice { get; set; }
+        public string Street { get; set; }
 
         [JsonProperty("mesto", NullValueHandling = NullValueHandling.Ignore)]
-        public string Mesto { get; set; }
+        public string City { get; set; }
 
         [JsonProperty("psc", NullValueHandling = NullValueHandling.Ignore)]
-        public long? Psc { get; set; }
+        public long? ZipCode { get; set; }
 
         [JsonProperty("stat", NullValueHandling = NullValueHandling.Ignore)]
-        public string Stat { get; set; }
+        public string Country { get; set; }
 
         [JsonProperty("stat@ref", NullValueHandling = NullValueHandling.Ignore)]
-        public string StatRef { get; set; }
+        public string CountryRef { get; set; }
 
         [JsonProperty("stat@showAs", NullValueHandling = NullValueHandling.Ignore)]
-        public string StatShowAs { get; set; }
+        public string CountryShowAs { get; set; }
     }
 }

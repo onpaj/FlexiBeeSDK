@@ -11,11 +11,11 @@ using Xunit;
 
 namespace Rem.FlexiBeeSDK.Tests
 {
-    public class KusovnikTests
+    public class BoMTests
     {
         private IFixture _fixture;
 
-        public KusovnikTests()
+        public BoMTests()
         {
             _fixture = FlexiFixture.Setup();
         }
@@ -24,7 +24,7 @@ namespace Rem.FlexiBeeSDK.Tests
         [Fact]
         public async Task FindKusovnik()
         {
-            var client = _fixture.Create<KusovnikClient>();
+            var client = _fixture.Create<BoMClient>();
 
             var query = new Query()
             {
@@ -41,7 +41,7 @@ namespace Rem.FlexiBeeSDK.Tests
         [Fact]
         public async Task GetKusovnik()
         {
-            var client = _fixture.Create<KusovnikClient>();
+            var client = _fixture.Create<BoMClient>();
 
             var kusovnik = await client.GetAsync("SER001030");
 
@@ -53,7 +53,7 @@ namespace Rem.FlexiBeeSDK.Tests
         [Fact]
         public async Task GetKusovnikNotFoundThrows()
         {
-            var client = _fixture.Create<KusovnikClient>();
+            var client = _fixture.Create<BoMClient>();
 
             await Assert.ThrowsAnyAsync<Exception>(() => client.GetAsync("xxxxx"));
         }

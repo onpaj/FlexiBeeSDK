@@ -11,11 +11,11 @@ using Xunit;
 
 namespace Rem.FlexiBeeSDK.Tests
 {
-    public class FakturyPrijateTests
+    public class ReceivedInvoiceTests
     {
         private IFixture _fixture;
 
-        public FakturyPrijateTests()
+        public ReceivedInvoiceTests()
         {
             _fixture = FlexiFixture.Setup();
         }
@@ -24,7 +24,7 @@ namespace Rem.FlexiBeeSDK.Tests
         [Fact]
         public async Task FindFakturyPrijate()
         {
-            var client = _fixture.Create<FakturaPrijataClient>();
+            var client = _fixture.Create<ReceivedInvoiceClient>();
 
             var query = new Query()
             {
@@ -40,24 +40,24 @@ namespace Rem.FlexiBeeSDK.Tests
             var faktury = await client.FindAsync(query);
 
             Assert.NotEmpty(faktury);
-            Assert.NotEmpty(faktury.First().PolozkyDokladu);
+            Assert.NotEmpty(faktury.First().Items);
         }
 
         [Fact]
         public async Task GetFakturyPrijate()
         {
-            var client = _fixture.Create<FakturaPrijataClient>();
+            var client = _fixture.Create<ReceivedInvoiceClient>();
 
             var faktura = await client.GetAsync("PF00492");
 
             Assert.NotNull(faktura);
-            Assert.NotEmpty(faktura.PolozkyDokladu);
+            Assert.NotEmpty(faktura.Items);
         }
 
         [Fact]
         public async Task GetFakturyPrijateNotFoundThrows()
         {
-            var client = _fixture.Create<FakturaPrijataClient>();
+            var client = _fixture.Create<ReceivedInvoiceClient>();
 
             await Assert.ThrowsAnyAsync<Exception>(() => client.GetAsync("xxxxx"));
         }

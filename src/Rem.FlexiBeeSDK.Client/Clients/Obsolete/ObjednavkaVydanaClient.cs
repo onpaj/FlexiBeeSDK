@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -8,6 +9,7 @@ using Rem.FlexiBeeSDK.Model;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
+    [Obsolete]
     public class ObjednavkaVydanaClient : ResourceClient<ObjednavkaVydana>, IObjednavkaVydanaClient
     {
         public ObjednavkaVydanaClient(

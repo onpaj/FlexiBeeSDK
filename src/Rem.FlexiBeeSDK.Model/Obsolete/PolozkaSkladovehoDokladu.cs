@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model
 {
+    [Obsolete]
     public partial class PolozkaSkladovehoDokladu
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]

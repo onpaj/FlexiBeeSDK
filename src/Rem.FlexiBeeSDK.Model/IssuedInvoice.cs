@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model
 {
-    public class FakturaVydana
+    public class IssuedInvoice
     {
         private static Dictionary<string, string> ProductMap = new Dictionary<string, string>
         {
@@ -21,129 +21,129 @@ namespace Rem.FlexiBeeSDK.Model
         public DateTimeOffset? LastUpdate { get; set; }
 
         [JsonProperty("kod", NullValueHandling = NullValueHandling.Ignore)]
-        public string Kod { get; set; }
+        public string Code { get; set; }
 
         [JsonProperty("stavUhrK", NullValueHandling = NullValueHandling.Ignore)]
-        public string StavUhrK { get; set; }
+        public string PaymentState { get; set; }
 
         [JsonProperty("stavUhrK@showAs", NullValueHandling = NullValueHandling.Ignore)]
-        public string StavUhrKShowAs { get; set; }
+        public string PaymentStateShowAs { get; set; }
 
         [JsonProperty("datVyst", NullValueHandling = NullValueHandling.Ignore)]
-        public string DatVyst { get; set; }
+        public string DateCreated { get; set; }
 
         [JsonProperty("datSplat", NullValueHandling = NullValueHandling.Ignore)]
-        public string DatSplat { get; set; }
+        public string DateDue { get; set; }
 
         [JsonProperty("sumCelkem", NullValueHandling = NullValueHandling.Ignore)]
-        public string SumCelkem { get; set; }
+        public string SumTotal { get; set; }
 
         [JsonProperty("sumZalohy", NullValueHandling = NullValueHandling.Ignore)]
-        public string SumZalohy { get; set; }
+        public string SumPrePayment { get; set; }
 
         [JsonProperty("sumZalohyMen", NullValueHandling = NullValueHandling.Ignore)]
-        public string SumZalohyMen { get; set; }
+        public string SumPrePaymentC { get; set; }
 
         [JsonProperty("sumCelkemMen", NullValueHandling = NullValueHandling.Ignore)]
-        public string SumCelkemMen { get; set; }
+        public string SumTotalC { get; set; }
 
         [JsonProperty("zbyvaUhraditMen", NullValueHandling = NullValueHandling.Ignore)]
-        public string ZbyvaUhraditMen { get; set; }
+        public string ToPayC { get; set; }
 
         [JsonProperty("zbyvaUhradit", NullValueHandling = NullValueHandling.Ignore)]
-        public string ZbyvaUhradit { get; set; }
+        public string ToPay { get; set; }
 
         [JsonProperty("mena", NullValueHandling = NullValueHandling.Ignore)]
-        public string Mena { get; set; }
+        public string Currency { get; set; }
 
         [JsonProperty("mena@ref", NullValueHandling = NullValueHandling.Ignore)]
-        public string MenaRef { get; set; }
+        public string CurrencyRef { get; set; }
 
         [JsonProperty("mena@showAs", NullValueHandling = NullValueHandling.Ignore)]
-        public string MenaShowAs { get; set; }
+        public string CurrencyShowAs { get; set; }
 
         [JsonProperty("popis", NullValueHandling = NullValueHandling.Ignore)]
-        public string Popis { get; set; }
+        public string Description { get; set; }
 
         [JsonProperty("polozkyFaktury@removeAll", NullValueHandling = NullValueHandling.Ignore)]
-        public bool PolozkyDokladuReplace { get; set; } = true;
+        public bool ItemsRemoveAll { get; set; } = true;
 
         [JsonProperty("polozkyDokladu", NullValueHandling = NullValueHandling.Ignore)]
-        public List<PolozkaFakturyVydane> PolozkyDokladu { get; set; }
+        public List<IssuedInvoiceItem> Items { get; set; }
 
         [JsonProperty("varSym", NullValueHandling = NullValueHandling.Ignore)]
-        public string VarSym { get; set; }
+        public string VarSymbol { get; set; }
 
         [JsonProperty("cisObj", NullValueHandling = NullValueHandling.Ignore)]
-        public string CisObj { get; set; }
+        public string OrderNumber { get; set; }
 
         [JsonProperty("typDokl", NullValueHandling = NullValueHandling.Ignore)]
-        public string TypDokl { get; set; }
+        public string DocumentType { get; set; }
         [JsonProperty("duzpPuv", NullValueHandling = NullValueHandling.Ignore)]
-        public string DuzpPuv { get; set; }
+        public string DateTaxOrig { get; set; }
 
         [JsonProperty("duzpUcto", NullValueHandling = NullValueHandling.Ignore)]
-        public string DuzpUcto { get; set; }
+        public string DateTaxAcc { get; set; }
         
         [JsonProperty("nazFirmy", NullValueHandling = NullValueHandling.Ignore)]
-        public string NazFirmy { get; set; }
+        public string CompanyName { get; set; }
         [JsonProperty("ulice", NullValueHandling = NullValueHandling.Ignore)]
-        public string Ulice { get; set; }
+        public string CompanyStreet { get; set; }
         [JsonProperty("mesto", NullValueHandling = NullValueHandling.Ignore)]
-        public string Mesto { get; set; }
+        public string CompanyCity { get; set; }
         [JsonProperty("stat", NullValueHandling = NullValueHandling.Ignore)]
-        public string Stat { get; set; }
+        public string CompanyState { get; set; }
         [JsonProperty("ic", NullValueHandling = NullValueHandling.Ignore)]
-        public string Ic { get; set; }
+        public string CIN { get; set; }
         [JsonProperty("dic", NullValueHandling = NullValueHandling.Ignore)]
-        public string Dic { get; set; }
+        public string VATIN { get; set; }
         [JsonProperty("zaokrNaSumM", NullValueHandling = NullValueHandling.Ignore)]
-        public string ZaokrNaSumM { get; set; }
+        public string RoundingTotalC { get; set; }
         [JsonProperty("zaokrNaDphM", NullValueHandling = NullValueHandling.Ignore)]
-        public string ZaokrNaDphM { get; set; }
+        public string RoundingTaxC { get; set; }
         [JsonProperty("zaokrNaSumK", NullValueHandling = NullValueHandling.Ignore)]
-        public string ZaokrNaSumK { get; set; }
+        public string RoundingTotal { get; set; }
         [JsonProperty("zaokrNaDphK", NullValueHandling = NullValueHandling.Ignore)]
-        public string ZaokrNaDphK { get; set; }
+        public string RoundingTax { get; set; }
         [JsonProperty("bezPolozek", NullValueHandling = NullValueHandling.Ignore)]
-        public bool BezPolozek { get; set; }
+        public bool WithoutItems { get; set; }
         [JsonProperty("formaDopravy", NullValueHandling = NullValueHandling.Ignore)]
-        public string FormaDopravy { get; set; }
+        public string DeliveryType { get; set; }
         [JsonProperty("formaUhradyCis", NullValueHandling = NullValueHandling.Ignore)]
-        public object FormaUhradyCis { get; set; }
+        public object PaymentType { get; set; }
 
 
         public void OpravaCen()
         {
-            if (Mena == "code:CZK")
+            if (Currency == "code:CZK")
             {
             }
             else
             {
-                ZaokrNaSumK = "zaokrNa.setiny";
-                ZaokrNaDphK = "zaokrNa.setiny";
-                ZaokrNaSumM = "zaokrNa.setiny";
-                ZaokrNaDphM = "zaokrNa.setiny";
+                RoundingTotal = "zaokrNa.setiny";
+                RoundingTax = "zaokrNa.setiny";
+                RoundingTotalC = "zaokrNa.setiny";
+                RoundingTaxC = "zaokrNa.setiny";
             }
         }
 
         public void OpravaSkladu()
         {
-            foreach(var p in PolozkyDokladu)
+            foreach(var p in Items)
                 OpravaSkladu(p);
         }
 
-        private void OpravaSkladu(PolozkaFakturyVydane p)
+        private void OpravaSkladu(IssuedInvoiceItem p)
         {
-            if (p.Kod == "DARBAL")
-                p.Sklad = null;
+            if (p.Code == "DARBAL")
+                p.Store = null;
         }
 
         public void MapovaniProduktu()
         {
-            foreach (var p in PolozkyDokladu)
+            foreach (var p in Items)
             {
-                if (string.IsNullOrEmpty(p.Kod))
+                if (string.IsNullOrEmpty(p.Code))
                     continue;
                 
                 // if (p.Kod.EndsWith("D"))
@@ -152,10 +152,10 @@ namespace Rem.FlexiBeeSDK.Model
                 //     p.Cenik = $"code:{p.Kod}";
                 // }
 
-                if (ProductMap.ContainsKey(p.Kod))
+                if (ProductMap.ContainsKey(p.Code))
                 {
-                    p.Kod = ProductMap[p.Kod];
-                    p.Cenik = $"code:{p.Kod}";
+                    p.Code = ProductMap[p.Code];
+                    p.PriceList = $"code:{p.Code}";
                 }
             }
         }

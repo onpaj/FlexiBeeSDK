@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model
 {
-    public class Kusovnik
+    public class BoM
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }
@@ -12,48 +12,48 @@ namespace Rem.FlexiBeeSDK.Model
         public DateTimeOffset? LastUpdate { get; set; }
 
         [JsonProperty("nazev", NullValueHandling = NullValueHandling.Ignore)]
-        public string Nazev { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("nazevA", NullValueHandling = NullValueHandling.Ignore)]
-        public string NazevA { get; set; }
+        public string NameA { get; set; }
 
         [JsonProperty("nazevB", NullValueHandling = NullValueHandling.Ignore)]
-        public string NazevB { get; set; }
+        public string NameB { get; set; }
 
         [JsonProperty("nazevC", NullValueHandling = NullValueHandling.Ignore)]
-        public string NazevC { get; set; }
+        public string NameC { get; set; }
 
         [JsonProperty("mnoz", NullValueHandling = NullValueHandling.Ignore)]
-        public string Mnoz { get; set; }
+        public string Ammount { get; set; }
 
         [JsonProperty("hladina", NullValueHandling = NullValueHandling.Ignore)]
-        public long? Hladina { get; set; }
+        public long? Level { get; set; }
 
         [JsonProperty("poradi", NullValueHandling = NullValueHandling.Ignore)]
-        public long? Poradi { get; set; }
+        public long? Order { get; set; }
 
         [JsonProperty("cesta", NullValueHandling = NullValueHandling.Ignore)]
-        public string Cesta { get; set; }
+        public string Route { get; set; }
 
         [JsonProperty("otecCenik", NullValueHandling = NullValueHandling.Ignore)]
-        public string OtecCenik { get; set; }
+        public string ParentPriceList { get; set; }
 
         [JsonProperty("otecCenik@ref", NullValueHandling = NullValueHandling.Ignore)]
-        public string OtecCenikRef { get; set; }
+        public string ParentPriceListRef { get; set; }
 
         [JsonProperty("otecCenik@showAs", NullValueHandling = NullValueHandling.Ignore)]
-        public string OtecCenikShowAs { get; set; }
+        public string ParentPriceListShowAs { get; set; }
 
         [JsonProperty("cenik", NullValueHandling = NullValueHandling.Ignore)]
-        public string Cenik { get; set; }
+        public string PriceList { get; set; }
 
         [JsonProperty("cenik@ref", NullValueHandling = NullValueHandling.Ignore)]
-        public string CenikRef { get; set; }
+        public string PriceListRef { get; set; }
 
         [JsonProperty("cenik@showAs", NullValueHandling = NullValueHandling.Ignore)]
-        public string CenikShowAs { get; set; }
+        public string PriceListShowAs { get; set; }
 
         [JsonProperty("otec", NullValueHandling = NullValueHandling.Ignore)]
-        public string Otec { get; set; }
+        public string Parent { get; set; }
     }
 }

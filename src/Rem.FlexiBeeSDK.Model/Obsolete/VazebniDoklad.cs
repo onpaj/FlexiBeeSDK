@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model
 {
+    [Obsolete]
     public class VazebniDoklad
     {
         [JsonProperty("idVazebniDoklad", NullValueHandling = NullValueHandling.Ignore)]

@@ -5,8 +5,8 @@ using Rem.FlexiBeeSDK.Model;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
-    public interface IKusovnikClient : IReadOnlyResourceClient<Kusovnik>
+    public interface IBoMClient : IReadOnlyResourceClient<BoM>
     {
-        Task<IList<Kusovnik>> GetAsync(string code, CancellationToken cancellationToken = default);
+        Task<IList<BoM>> GetAsync(string code, CancellationToken cancellationToken = default);
     }
 }
