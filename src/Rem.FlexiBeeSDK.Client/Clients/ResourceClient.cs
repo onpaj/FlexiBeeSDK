@@ -82,7 +82,16 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             {
                 _logger.LogError(resultContent);
             }
-            return new OperationResult(result.StatusCode, resultContent);
+
+            try
+            {
+                var envelope = JsonConvert.DeserializeObject<FlexiResultEnvelope>(resultContent);
+                return new OperationResult(result.StatusCode, envelope.Data);
+            }
+            catch (Exception ex)
+            {
+                return new OperationResult(result.StatusCode, ex.Message);
+            }
         }
 
 
