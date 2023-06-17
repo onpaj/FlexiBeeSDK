@@ -13,6 +13,11 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             ErrorMessage = data?.Results.FirstOrDefault()?.Errors.FirstOrDefault()?.Message;
         }
         
+        public OperationResult(HttpStatusCode statusCode)
+        {
+            StatusCode = statusCode;
+        }
+        
         public OperationResult(HttpStatusCode statusCode, string error)
         {
             StatusCode = statusCode;
