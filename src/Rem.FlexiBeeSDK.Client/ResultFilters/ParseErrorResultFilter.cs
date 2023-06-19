@@ -4,7 +4,7 @@ using Rem.FlexiBeeSDK.Model.Response;
 
 namespace Rem.FlexiBeeSDK.Client.ResultFilters;
 
-public abstract class ParseErrorResultFilter : IResultFilter
+public class ParseErrorResultFilter : IResultFilter
 {
     private readonly string _matchPhrase;
     private readonly ErrorType _errorType;

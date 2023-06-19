@@ -4,7 +4,7 @@ namespace Rem.FlexiBeeSDK.Client.ResultFilters;
 
 public class AlreadyPairedResultFilter : ParseErrorResultFilter
 {
-    public AlreadyPairedResultFilter(string matchPhrase, ErrorType errorType) : base("protože je spárován", ErrorType.InvoicePaired)
+    public AlreadyPairedResultFilter() : base("protože je spárován", ErrorType.InvoicePaired)
     {
     }
 }

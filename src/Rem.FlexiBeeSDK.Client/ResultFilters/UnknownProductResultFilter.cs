@@ -4,8 +4,9 @@ namespace Rem.FlexiBeeSDK.Client.ResultFilters;
 
 public class UnknownProductResultFilter : ParseErrorResultFilter
 {
-    public UnknownProductResultFilter(string matchPhrase, ErrorType errorType) :
+    public UnknownProductResultFilter() :
         base("musí identifikovat objekt", ErrorType.ProductNotFound)
     {
     }
 }
+
