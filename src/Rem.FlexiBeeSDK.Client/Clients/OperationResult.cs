@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Net;
+using Rem.FlexiBeeSDK.Model.Response;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {

@@ -10,6 +10,8 @@ using System.Web;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Rem.FlexiBeeSDK.Client.ResultFilters;
+using Rem.FlexiBeeSDK.Model.Response;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
@@ -17,15 +19,18 @@ namespace Rem.FlexiBeeSDK.Client.Clients
     {
         private readonly FlexiBeeSettings _connection;
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IResultHandler _resultHandler;
         private readonly ILogger _logger;
 
         protected ResourceClient(
             FlexiBeeSettings connection,
             IHttpClientFactory httpClientFactory,
+            IResultHandler  resultHandler,
             ILogger logger)
         {
             _connection = connection;
             _httpClientFactory = httpClientFactory;
+            _resultHandler = resultHandler;
             _logger = logger;
         }
 
@@ -88,6 +93,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
                 if (resultContent != null)
                 {
                     var envelope = JsonConvert.DeserializeObject<FlexiResultEnvelope>(resultContent);
+                    await _resultHandler.ApplyFiltersAsync(envelope.Data);
                     return new OperationResult(result.StatusCode, envelope.Data);
                 }
                 return new OperationResult(result.StatusCode);
@@ -120,7 +126,5 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
             return client;
         }
-
-       
     }
 }
