@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
@@ -13,9 +14,10 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         public ContactClient(
             FlexiBeeSettings connection,
             IHttpClientFactory httpClientFactory,
+            IResultHandler  resultHandler,
             ILogger<ContactClient> logger
         )
-            : base(connection, httpClientFactory, logger)
+            : base(connection, httpClientFactory, resultHandler, logger)
         {
         }
 

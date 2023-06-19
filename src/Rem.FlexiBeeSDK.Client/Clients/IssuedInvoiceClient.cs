@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using Microsoft.Extensions.Logging;
+using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
@@ -14,9 +15,10 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         public IssuedInvoiceClient(
             FlexiBeeSettings connection, 
             IHttpClientFactory httpClientFactory,
+            IResultHandler  resultHandler,
             ILogger<IssuedInvoiceClient> logger
             )
-            : base(connection, httpClientFactory, logger)
+            : base(connection, httpClientFactory, resultHandler, logger)
         {
         }
 

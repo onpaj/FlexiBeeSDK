@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
@@ -15,9 +16,10 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         public ObjednavkaVydanaClient(
             FlexiBeeSettings connection,
             IHttpClientFactory httpClientFactory,
+            IResultHandler  resultHandler,
             ILogger<ObjednavkaVydanaClient> logger
         )
-            : base(connection, httpClientFactory, logger)
+            : base(connection, httpClientFactory, resultHandler, logger)
         {
         }
 
