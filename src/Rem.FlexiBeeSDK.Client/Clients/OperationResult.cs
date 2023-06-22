@@ -32,5 +32,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         public string? ErrorMessage { get; set; }
 
         public bool IsSuccess => (int) StatusCode < 300 && (int) StatusCode >= 200;
+
+        public ErrorType? ErrorType => Data?.Results?.FirstOrDefault()?.Errors?.FirstOrDefault()?.ErrorType;
     }
 }
