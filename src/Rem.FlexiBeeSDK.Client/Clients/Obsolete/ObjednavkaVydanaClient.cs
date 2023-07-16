@@ -29,7 +29,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         {
             var query = new QueryBuilder()
                 .Raw($"kod='{code}'")
-                .WithRelation(Relations.PolozkyDokladu)
+                .WithRelation(Relations.Items)
                 .Build();
 
             var found = await FindAsync(query, cancellationToken);
@@ -44,7 +44,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         {
             var query = new QueryBuilder()
                 .Raw($"kod='{code}'")
-                .WithRelation(Relations.VazebniDoklady)
+                .WithRelation(Relations.ReferenceDocs)
                 .WithFullDetail()
                 .Build();
 

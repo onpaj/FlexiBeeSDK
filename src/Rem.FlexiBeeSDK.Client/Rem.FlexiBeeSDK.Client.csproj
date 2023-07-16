@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Rem.FlexiBeeSDK.Model\Rem.FlexiBeeSDK.Model.csproj" />
   </ItemGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <NoWarn>NU1803</NoWarn>
+  </PropertyGroup>
+  
 </Project>

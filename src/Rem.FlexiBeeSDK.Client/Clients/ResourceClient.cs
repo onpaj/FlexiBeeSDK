@@ -58,7 +58,13 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             return list.ToObject<List<TEntity>>();
         }
 
-        public virtual async Task<OperationResult> SaveAsync(TEntity document, CancellationToken cancellationToken = default)
+        public virtual Task<OperationResult> SaveAsync(TEntity document, CancellationToken cancellationToken = default)
+        {
+            return SaveAsync<TEntity>(document, cancellationToken);
+        }
+
+
+        protected virtual async Task<OperationResult> SaveAsync<TEnt>(TEnt document, CancellationToken cancellationToken = default)
         {
             var uri = GetUri(document);
             var client = GetClient();
@@ -106,14 +112,14 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
 
 
-        protected virtual Uri GetUri(Query query)
+        protected virtual string GetUri(Query query)
         {
-            return new Uri($"{_connection.Server}/c/{_connection.Company}/{ResourceIdentifier}/{query}");
+            return $"{_connection.Server}/c/{_connection.Company}/{ResourceIdentifier}/{query}";
         }
 
-        protected virtual Uri GetUri(TEntity document = default)
+        protected virtual string GetUri<TEnt>(TEnt document = default)
         {
-            return new Uri($"{_connection.Server}/c/{_connection.Company}/{ResourceIdentifier}");
+            return $"{_connection.Server}/c/{_connection.Company}/{ResourceIdentifier}";
         }
 
         protected abstract string ResourceIdentifier { get; }

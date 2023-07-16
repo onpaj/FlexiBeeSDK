@@ -22,13 +22,13 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         {
         }
 
-        protected override string ResourceIdentifier => "faktura-prijata";
+        protected override string ResourceIdentifier => Evidence.ReceivedInvoices;
 
         public async Task<ReceivedInvoice> GetAsync(string code, CancellationToken cancellationToken = default)
         {
             var query = new QueryBuilder()
                 .Raw($"kod='{code}'")
-                .WithRelation(Relations.PolozkyDokladu)
+                .WithRelation(Relations.Items)
                 .Build();
 
            var found = await FindAsync(query, cancellationToken);

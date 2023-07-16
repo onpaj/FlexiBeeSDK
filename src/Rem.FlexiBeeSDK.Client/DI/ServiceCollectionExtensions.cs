@@ -14,6 +14,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton(flexiSettings.Get<FlexiBeeSettings>());
 
         services.AddSingleton<IIssuedInvoiceClient, IssuedInvoiceClient>();
+        services.AddSingleton<IBankClient, BankClient>();
         services.AddSingleton<IResultHandler, ResultHandler>();
 
         // Result filters

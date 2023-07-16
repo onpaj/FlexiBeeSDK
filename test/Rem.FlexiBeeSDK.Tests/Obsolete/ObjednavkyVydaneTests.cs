@@ -32,7 +32,7 @@ namespace Rem.FlexiBeeSDK.Tests
                 QueryString = "kod='VYR00405'",
                 Relations = new List<Relations>()
                 {
-                    Relations.PolozkyDokladu
+                    Relations.Items
                 }
             };
 

@@ -29,7 +29,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         {
             var query = new QueryBuilder()
                 .ByCode(code)
-                .WithRelation(Relations.PolozkyDokladu)
+                .WithRelation(Relations.Items)
                 .WithFullDetail()
                 .Build();
 

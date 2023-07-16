@@ -34,7 +34,7 @@ namespace Rem.FlexiBeeSDK.Tests
                 QueryString = $"kod='{HttpUtility.UrlEncode("S+00440/2020'")}",
                 Relations = new List<Relations>()
                 {
-                    Relations.PolozkyDokladu
+                    Relations.Items
                 }
             };
 

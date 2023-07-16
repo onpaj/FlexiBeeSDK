@@ -1,4 +1,6 @@
-﻿namespace Rem.FlexiBeeSDK.Client
+﻿using Rem.FlexiBeeSDK.Model;
+
+namespace Rem.FlexiBeeSDK.Client
 {
     public struct Relations
     {
@@ -11,7 +13,8 @@
 
         public override string ToString() => Value;
 
-        public static Relations PolozkyDokladu = new Relations("polozkyDokladu");
-        public static Relations VazebniDoklady = new Relations("vazebni-doklady");
+        public static Relations Items = new Relations(Evidence.Items);
+        public static Relations ReferenceDocs = new Relations(Evidence.ReferenceDocs);
+        public static Relations References = new Relations(Evidence.References);
     }
 }

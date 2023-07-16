@@ -21,7 +21,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         {
         }
 
-        protected override string ResourceIdentifier => "adresar";
+        protected override string ResourceIdentifier => Evidence.Contact;
 
         public Task<Contact> GetAsync(string code, CancellationToken cancellationToken = default)
         {

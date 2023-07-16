@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Rem.FlexiBeeSDK.Model.Response;
@@ -17,9 +18,9 @@ public class ParseErrorResultFilter : IResultFilter
         
     public Task ApplyAsync(FlexiResult resultData)
     {
-        foreach (var error in resultData.Results.SelectMany(s => s.Errors))
+        foreach (var error in resultData.Results?.SelectMany(s => s.Errors) ?? new List<Error>())
         {
-            if (error.Message.Contains(_matchPhrase))
+            if (error?.Message?.Contains(_matchPhrase) ?? false)
                 error.ErrorType = _errorType;
         }
 

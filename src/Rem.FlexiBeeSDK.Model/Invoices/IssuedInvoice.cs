@@ -7,13 +7,6 @@ namespace Rem.FlexiBeeSDK.Model
 {
     public class IssuedInvoice
     {
-        private static Dictionary<string, string> ProductMap = new Dictionary<string, string>
-        {
-            { "1074/100", "SEZ001100" },
-        };
-        
-        
-        
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
 
@@ -112,8 +105,19 @@ namespace Rem.FlexiBeeSDK.Model
         [JsonProperty("formaUhradyCis", NullValueHandling = NullValueHandling.Ignore)]
         public object PaymentType { get; set; }
 
+        [JsonProperty("vazby")] public List<InvoiceReference> References { get; set; } = new ();
 
-        public void OpravaCen()
+
+        public List<int> GetBankPaymentsIds() => 
+            References
+                .Where(w => w.ReferenceType == InvoiceReference.ReferenceTypePayment && w.BEvidencePath == Evidence.Bank)
+                .Select(s => s.ReferenceBId)
+                .ToList();
+
+       
+
+
+        public void RoundingCorrections()
         {
             if (Currency == "code:CZK")
             {
@@ -127,37 +131,16 @@ namespace Rem.FlexiBeeSDK.Model
             }
         }
 
-        public void OpravaSkladu()
+        public void StoreCorrections()
         {
             foreach(var p in Items)
-                OpravaSkladu(p);
+                StoreCorrections(p);
         }
 
-        private void OpravaSkladu(IssuedInvoiceItem p)
+        private void StoreCorrections(IssuedInvoiceItem p)
         {
             if (p.Code == "DARBAL")
                 p.Store = null;
-        }
-
-        public void MapovaniProduktu()
-        {
-            foreach (var p in Items)
-            {
-                if (string.IsNullOrEmpty(p.Code))
-                    continue;
-                
-                // if (p.Kod.EndsWith("D"))
-                // {
-                //     p.Kod = p.Kod.Substring(-1);
-                //     p.Cenik = $"code:{p.Kod}";
-                // }
-
-                if (ProductMap.ContainsKey(p.Code))
-                {
-                    p.Code = ProductMap[p.Code];
-                    p.PriceList = $"code:{p.Code}";
-                }
-            }
         }
     }
 }
