@@ -1,7 +1,6 @@
-using System.Dynamic;
 using Newtonsoft.Json;
 
-namespace Rem.FlexiBeeSDK.Model;
+namespace Rem.FlexiBeeSDK.Model.Invoices;
 
 public class InvoiceReference
 {

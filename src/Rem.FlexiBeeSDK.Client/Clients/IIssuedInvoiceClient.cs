@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Rem.FlexiBeeSDK.Model;
+using Rem.FlexiBeeSDK.Model.Invoices;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {

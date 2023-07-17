@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Rem.FlexiBeeSDK.Model
+namespace Rem.FlexiBeeSDK.Model.Invoices
 {
-    public class ReceivedInvoice
+    public class ReceivedInvoice : IValidate
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
@@ -162,6 +162,11 @@ namespace Rem.FlexiBeeSDK.Model
                     SumNoVat = Math.Round(SumTotalC.Value - (SumTotalLimitedVatC ?? 0 + SumTotalDefaultVatC ?? 0), 2);
                 }
             }
+        }
+
+        public void Validate()
+        {
+            
         }
     }
 }

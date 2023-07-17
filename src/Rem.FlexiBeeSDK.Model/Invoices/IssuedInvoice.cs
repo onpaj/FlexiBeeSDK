@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace Rem.FlexiBeeSDK.Model
+namespace Rem.FlexiBeeSDK.Model.Invoices
 {
-    public class IssuedInvoice
+    public class IssuedInvoice : IValidate
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
@@ -115,9 +115,14 @@ namespace Rem.FlexiBeeSDK.Model
                 .ToList();
 
        
+        public void Validate()
+        {
+            StoreCorrections();
+            RoundingCorrections();
+        }
 
 
-        public void RoundingCorrections()
+        private void RoundingCorrections()
         {
             if (Currency == "code:CZK")
             {
@@ -131,7 +136,9 @@ namespace Rem.FlexiBeeSDK.Model
             }
         }
 
-        public void StoreCorrections()
+        
+        
+        private void StoreCorrections()
         {
             foreach(var p in Items)
                 StoreCorrections(p);

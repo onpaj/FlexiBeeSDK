@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Rem.FlexiBeeSDK.Model.Invoices;
 
 namespace Rem.FlexiBeeSDK.Model
 {

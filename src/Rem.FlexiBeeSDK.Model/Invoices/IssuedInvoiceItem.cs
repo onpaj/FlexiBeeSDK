@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Rem.FlexiBeeSDK.Model
+namespace Rem.FlexiBeeSDK.Model.Invoices
 {
     public class IssuedInvoiceItem
     {

@@ -7,6 +7,7 @@ using System.Web;
 using Microsoft.Extensions.Logging;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
+using Rem.FlexiBeeSDK.Model.Invoices;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
