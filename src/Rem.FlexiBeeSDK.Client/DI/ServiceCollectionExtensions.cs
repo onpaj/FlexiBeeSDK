@@ -15,6 +15,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<IIssuedInvoiceClient, IssuedInvoiceClient>();
         services.AddSingleton<IBankClient, BankClient>();
+        services.AddSingleton<IBankAccountClient, BankAccountClient>();
         services.AddSingleton<IResultHandler, ResultHandler>();
 
         // Result filters

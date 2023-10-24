@@ -1,4 +1,6 @@
-﻿namespace Rem.FlexiBeeSDK.Client
+﻿using System.Collections.Generic;
+
+namespace Rem.FlexiBeeSDK.Client
 {
     public class FlexiBeeSettings
     {
