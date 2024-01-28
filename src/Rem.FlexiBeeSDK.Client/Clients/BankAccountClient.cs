@@ -38,6 +38,7 @@ public class BankAccountClient: ResourceClient<BankAccount>, IBankAccountClient
         return SaveAsync(request, cancellationToken);
     }
 
+    // https://podpora.flexibee.eu/cs/articles/4731153-nacitani-bankovnich-vypisu
     public async Task<OperationResult> ImportStatement(int accountId, Stream data)
     {
         var client = _httpClientFactory.CreateClient(nameof(BankClient));
@@ -53,6 +54,6 @@ public class BankAccountClient: ResourceClient<BankAccount>, IBankAccountClient
     
     private string GetImportUri(string accountId)
     {
-        return $"{_connection.Server}/c/{_connection.Company}/{ResourceIdentifier}/{accountId}";
+        return $"{_connection.Server}/c/{_connection.Company}/{ResourceIdentifier}/{accountId}/nacteni-vypisu";
     }
 }
