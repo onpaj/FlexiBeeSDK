@@ -124,12 +124,13 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
         protected abstract string ResourceIdentifier { get; }
 
-        private HttpClient GetClient()
+        protected HttpClient GetClient()
         {
             var client = _httpClientFactory.CreateClient(this.GetType().Name);
             client.Timeout = TimeSpan.FromMinutes(5);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", Encode(_connection.Login, _connection.Password));
-
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            
             return client;
         }
     }

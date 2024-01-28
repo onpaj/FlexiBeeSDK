@@ -13,7 +13,6 @@ namespace Rem.FlexiBeeSDK.Client.Clients;
 public class BankAccountClient: ResourceClient<BankAccount>, IBankAccountClient
 {
     private readonly FlexiBeeSettings _connection;
-    private readonly IHttpClientFactory _httpClientFactory;
 
     public BankAccountClient(
         FlexiBeeSettings connection,
@@ -24,7 +23,6 @@ public class BankAccountClient: ResourceClient<BankAccount>, IBankAccountClient
         : base(connection, httpClientFactory, resultHandler, logger)
     {
         _connection = connection;
-        _httpClientFactory = httpClientFactory;
     }
 
     protected override string ResourceIdentifier => Evidence.BankAccount;
@@ -41,8 +39,7 @@ public class BankAccountClient: ResourceClient<BankAccount>, IBankAccountClient
     // https://podpora.flexibee.eu/cs/articles/4731153-nacitani-bankovnich-vypisu
     public async Task<OperationResult> ImportStatement(int accountId, Stream data)
     {
-        var client = _httpClientFactory.CreateClient(nameof(BankClient));
-        
+        var client = GetClient();
         var content = new StreamContent(data);
         var result = await client.PostAsync(GetImportUri(accountId.ToString()), content);
         var json = await result.Content.ReadAsStringAsync();
