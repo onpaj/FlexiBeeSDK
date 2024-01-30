@@ -5,5 +5,5 @@ namespace Rem.FlexiBeeSDK.Client.Clients;
 
 public interface IBankAccountClient
 {
-    Task<OperationResult> ImportStatement(int flexibeeAccountId, Stream data);
+    Task<OperationResult> ImportStatement(int flexibeeAccountId, string data);
 }

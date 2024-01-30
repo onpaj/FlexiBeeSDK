@@ -1,5 +1,6 @@
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
@@ -37,10 +38,11 @@ public class BankAccountClient: ResourceClient<BankAccount>, IBankAccountClient
     }
 
     // https://podpora.flexibee.eu/cs/articles/4731153-nacitani-bankovnich-vypisu
-    public async Task<OperationResult> ImportStatement(int accountId, Stream data)
+    public async Task<OperationResult> ImportStatement(int accountId, string data)
     {
         var client = GetClient();
-        var content = new StreamContent(data);
+        var bytes = Encoding.UTF8.GetBytes(data);
+        var content = new StreamContent(new MemoryStream(bytes));
         var result = await client.PostAsync(GetImportUri(accountId.ToString()), content);
         var json = await result.Content.ReadAsStringAsync();
 
