@@ -1,3 +1,4 @@
+using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rem.FlexiBeeSDK.Client.Clients;
@@ -22,6 +23,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IResultFilter, AlreadyPairedResultFilter>();
         services.AddSingleton<IResultFilter, UnknownProductResultFilter>();
 
+        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         return services;
     }
 }

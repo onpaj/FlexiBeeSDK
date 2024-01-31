@@ -1,5 +1,6 @@
 using System.IO;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -41,8 +42,10 @@ public class BankAccountClient: ResourceClient<BankAccount>, IBankAccountClient
     public async Task<OperationResult> ImportStatement(int accountId, string data)
     {
         var client = GetClient();
-        var bytes = Encoding.UTF8.GetBytes(data);
+        var bytes = Encoding.GetEncoding("iso-8859-2").GetBytes(data);
         var content = new StreamContent(new MemoryStream(bytes));
+        content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+        content.Headers.ContentType.CharSet = "iso-8859-2";
         var result = await client.PostAsync(GetImportUri(accountId.ToString()), content);
         var json = await result.Content.ReadAsStringAsync();
 
