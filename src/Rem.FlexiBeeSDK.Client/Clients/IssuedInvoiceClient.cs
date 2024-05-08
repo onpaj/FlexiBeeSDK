@@ -23,7 +23,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         {
         }
 
-        protected override string ResourceIdentifier => Evidence.IssuedInvoices;
+        protected override string ResourceIdentifier => Agenda.IssuedInvoices;
 
         public async Task<IssuedInvoice> GetAsync(string code, CancellationToken cancellationToken = default)
         {

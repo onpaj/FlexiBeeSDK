@@ -23,7 +23,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         {
         }
 
-        protected override string ResourceIdentifier => Evidence.ReceivedInvoices;
+        protected override string ResourceIdentifier => Agenda.ReceivedInvoices;
 
         public async Task<ReceivedInvoice> GetAsync(string code, CancellationToken cancellationToken = default)
         {
@@ -38,6 +38,37 @@ namespace Rem.FlexiBeeSDK.Client.Clients
                throw new KeyNotFoundException($"Entity {nameof(ReceivedInvoice)} with key {code} not found");
 
            return found.Single();
+        }
+    }
+    
+    public abstract class UserQueryClient<T> : ResourceClient<T>, IUserQueryClient<T>
+    {
+        public const string LimitParamName = "limit";
+        public UserQueryClient(
+            FlexiBeeSettings connection, 
+            IHttpClientFactory httpClientFactory,
+            IResultHandler  resultHandler,
+            ILogger<ReceivedInvoiceClient> logger
+        )
+            : base(connection, httpClientFactory, resultHandler, logger)
+        {
+        }
+        protected abstract int QueryId { get; }
+
+        
+        protected override string ResourceIdentifier => Agenda.UserQuery;
+        protected override string ResultIdentifier => "DotazView";
+        public async Task<IList<T>> FindAsync(Dictionary<string, string> queryParameters, CancellationToken cancellationToken = default)
+        {
+            var query = new QueryBuilder()
+                .Raw($"{QueryId}/call")
+                .WithParameters(queryParameters)
+                .Build();
+
+            var found = await FindAsync(query, cancellationToken);
+
+
+            return found;
         }
     }
 }

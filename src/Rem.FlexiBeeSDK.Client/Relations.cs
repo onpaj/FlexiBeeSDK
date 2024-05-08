@@ -13,8 +13,8 @@ namespace Rem.FlexiBeeSDK.Client
 
         public override string ToString() => Value;
 
-        public static Relations Items = new Relations(Evidence.Items);
-        public static Relations ReferenceDocs = new Relations(Evidence.ReferenceDocs);
-        public static Relations References = new Relations(Evidence.References);
+        public static Relations Items = new Relations(Agenda.Items);
+        public static Relations ReferenceDocs = new Relations(Agenda.ReferenceDocs);
+        public static Relations References = new Relations(Agenda.References);
     }
 }

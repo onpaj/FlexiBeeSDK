@@ -27,7 +27,7 @@ public class BankAccountClient: ResourceClient<BankAccount>, IBankAccountClient
         _connection = connection;
     }
 
-    protected override string ResourceIdentifier => Evidence.BankAccount;
+    protected override string ResourceIdentifier => Agenda.BankAccount;
     public Task<OperationResult> UnPairPayment(int paymentId, CancellationToken cancellationToken = default)
     {
         var request = new BankUnpairRequest()

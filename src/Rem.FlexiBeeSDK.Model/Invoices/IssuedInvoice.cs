@@ -110,7 +110,7 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
 
         public List<int> GetBankPaymentsIds() => 
             References
-                .Where(w => w.ReferenceType == InvoiceReference.ReferenceTypePayment && w.BEvidencePath == Evidence.Bank)
+                .Where(w => w.ReferenceType == InvoiceReference.ReferenceTypePayment && w.BEvidencePath == Agenda.Bank)
                 .Select(s => s.ReferenceBId)
                 .ToList();
 

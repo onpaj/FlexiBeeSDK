@@ -20,7 +20,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         {
         }
 
-        protected override string ResourceIdentifier => Evidence.BoM;
+        protected override string ResourceIdentifier => Agenda.BoM;
         public Task<IList<BoM>> GetAsync(string code, CancellationToken cancellationToken = default)
         {
             var query = new QueryBuilder()

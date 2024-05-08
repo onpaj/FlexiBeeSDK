@@ -46,6 +46,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             var client = GetClient();
 
             _logger.LogDebug($"HttpRequest: GET {uri}");
+            
             var result = await client.GetAsync(uri, cancellationToken);
             _logger.LogDebug($"HttpResult: {result.StatusCode}");
             result.EnsureSuccessStatusCode();
@@ -53,7 +54,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             var json = await result.Content.ReadAsStringAsync();
 
             JObject jo = JObject.Parse(json);
-            JArray list = (JArray)jo.SelectToken($"winstrom.{ResourceIdentifier}");
+            JArray list = (JArray)jo.SelectToken($"winstrom.{ResultIdentifier ?? ResourceIdentifier}");
 
             return list.ToObject<List<TEntity>>();
         }
@@ -76,7 +77,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             {
                 winstrom = new Dictionary<string, object>()
                 {
-                    { ResourceIdentifier, new []
+                    { ResultIdentifier ?? ResourceIdentifier, new []
                     {
                         document
                     }}
@@ -123,6 +124,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         }
 
         protected abstract string ResourceIdentifier { get; }
+        protected virtual string? ResultIdentifier { get; }
 
         protected HttpClient GetClient()
         {

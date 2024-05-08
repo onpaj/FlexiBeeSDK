@@ -22,7 +22,7 @@ public class BankClient : ResourceClient<BankPayment>, IBankClient
     {
     }
 
-    protected override string ResourceIdentifier => Evidence.Bank;
+    protected override string ResourceIdentifier => Agenda.Bank;
     public Task<OperationResult> UnPairPayment(int paymentId, CancellationToken cancellationToken = default)
     {
         var request = new BankUnpairRequest()

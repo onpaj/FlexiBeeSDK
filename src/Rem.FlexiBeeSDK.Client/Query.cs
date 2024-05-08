@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 
 namespace Rem.FlexiBeeSDK.Client
@@ -10,11 +11,13 @@ namespace Rem.FlexiBeeSDK.Client
 
         public string QueryString { get; set; }
 
+        public IDictionary<string, string> Parameters { get; } = new Dictionary<string, string>();
+        
         public override string ToString()
         {
-            var q = $"({QueryString}).{FormatString}";
-            
-            var args = new List<string>();
+            var q = $"{QueryString}.{FormatString}";
+
+            var args = Parameters.Select(kvp => $"{kvp.Key}={kvp.Value}").ToList();
 
             if(LevelOfDetail != LevelOfDetail.Undefined)
                 args.Add($"detail={LevelOfDetailString}");
