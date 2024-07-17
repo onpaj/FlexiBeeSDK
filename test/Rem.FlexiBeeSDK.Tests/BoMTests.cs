@@ -48,7 +48,15 @@ namespace Rem.FlexiBeeSDK.Tests
             Assert.NotEmpty(kusovnik);
         }
 
+        [Fact]
+        public async Task RecalculatePurchasePrice()
+        {
+            var client = _fixture.Create<BoMClient>();
 
+            var result = await client.RecalculatePurchasePrice(3244);
+
+            Assert.True(result);
+        }
 
         [Fact]
         public async Task GetKusovnikNotFoundThrows()

@@ -6,5 +6,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
     public interface IResourceClient<T> : IReadOnlyResourceClient<T>
     {
         Task<OperationResult> SaveAsync(T document, CancellationToken cancellationToken = default);
+
+        Task<OperationResult> PutAsync<TDocument>(TDocument document, CancellationToken cancellationToken = default);
     }
 }

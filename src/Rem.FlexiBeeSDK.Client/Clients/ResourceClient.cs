@@ -61,16 +61,24 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
         public virtual Task<OperationResult> SaveAsync(TEntity document, CancellationToken cancellationToken = default)
         {
-            return SaveAsync<TEntity>(document, cancellationToken);
+            return SendAsync(document, HttpMethod.Post, cancellationToken);
         }
 
+        public Task<OperationResult> PutAsync<TDocument>(TDocument document, CancellationToken cancellationToken = default)
+        {
+            return SendAsync(document, HttpMethod.Put, cancellationToken);
+        }
 
-        protected virtual async Task<OperationResult> SaveAsync<TEnt>(TEnt document, CancellationToken cancellationToken = default)
+        [Obsolete]
+        protected virtual Task<OperationResult> SaveAsync<TEnt>(TEnt document,
+            CancellationToken cancellationToken = default) => SendAsync(document, HttpMethod.Post, cancellationToken);
+
+        protected virtual async Task<OperationResult> SendAsync<TEnt>(TEnt document, HttpMethod method, CancellationToken cancellationToken = default)
         {
             var uri = GetUri(document);
             var client = GetClient();
 
-            _logger.LogDebug($"HttpRequest: POST {uri}");
+            _logger.LogDebug($"HttpRequest: {method} {uri}");
 
 
             var json = JsonConvert.SerializeObject(new
@@ -86,7 +94,12 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             _logger.LogTrace(json);
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            var result = await client.PostAsync(uri, content, cancellationToken);
+            var request = new HttpRequestMessage(method, uri)
+            {
+                Content = content,
+            };
+
+            var result = await client.SendAsync(request, cancellationToken);
             _logger.LogDebug($"HttpResult: {result.StatusCode}");
 
             var resultContent = await result.Content.ReadAsStringAsync();

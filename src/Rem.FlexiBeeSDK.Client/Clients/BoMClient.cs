@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
+using Rem.FlexiBeeSDK.Model.Stock;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
@@ -29,5 +30,16 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
             return FindAsync(query, cancellationToken);
         }
+
+        public async Task<bool> RecalculatePurchasePrice(int bomId, CancellationToken cancellationToken = default)
+        {
+            var document = new RecalculatePriceRequest(bomId);
+
+            var result = await PutAsync(document, cancellationToken);
+
+            return result.IsSuccess;
+        }
     }
+
+    
 }

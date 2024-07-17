@@ -16,7 +16,7 @@ namespace Rem.FlexiBeeSDK.Tests
                 .AddUserSecrets<ObjednavkyVydaneTests>()
                 .Build();
 
-            var connection = configuration.GetSection("FlexiBeeConnection").Get<FlexiBeeSettings>();
+            var connection = configuration.GetSection(nameof(FlexiBeeSettings)).Get<FlexiBeeSettings>();
             if (connection == null)
                 throw new ApplicationException($"{nameof(FlexiBeeSettings)} settings missing. Add configuration to user secrets");
 

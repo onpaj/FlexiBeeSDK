@@ -8,5 +8,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
     public interface IBoMClient : IReadOnlyResourceClient<BoM>
     {
         Task<IList<BoM>> GetAsync(string code, CancellationToken cancellationToken = default);
+
+        Task<bool> RecalculatePurchasePrice(int bomId, CancellationToken cancellationToken = default);
     }
 }
