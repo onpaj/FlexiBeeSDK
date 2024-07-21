@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
 using Rem.FlexiBeeSDK.Model.Invoices;
+using Rem.FlexiBeeSDK.Model.Response;
 
 namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
 {
@@ -39,5 +40,8 @@ namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
 
            return found.Single();
         }
+
+        public Task<OperationResult<OperationResultDetail>> SaveAsync(IssuedInvoice invoice,
+            CancellationToken cancellationToken = default) => PostAsync(invoice, cancellationToken);
     }
 }

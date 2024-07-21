@@ -6,6 +6,7 @@ using Rem.FlexiBeeSDK.Client.Clients.BankAccounts;
 using Rem.FlexiBeeSDK.Client.Clients.Banks;
 using Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices;
 using Rem.FlexiBeeSDK.Client.Clients.Products.BoM;
+using Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 
 namespace Rem.FlexiBeeSDK.Client.DI;
@@ -22,6 +23,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IBankClient, BankClient>();
         services.AddSingleton<IBoMClient, BoMClient>();
         services.AddSingleton<IBankAccountClient, BankAccountClient>();
+        services.AddSingleton<IStockToDateClient, StockToDateClient>();
         services.AddSingleton<IResultHandler, ResultHandler>();
 
         // Result filters
