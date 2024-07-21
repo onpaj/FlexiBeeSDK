@@ -16,7 +16,7 @@ public class ParseErrorResultFilter : IResultFilter
         _errorType = errorType;
     }
         
-    public Task ApplyAsync(FlexiResult resultData)
+    public Task ApplyAsync(OperationResultDetail resultData)
     {
         foreach (var error in resultData.Results?.SelectMany(s => s.Errors) ?? new List<Error>())
         {
@@ -26,4 +26,8 @@ public class ParseErrorResultFilter : IResultFilter
 
         return Task.CompletedTask;
     }
+
+    public Task ApplyAsync(object resultData) => ApplyAsync((OperationResultDetail)resultData);
+
+    public bool CanHandle<TResult>(object resultData) => typeof(TResult) == typeof(OperationResultDetail);
 }

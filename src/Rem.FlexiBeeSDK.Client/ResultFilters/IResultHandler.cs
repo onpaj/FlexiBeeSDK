@@ -5,5 +5,5 @@ namespace Rem.FlexiBeeSDK.Client.ResultFilters;
 
 public interface IResultHandler
 {
-    Task ApplyFiltersAsync(FlexiResult resultData);
+    Task ApplyFiltersAsync<TResult>(object resultData);
 }

@@ -7,6 +7,8 @@ using AutoFixture;
 using Microsoft.Extensions.Configuration;
 using Rem.FlexiBeeSDK.Client;
 using Rem.FlexiBeeSDK.Client.Clients;
+using Rem.FlexiBeeSDK.Client.Clients.Products.BoM;
+using Rem.FlexiBeeSDK.Model;
 using Xunit;
 
 namespace Rem.FlexiBeeSDK.Tests
@@ -18,24 +20,6 @@ namespace Rem.FlexiBeeSDK.Tests
         public BoMTests()
         {
             _fixture = FlexiFixture.Setup();
-        }
-
-
-        [Fact]
-        public async Task FindKusovnik()
-        {
-            var client = _fixture.Create<BoMClient>();
-
-            var query = new Query()
-            {
-                Format = Format.Json,
-                LevelOfDetail = LevelOfDetail.Full,
-                QueryString = "otecCenik='code:SER001030'",
-            };
-
-            var kusovnik = await client.FindAsync(query);
-
-            Assert.NotEmpty(kusovnik);
         }
 
         [Fact]

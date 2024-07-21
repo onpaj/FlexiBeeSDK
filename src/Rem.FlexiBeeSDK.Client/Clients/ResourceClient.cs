@@ -15,7 +15,7 @@ using Rem.FlexiBeeSDK.Model.Response;
 
 namespace Rem.FlexiBeeSDK.Client.Clients
 {
-    public abstract class ResourceClient<TEntity> : IResourceClient<TEntity>
+    public abstract class ResourceClient
     {
         private readonly FlexiBeeSettings _connection;
         private readonly IHttpClientFactory _httpClientFactory;
@@ -40,7 +40,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             return System.Convert.ToBase64String(bytes);
         }
 
-        public virtual async Task<IList<TEntity>> FindAsync(Query query, CancellationToken cancellationToken = default)
+        protected virtual async Task<IList<TEntity>> GetAsync<TEntity>(Query query, CancellationToken cancellationToken = default)
         {
             var uri = GetUri(query);
             var client = GetClient();
@@ -59,21 +59,58 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             return list.ToObject<List<TEntity>>();
         }
 
-        public virtual Task<OperationResult> SaveAsync(TEntity document, CancellationToken cancellationToken = default)
+        protected virtual Task<OperationResult<OperationResultDetail>> PostAsync<TRequest>(TRequest document, CancellationToken cancellationToken = default)
         {
-            return SendAsync(document, HttpMethod.Post, cancellationToken);
+            return SendAsync<TRequest, OperationResultDetail>(document, HttpMethod.Post, cancellationToken);
+        }
+        
+        protected virtual Task<OperationResult<TResult>> PostAsync<TRequest, TResult>(TRequest document, CancellationToken cancellationToken = default)
+        {
+            return SendAsync<TRequest, TResult>(document, HttpMethod.Post, cancellationToken);
         }
 
-        public Task<OperationResult> PutAsync<TDocument>(TDocument document, CancellationToken cancellationToken = default)
+        protected Task<OperationResult<OperationResultDetail>> PutAsync<TRequest>(TRequest document, CancellationToken cancellationToken = default)
         {
-            return SendAsync(document, HttpMethod.Put, cancellationToken);
+            return SendAsync<TRequest, OperationResultDetail>(document, HttpMethod.Put, cancellationToken);
+        }
+        
+        protected Task<OperationResult<TResult>> PutAsync<TRequest, TResult>(TRequest document, CancellationToken cancellationToken = default)
+        {
+            return SendAsync<TRequest, TResult>(document, HttpMethod.Put, cancellationToken);
         }
 
-        [Obsolete]
-        protected virtual Task<OperationResult> SaveAsync<TEnt>(TEnt document,
-            CancellationToken cancellationToken = default) => SendAsync(document, HttpMethod.Post, cancellationToken);
-
-        protected virtual async Task<OperationResult> SendAsync<TEnt>(TEnt document, HttpMethod method, CancellationToken cancellationToken = default)
+        protected virtual async Task<OperationResult<TResult>> SendAsync<TRequest, TResult>(TRequest document, HttpMethod method, CancellationToken cancellationToken = default)
+        {
+            var result = await SendInternal(document, method, cancellationToken); 
+            var resultContent = await result.Content.ReadAsStringAsync();
+            if (!result.IsSuccessStatusCode)
+            {
+                _logger.LogError(resultContent);
+            }
+            
+            try
+            {
+                if (resultContent != null)
+                {
+                    var resultData = JsonConvert.DeserializeObject<TResult>(resultContent);
+                    if (resultData == null)
+                    {
+                        throw new InvalidOperationException($"Unable to deserialize type {typeof(TResult)}");
+                    }
+                    
+                    await _resultHandler.ApplyFiltersAsync<TResult>(resultData);
+                    return new OperationResult<TResult>(result.StatusCode, resultData);
+                }
+                return new OperationResult<TResult>(result.StatusCode);
+            }
+            catch (Exception ex)
+            {
+                return new OperationResult<TResult>(result.StatusCode, ex.Message);
+            }
+        }
+        
+        
+        private async Task<HttpResponseMessage> SendInternal<TRequest>(TRequest document, HttpMethod method, CancellationToken cancellationToken = default)
         {
             var uri = GetUri(document);
             var client = GetClient();
@@ -101,27 +138,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
             var result = await client.SendAsync(request, cancellationToken);
             _logger.LogDebug($"HttpResult: {result.StatusCode}");
-
-            var resultContent = await result.Content.ReadAsStringAsync();
-            if (!result.IsSuccessStatusCode)
-            {
-                _logger.LogError(resultContent);
-            }
-
-            try
-            {
-                if (resultContent != null)
-                {
-                    var envelope = JsonConvert.DeserializeObject<FlexiResultEnvelope>(resultContent);
-                    await _resultHandler.ApplyFiltersAsync(envelope.Data);
-                    return new OperationResult(result.StatusCode, envelope.Data);
-                }
-                return new OperationResult(result.StatusCode);
-            }
-            catch (Exception ex)
-            {
-                return new OperationResult(result.StatusCode, ex.Message);
-            }
+            return result;
         }
 
 

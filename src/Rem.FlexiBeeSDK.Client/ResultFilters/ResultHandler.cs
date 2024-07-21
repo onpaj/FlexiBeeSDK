@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Rem.FlexiBeeSDK.Model.Response;
 
@@ -13,9 +14,9 @@ public class ResultHandler : IResultHandler
         _filters = filters;
     }
 
-    public async Task ApplyFiltersAsync(FlexiResult resultData)
+    public async Task ApplyFiltersAsync<TResult>(object resultData)
     {
-        foreach (var s in _filters)
+        foreach (var s in _filters.Where(w => w.CanHandle<TResult>(resultData)))
         {
             await s.ApplyAsync(resultData);
         }

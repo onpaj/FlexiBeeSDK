@@ -7,6 +7,7 @@ using AutoFixture;
 using Microsoft.Extensions.Configuration;
 using Rem.FlexiBeeSDK.Client;
 using Rem.FlexiBeeSDK.Client.Clients;
+using Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices;
 using Xunit;
 
 namespace Rem.FlexiBeeSDK.Tests
@@ -18,29 +19,6 @@ namespace Rem.FlexiBeeSDK.Tests
         public ReceivedInvoiceTests()
         {
             _fixture = FlexiFixture.Setup();
-        }
-
-
-        [Fact]
-        public async Task FindFakturyPrijate()
-        {
-            var client = _fixture.Create<ReceivedInvoiceClient>();
-
-            var query = new Query()
-            {
-                Format = Format.Json,
-                LevelOfDetail = LevelOfDetail.Full,
-                QueryString = "kod='PF00492'",
-                Relations = new List<Relations>()
-                {
-                    Relations.Items
-                }
-            };
-
-            var faktury = await client.FindAsync(query);
-
-            Assert.NotEmpty(faktury);
-            Assert.NotEmpty(faktury.First().Items);
         }
 
         [Fact]

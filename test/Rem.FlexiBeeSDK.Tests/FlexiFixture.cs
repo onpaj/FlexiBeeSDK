@@ -13,7 +13,7 @@ namespace Rem.FlexiBeeSDK.Tests
         public static IFixture Setup()
         {
             var configuration = new ConfigurationBuilder()
-                .AddUserSecrets<ObjednavkyVydaneTests>()
+                .AddUserSecrets<FlexiFixture>()
                 .Build();
 
             var connection = configuration.GetSection(nameof(FlexiBeeSettings)).Get<FlexiBeeSettings>();

@@ -2,6 +2,10 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rem.FlexiBeeSDK.Client.Clients;
+using Rem.FlexiBeeSDK.Client.Clients.BankAccounts;
+using Rem.FlexiBeeSDK.Client.Clients.Banks;
+using Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices;
+using Rem.FlexiBeeSDK.Client.Clients.Products.BoM;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 
 namespace Rem.FlexiBeeSDK.Client.DI;
