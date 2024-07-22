@@ -14,4 +14,5 @@ public class Agenda
     public const string Contact = "kontakt";
     public const string UserQuery = "uzivatelsky-dotaz";
     public const string StockToDate = "stav-skladu-k-datu";
+    public const string StockMovements = "skladovy-pohyb-polozka";
 }

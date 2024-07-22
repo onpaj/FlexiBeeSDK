@@ -24,7 +24,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
 
         protected override string ResourceIdentifier => Agenda.StockToDate;
 
-        public async Task<IReadOnlyList<Model.Products.StockToDate>> GetAsync(DateTime date, int limit = 0, int skip = 0, CancellationToken cancellationToken = default)
+        public async Task<IReadOnlyList<Model.Products.StockToDate>> GetAsync(DateTime date, int warehouseId, int limit = 0, int skip = 0, CancellationToken cancellationToken = default)
         {
             var queryDoc = new StockToDateRequest()
             {
@@ -32,7 +32,10 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
                 Start = skip,
             };
 
-            var result = await PostAsync<StockToDateRequest, StockToDateResult>(queryDoc, cancellationToken);
+            var query = new FlexiQuery();
+            query.Parameters.Add("datum", date.ToString("yyyy-MM-dd"));
+            query.Parameters.Add("sklad", warehouseId.ToString());
+            var result = await PostAsync<StockToDateRequest, StockToDateResult>(queryDoc, query, cancellationToken);
             
             return result?.Result?.StockData.Select(s => new Model.Products.StockToDate
             {

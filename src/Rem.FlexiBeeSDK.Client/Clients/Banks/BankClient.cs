@@ -29,6 +29,6 @@ public class BankClient : ResourceClient, IBankClient
             Id = paymentId,
         };
 
-        return PostAsync(request, cancellationToken);
+        return PostAsync(request, cancellationToken: cancellationToken);
     }
 }

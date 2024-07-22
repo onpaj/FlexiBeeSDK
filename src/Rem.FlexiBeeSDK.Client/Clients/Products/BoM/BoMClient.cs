@@ -35,7 +35,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
         {
             var document = new RecalculatePriceRequest(bomId);
 
-            var result = await PutAsync(document, cancellationToken);
+            var result = await PutAsync(document, cancellationToken: cancellationToken);
 
             return result.IsSuccess;
         }

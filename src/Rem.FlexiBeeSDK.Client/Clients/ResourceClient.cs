@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -59,29 +60,29 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             return list.ToObject<List<TEntity>>();
         }
 
-        protected virtual Task<OperationResult<OperationResultDetail>> PostAsync<TRequest>(TRequest document, CancellationToken cancellationToken = default)
+        protected virtual Task<OperationResult<OperationResultDetail>> PostAsync<TRequest>(TRequest document, FlexiQuery? query = default, CancellationToken cancellationToken = default)
         {
-            return SendAsync<TRequest, OperationResultDetail>(document, HttpMethod.Post, cancellationToken);
+            return SendAsync<TRequest, OperationResultDetail>(document, HttpMethod.Post, query, cancellationToken);
         }
         
-        protected virtual Task<OperationResult<TResult>> PostAsync<TRequest, TResult>(TRequest document, CancellationToken cancellationToken = default)
+        protected virtual Task<OperationResult<TResult>> PostAsync<TRequest, TResult>(TRequest document, FlexiQuery? query = default, CancellationToken cancellationToken = default)
         {
-            return SendAsync<TRequest, TResult>(document, HttpMethod.Post, cancellationToken);
+            return SendAsync<TRequest, TResult>(document, HttpMethod.Post, query, cancellationToken);
         }
 
-        protected Task<OperationResult<OperationResultDetail>> PutAsync<TRequest>(TRequest document, CancellationToken cancellationToken = default)
+        protected Task<OperationResult<OperationResultDetail>> PutAsync<TRequest>(TRequest document, FlexiQuery? query = default, CancellationToken cancellationToken = default)
         {
-            return SendAsync<TRequest, OperationResultDetail>(document, HttpMethod.Put, cancellationToken);
+            return SendAsync<TRequest, OperationResultDetail>(document, HttpMethod.Put, query, cancellationToken);
         }
         
-        protected Task<OperationResult<TResult>> PutAsync<TRequest, TResult>(TRequest document, CancellationToken cancellationToken = default)
+        protected Task<OperationResult<TResult>> PutAsync<TRequest, TResult>(TRequest document, FlexiQuery? query = default, CancellationToken cancellationToken = default)
         {
-            return SendAsync<TRequest, TResult>(document, HttpMethod.Put, cancellationToken);
+            return SendAsync<TRequest, TResult>(document, HttpMethod.Put, query, cancellationToken);
         }
 
-        protected virtual async Task<OperationResult<TResult>> SendAsync<TRequest, TResult>(TRequest document, HttpMethod method, CancellationToken cancellationToken = default)
+        protected virtual async Task<OperationResult<TResult>> SendAsync<TRequest, TResult>(TRequest document, HttpMethod method, FlexiQuery? query = default, CancellationToken cancellationToken = default)
         {
-            var result = await SendInternal(document, method, cancellationToken); 
+            var result = await SendInternal(document, method, query, cancellationToken); 
             var resultContent = await result.Content.ReadAsStringAsync();
             if (!result.IsSuccessStatusCode)
             {
@@ -110,9 +111,9 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         }
         
         
-        private async Task<HttpResponseMessage> SendInternal<TRequest>(TRequest document, HttpMethod method, CancellationToken cancellationToken = default)
+        private async Task<HttpResponseMessage> SendInternal<TRequest>(TRequest document, HttpMethod method, FlexiQuery? query = default, CancellationToken cancellationToken = default)
         {
-            var uri = GetUri(document);
+            var uri = GetUri(document, query);
             var client = GetClient();
 
             _logger.LogDebug($"HttpRequest: {method} {uri}");
@@ -148,9 +149,25 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             return $"{_connection.Server}/c/{_connection.Company}/{ResourceIdentifier}/{query}";
         }
 
-        protected virtual string GetUri<TEnt>(TEnt document = default)
+        protected virtual string GetUri<TEnt>(TEnt document = default, FlexiQuery? query = default)
         {
-            return $"{_connection.Server}/c/{_connection.Company}/{ResourceIdentifier}";
+            var uri = $"{_connection.Server}/c/{_connection.Company}/{ResourceIdentifier}";
+
+            if (query != null)
+            {
+                uri += $"/query";
+                
+                if(query.Parameters.Any())
+                    uri += $"?{FormatQuery(query)}";
+            }
+                
+
+            return uri;
+        }
+
+        private string FormatQuery(FlexiQuery query)
+        {
+            return string.Join("&", query.Parameters.Select(s => $"{s.Key}={s.Value}"));
         }
 
         protected abstract string ResourceIdentifier { get; }
@@ -165,5 +182,10 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             
             return client;
         }
+    }
+
+    public class FlexiQuery
+    {
+        public IDictionary<string, string> Parameters { get; set; } = new Dictionary<string, string>();
     }
 }
