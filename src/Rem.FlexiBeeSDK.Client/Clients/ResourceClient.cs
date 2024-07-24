@@ -93,14 +93,14 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             {
                 if (resultContent != null)
                 {
-                    var resultData = JsonConvert.DeserializeObject<TResult>(resultContent);
+                    var resultData = JsonConvert.DeserializeObject<WinstromEnvelope<TResult>>(resultContent);
                     if (resultData == null)
                     {
                         throw new InvalidOperationException($"Unable to deserialize type {typeof(TResult)}");
                     }
                     
-                    await _resultHandler.ApplyFiltersAsync<TResult>(resultData);
-                    return new OperationResult<TResult>(result.StatusCode, resultData);
+                    await _resultHandler.ApplyFiltersAsync<TResult>(resultData.Data);
+                    return new OperationResult<TResult>(result.StatusCode, resultData.Data);
                 }
                 return new OperationResult<TResult>(result.StatusCode);
             }
@@ -121,13 +121,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
             var json = JsonConvert.SerializeObject(new
             {
-                winstrom = new Dictionary<string, object>()
-                {
-                    { ResultIdentifier ?? ResourceIdentifier, new []
-                    {
-                        document
-                    }}
-                }
+                winstrom = document
             });
             _logger.LogTrace(json);
 

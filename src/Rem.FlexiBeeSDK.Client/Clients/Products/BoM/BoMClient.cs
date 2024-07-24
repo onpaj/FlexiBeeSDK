@@ -25,7 +25,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
         public Task<IList<Model.BoM>> GetAsync(string code, CancellationToken cancellationToken = default)
         {
             var query = new QueryBuilder()
-                .Raw($"otecCenik='code:{code}'")
+                .Raw($"(otecCenik='code:{code}')")
                 .Build();
 
             return GetAsync<Model.BoM>(query, cancellationToken);

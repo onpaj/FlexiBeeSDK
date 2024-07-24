@@ -4,17 +4,17 @@ namespace Rem.FlexiBeeSDK.Model.Products;
 
 public class RecalculatePriceRequest
 {
-    public const string RecalculatePurchasePriceActionName = "prepocti-nakupni-cenu";
-    
-    
-    [JsonProperty("id")]
-    public int BomId { get; set; }
 
-    [JsonProperty("@action")]
-    public string Action { get; set; } = RecalculatePurchasePriceActionName;
+    [JsonProperty("kusovnik")]
+    public BoMRequest BoM { get; set; }
+    
+    
     
     public RecalculatePriceRequest(int bomId)
     {
-        BomId = bomId;
+        BoM = new BoMRequest()
+        {
+            BomId = bomId
+        };
     }
 }

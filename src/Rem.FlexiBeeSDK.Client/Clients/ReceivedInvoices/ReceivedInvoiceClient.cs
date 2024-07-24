@@ -27,7 +27,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
         public async Task<ReceivedInvoice> GetAsync(string code, CancellationToken cancellationToken = default)
         {
             var query = new QueryBuilder()
-                .Raw($"kod='{code}'")
+                .Raw($"(kod='{code}')")
                 .WithRelation(Relations.Items)
                 .Build();
 

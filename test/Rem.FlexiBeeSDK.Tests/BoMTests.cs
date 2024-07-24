@@ -43,11 +43,13 @@ namespace Rem.FlexiBeeSDK.Tests
         }
 
         [Fact]
-        public async Task GetKusovnikNotFoundThrows()
+        public async Task GetKusovnikNotFound()
         {
             var client = _fixture.Create<BoMClient>();
 
-            await Assert.ThrowsAnyAsync<Exception>(() => client.GetAsync("xxxxx"));
+            var result = await client.GetAsync("xxxxx");
+            
+            Assert.Empty(result);
         }
     }
 }
