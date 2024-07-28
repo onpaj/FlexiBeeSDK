@@ -93,6 +93,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             {
                 if (resultContent != null)
                 {
+                    _logger.LogTrace(resultContent);
                     var resultData = JsonConvert.DeserializeObject<WinstromEnvelope<TResult>>(resultContent);
                     if (resultData == null)
                     {
