@@ -23,6 +23,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
         }
 
         protected override string ResourceIdentifier => Agenda.StockToDate;
+        protected override string? RequestIdentifier => null;
 
         public async Task<IReadOnlyList<Model.Products.StockToDate>> GetAsync(DateTime date, int warehouseId, int limit = 0, int skip = 0, CancellationToken cancellationToken = default)
         {

@@ -118,14 +118,27 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
             _logger.LogDebug($"HttpRequest: {method} {uri}");
 
-
-            var json = JsonConvert.SerializeObject(new
+            string jsonRequest;
+            if (RequestIdentifier != null)
             {
-                winstrom = document
-            });
-            _logger.LogTrace(json);
+                jsonRequest = JsonConvert.SerializeObject(new
+                {
+                    winstrom = new Dictionary<string, object>()
+                    {
+                        { ResourceIdentifier, document }
+                    }
+                });
+            }
+            else
+            {
+                jsonRequest = JsonConvert.SerializeObject(new
+                {
+                    winstrom = document
+                });
+            } 
+            _logger.LogTrace(jsonRequest);
 
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var content = new StringContent(jsonRequest, Encoding.UTF8, "application/json");
             var request = new HttpRequestMessage(method, uri)
             {
                 Content = content,
@@ -166,6 +179,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
         protected abstract string ResourceIdentifier { get; }
         protected virtual string? ResultIdentifier { get; }
+        protected virtual string? RequestIdentifier => ResourceIdentifier;
 
         protected HttpClient GetClient()
         {

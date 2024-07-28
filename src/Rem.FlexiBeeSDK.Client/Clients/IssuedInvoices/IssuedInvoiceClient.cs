@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
 using Rem.FlexiBeeSDK.Model.Invoices;
@@ -42,6 +43,14 @@ namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
         }
 
         public Task<OperationResult<OperationResultDetail>> SaveAsync(IssuedInvoice invoice,
-            CancellationToken cancellationToken = default) => PostAsync(invoice, cancellationToken: cancellationToken);
+            CancellationToken cancellationToken = default) => PostAsync(CreateSaveRequest(invoice), cancellationToken: cancellationToken);
+
+        private object CreateSaveRequest(IssuedInvoice invoice)
+        {
+            return new Dictionary<string, object>()
+            {
+                { ResourceIdentifier, invoice }
+            };
+        }
     }
 }

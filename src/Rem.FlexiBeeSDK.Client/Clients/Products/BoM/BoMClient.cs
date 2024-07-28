@@ -22,6 +22,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
         }
 
         protected override string ResourceIdentifier => Agenda.BoM;
+
         public Task<IList<Model.BoM>> GetAsync(string code, CancellationToken cancellationToken = default)
         {
             var query = new QueryBuilder()
@@ -33,7 +34,10 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
 
         public async Task<bool> RecalculatePurchasePrice(int bomId, CancellationToken cancellationToken = default)
         {
-            var document = new RecalculatePriceRequest(bomId);
+            var document = new RecalculatePriceRequest()
+            {
+                BomId = bomId
+            };
 
             var result = await PutAsync(document, cancellationToken: cancellationToken);
 
