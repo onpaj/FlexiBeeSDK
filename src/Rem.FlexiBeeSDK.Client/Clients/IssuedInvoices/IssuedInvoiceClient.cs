@@ -43,14 +43,6 @@ namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
         }
 
         public Task<OperationResult<OperationResultDetail>> SaveAsync(IssuedInvoice invoice,
-            CancellationToken cancellationToken = default) => PostAsync(CreateSaveRequest(invoice), cancellationToken: cancellationToken);
-
-        private object CreateSaveRequest(IssuedInvoice invoice)
-        {
-            return new Dictionary<string, object>()
-            {
-                { ResourceIdentifier, invoice }
-            };
-        }
+            CancellationToken cancellationToken = default) => PostAsync(invoice, cancellationToken: cancellationToken);
     }
 }
