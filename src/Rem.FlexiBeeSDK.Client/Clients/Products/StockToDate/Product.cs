@@ -12,4 +12,10 @@ public class Product
 
     [JsonProperty("kod")]
     public string Code { get; set; }
+
+    [JsonProperty("baleniNazev1")]
+    public string MoqName { get; set; }
+    
+    [JsonProperty("baleniMj1")]
+    public string MoqCount { get; set; }
 }
