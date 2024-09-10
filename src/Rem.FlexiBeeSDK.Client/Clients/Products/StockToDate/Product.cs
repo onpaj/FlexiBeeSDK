@@ -17,5 +17,5 @@ public class Product
     public string MoqName { get; set; }
     
     [JsonProperty("baleniMj1")]
-    public string MoqCount { get; set; }
+    public string MoqAmmount { get; set; }
 }
