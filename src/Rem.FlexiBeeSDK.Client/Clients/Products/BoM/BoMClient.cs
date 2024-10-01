@@ -22,14 +22,14 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
         }
 
         protected override string ResourceIdentifier => Agenda.BoM;
+        protected override string? RequestIdentifier => null;
 
-        public Task<IList<Model.BoM>> GetAsync(string code, CancellationToken cancellationToken = default)
+        public async Task<IList<Model.BoMItem>> GetAsync(string code, CancellationToken cancellationToken = default)
         {
-            var query = new QueryBuilder()
-                .Raw($"(otecCenik='code:{code}')")
-                .Build();
-
-            return GetAsync<Model.BoM>(query, cancellationToken);
+            var bomQuery = new BomRequest(code);
+            
+           var result = await PostAsync<BomRequest, BomList>(bomQuery, new FlexiQuery(), cancellationToken: cancellationToken);
+           return result.Result.BoM;
         }
 
         public async Task<bool> RecalculatePurchasePrice(int bomId, CancellationToken cancellationToken = default)
@@ -44,6 +44,4 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
             return result.IsSuccess;
         }
     }
-
-    
 }

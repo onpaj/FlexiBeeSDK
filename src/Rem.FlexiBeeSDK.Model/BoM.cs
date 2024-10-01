@@ -1,59 +1,57 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model
 {
-    public class BoM
+    public class BoMProduct
     {
-        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
-        public long? Id { get; set; }
+        [JsonProperty("id")]
+        public int Id { get; set; }
 
-        [JsonProperty("lastUpdate", NullValueHandling = NullValueHandling.Ignore)]
-        public DateTimeOffset? LastUpdate { get; set; }
+        [JsonProperty("kod")]
+        public string Code { get; set; }
 
-        [JsonProperty("nazev", NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty("nazev")]
         public string Name { get; set; }
 
-        [JsonProperty("nazevA", NullValueHandling = NullValueHandling.Ignore)]
-        public string NameA { get; set; }
+        [JsonProperty("nakupCena")]
+        public double PurchasePrice { get; set; }
 
-        [JsonProperty("nazevB", NullValueHandling = NullValueHandling.Ignore)]
-        public string NameB { get; set; }
+        [JsonProperty("popis")]
+        public string Description { get; set; }
+    }
 
-        [JsonProperty("nazevC", NullValueHandling = NullValueHandling.Ignore)]
-        public string NameC { get; set; }
+    public class BoMItem
+    {
+        [JsonProperty("id")]
+        public int Id { get; set; }
 
-        [JsonProperty("mnoz", NullValueHandling = NullValueHandling.Ignore)]
-        public string Ammount { get; set; }
+        [JsonProperty("mnoz")]
+        public double Amount { get; set; }
 
-        [JsonProperty("hladina", NullValueHandling = NullValueHandling.Ignore)]
-        public long? Level { get; set; }
+        [JsonProperty("hladina")]
+        public int Level { get; set; }
 
-        [JsonProperty("poradi", NullValueHandling = NullValueHandling.Ignore)]
-        public long? Order { get; set; }
+        [JsonProperty("poradi")]
+        public int Order { get; set; }
 
-        [JsonProperty("cesta", NullValueHandling = NullValueHandling.Ignore)]
-        public string Route { get; set; }
+        [JsonProperty("cesta")]
+        public string Path { get; set; }
 
-        [JsonProperty("otecCenik", NullValueHandling = NullValueHandling.Ignore)]
-        public string ParentPriceList { get; set; }
+        [JsonProperty("cenik")]
+        public List<BoMProduct> Products { get; set; }
 
-        [JsonProperty("otecCenik@ref", NullValueHandling = NullValueHandling.Ignore)]
-        public string ParentPriceListRef { get; set; }
+        [JsonProperty("nazev")]
+        public string Name { get; set; }
+    }
+    
+    public class BomList
+    {
+        [JsonProperty("@version")]
+        public string Version { get; set; }
 
-        [JsonProperty("otecCenik@showAs", NullValueHandling = NullValueHandling.Ignore)]
-        public string ParentPriceListShowAs { get; set; }
-
-        [JsonProperty("cenik", NullValueHandling = NullValueHandling.Ignore)]
-        public string PriceList { get; set; }
-
-        [JsonProperty("cenik@ref", NullValueHandling = NullValueHandling.Ignore)]
-        public string PriceListRef { get; set; }
-
-        [JsonProperty("cenik@showAs", NullValueHandling = NullValueHandling.Ignore)]
-        public string PriceListShowAs { get; set; }
-
-        [JsonProperty("otec", NullValueHandling = NullValueHandling.Ignore)]
-        public string Parent { get; set; }
+        [JsonProperty("kusovnik")]
+        public List<BoMItem> BoM { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace Rem.FlexiBeeSDK.Tests
         {
             var client = _fixture.Create<BoMClient>();
 
-            var kusovnik = await client.GetAsync("SER001030");
+            var kusovnik = await client.GetAsync("MAS006001M");
 
             Assert.NotEmpty(kusovnik);
         }

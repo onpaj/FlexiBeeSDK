@@ -6,7 +6,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
 {
     public interface IBoMClient
     {
-        Task<IList<Model.BoM>> GetAsync(string code, CancellationToken cancellationToken = default);
+        Task<IList<Model.BoMItem>> GetAsync(string code, CancellationToken cancellationToken = default);
 
         Task<bool> RecalculatePurchasePrice(int bomId, CancellationToken cancellationToken = default);
     }
