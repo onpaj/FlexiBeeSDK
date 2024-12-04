@@ -18,10 +18,10 @@ public class StockToDateItem
     [JsonProperty("prumCena")]
     public double AveragePrice { get; set; }
 
-    public int ProductTypeId => ProductItemGroup.First().Id;
-    
+    public int? ProductTypeId => ProductItemGroup?.FirstOrDefault()?.Id;
+
     [JsonProperty("skupZboz")]
-    public List<ProductTypeGroup> ProductItemGroup { get; set; }
+    public List<ProductTypeGroup> ProductItemGroup { get; set; } = new ();
 
     [JsonProperty("stavMJ")]
     public double Amount { get; set; }

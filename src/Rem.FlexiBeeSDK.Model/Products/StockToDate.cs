@@ -7,7 +7,7 @@ public class StockToDate
     public double OnStock { get; set; }
     public double Reserved { get; set; }
     public double Price { get; set; }
-    public int ProductTypeId { get; set; }
+    public int? ProductTypeId { get; set; }
     public string MoqName { get; set; }
     public string MoqAmount { get; set; }
 }
