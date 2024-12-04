@@ -21,7 +21,7 @@ public class StockToDateItem
     public int ProductTypeId => ProductItemGroup.First().Id;
     
     [JsonProperty("skupZboz")]
-    public List<Product> ProductItemGroup { get; set; }
+    public List<ProductTypeGroup> ProductItemGroup { get; set; }
 
     [JsonProperty("stavMJ")]
     public double Amount { get; set; }
