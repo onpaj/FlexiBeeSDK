@@ -70,14 +70,14 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
         
         [JsonProperty("clenKonVykDph", NullValueHandling = NullValueHandling.Ignore)] 
         public string CategoryVatReport { get; set; }
-        
-        [JsonProperty("kopClenKonVykDph", NullValueHandling = NullValueHandling.Ignore)] 
-        public bool CopyCategoryVatReport { get; set; }
+
+        [JsonProperty("kopClenKonVykDph", NullValueHandling = NullValueHandling.Ignore)]
+        public bool CopyCategoryVatReport { get; set; } = true;
         
         [JsonProperty("clenDph", NullValueHandling = NullValueHandling.Ignore)] 
         public string CategoryVat { get; set; }
-        
-        [JsonProperty("kopClenDph", NullValueHandling = NullValueHandling.Ignore)] 
-        public bool CopyCategoryVat { get; set; }
+
+        [JsonProperty("kopClenDph", NullValueHandling = NullValueHandling.Ignore)]
+        public bool CopyCategoryVat { get; set; } = true;
     }
 }
