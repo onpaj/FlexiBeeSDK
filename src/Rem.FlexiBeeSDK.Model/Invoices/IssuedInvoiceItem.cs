@@ -67,5 +67,14 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
         
         [JsonProperty("dphDalUcet", NullValueHandling = NullValueHandling.Ignore)] 
         public string AccountVatDal { get; set; }
+        
+        [JsonProperty("clenKonVykDph", NullValueHandling = NullValueHandling.Ignore)] 
+        public string CategoryVatReport { get; set; }
+        
+        [JsonProperty("kopClenKonVykDph", NullValueHandling = NullValueHandling.Ignore)] 
+        public string CopyCategoryVatReport { get; set; }
+        
+        [JsonProperty("clenDph", NullValueHandling = NullValueHandling.Ignore)] 
+        public string CategoryVat { get; set; }
     }
 }
