@@ -55,5 +55,17 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
         public string VatRateType { get; set; }
         [JsonProperty("typCenyDphK", NullValueHandling = NullValueHandling.Ignore)] 
         public string PriceVatType { get; set; }
+        
+        [JsonProperty("zklMdUcet", NullValueHandling = NullValueHandling.Ignore)] 
+        public string AccountBaseMd { get; set; }
+        
+        [JsonProperty("zklDalUcet", NullValueHandling = NullValueHandling.Ignore)] 
+        public string AccountBaseDal { get; set; }
+        
+        [JsonProperty("dphMdUcet", NullValueHandling = NullValueHandling.Ignore)] 
+        public string AccountVatMd { get; set; }
+        
+        [JsonProperty("dphDalUcet", NullValueHandling = NullValueHandling.Ignore)] 
+        public string AccountVatDal { get; set; }
     }
 }
