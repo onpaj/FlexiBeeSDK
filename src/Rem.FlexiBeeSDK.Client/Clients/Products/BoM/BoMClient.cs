@@ -34,9 +34,13 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
 
         public async Task<bool> RecalculatePurchasePrice(int bomId, CancellationToken cancellationToken = default)
         {
-            var document = new RecalculatePriceRequest()
+            var document = new Dictionary<string, object>()
             {
-                BomId = bomId
+                { ResourceIdentifier, new RecalculatePriceRequest()
+                    {
+                        BomId = bomId
+                    } 
+                }
             };
 
             var result = await PutAsync(document, cancellationToken: cancellationToken);

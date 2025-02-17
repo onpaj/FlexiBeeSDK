@@ -126,7 +126,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
                 {
                     winstrom = new Dictionary<string, object>()
                     {
-                        { ResourceIdentifier, document }
+                        { RequestIdentifier, document }
                     }
                 });
             }
