@@ -4,6 +4,7 @@
     {
         Undefined,
         Full,
-        Summary
+        Summary,
+        Custom
     }
 }

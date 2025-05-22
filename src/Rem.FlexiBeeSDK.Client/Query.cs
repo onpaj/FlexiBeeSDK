@@ -15,17 +15,25 @@ namespace Rem.FlexiBeeSDK.Client
         
         public override string ToString()
         {
-            var q = $"{QueryString}.{FormatString}";
+            string q = string.Empty;
+            if (QueryString != null)
+                q += $"/{QueryString}";
+            
+            q += $".{FormatString}";
 
             var args = Parameters.Select(kvp => $"{kvp.Key}={kvp.Value}").ToList();
 
-            if(LevelOfDetail != LevelOfDetail.Undefined)
-                args.Add($"detail={LevelOfDetailString}");
+            if (LevelOfDetail != LevelOfDetail.Undefined)
+            {
+                args.Add($"detail={LevelOfDetailString ?? LevelOfDetail.ToString().ToLower()}");
+            }
 
             if (Relations.Any())
             {
                 args.Add($"relations={string.Join(",", Relations)}");
             }
+            
+            args.Add($"limit={Limit}");
 
             for (int i = 0; i < args.Count; i++)
             {
