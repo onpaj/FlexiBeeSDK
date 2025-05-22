@@ -32,7 +32,7 @@ namespace Rem.FlexiBeeSDK.Client
             _query.Relations.Add(relation);
             return this;
         }
-
+        
         public QueryBuilder WithParameter(string key, string value)
         {
             _query.Parameters.Add(key, value);
@@ -50,6 +50,25 @@ namespace Rem.FlexiBeeSDK.Client
         public QueryBuilder WithFullDetail()
         {
             _query.LevelOfDetail = LevelOfDetail.Full;
+            return this;
+        }
+        
+        public QueryBuilder WithCustomDetail(string detailString)
+        {
+            _query.LevelOfDetail = LevelOfDetail.Custom;
+            _query.LevelOfDetailString = $"custom:{detailString}";
+            return this;
+        }
+        
+        public QueryBuilder WithNoLimit()
+        {
+            _query.Limit = 0;
+            return this;
+        }
+
+        public QueryBuilder WithLimit(int limit)
+        {
+            _query.Limit = limit;
             return this;
         }
 

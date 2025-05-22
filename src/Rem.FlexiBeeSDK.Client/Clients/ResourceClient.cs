@@ -154,7 +154,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
         protected virtual string GetUri(Query query)
         {
-            return $"{_connection.Server}/c/{_connection.Company}/{ResourceIdentifier}/{query}";
+            return $"{_connection.Server}/c/{_connection.Company}/{ResourceIdentifier}{query}";
         }
 
         protected virtual string GetUri<TEnt>(TEnt document = default, FlexiQuery? query = default)
