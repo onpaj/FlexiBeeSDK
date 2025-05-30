@@ -10,4 +10,5 @@ public class StockToDate
     public int? ProductTypeId { get; set; }
     public string MoqName { get; set; }
     public string MoqAmount { get; set; }
+    public int ProductId { get; set; }
 }

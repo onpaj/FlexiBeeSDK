@@ -33,7 +33,7 @@ public abstract class UserQueryClient<T> : ResourceClient, IUserQueryClient<T>
             .WithParameters(queryParameters)
             .Build();
 
-        var found = await GetAsync<T>(query, cancellationToken);
+        var found = await GetAsync<T>(query, cancellationToken: cancellationToken);
 
         return found;
     }

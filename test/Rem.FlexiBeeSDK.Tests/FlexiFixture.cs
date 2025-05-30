@@ -23,7 +23,7 @@ namespace Rem.FlexiBeeSDK.Tests
             var fixture = new Fixture().Customize(new AutoMoqCustomization());
 
             var m = new Mock<IHttpClientFactory>();
-            m.Setup(s => s.CreateClient(It.IsAny<string>())).Returns(new HttpClient());
+            m.Setup(s => s.CreateClient(It.IsAny<string>())).Returns(() => new HttpClient());
 
             fixture.Inject(connection);
             fixture.Inject(m.Object);
