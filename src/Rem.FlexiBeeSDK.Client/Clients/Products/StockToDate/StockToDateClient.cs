@@ -36,13 +36,14 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
             var query = new FlexiQuery();
             query.Parameters.Add("datum", date.ToString("yyyy-MM-dd"));
             query.Parameters.Add("sklad", warehouseId.ToString());
-            var result = await PostAsync<StockToDateRequest, StockToDateResult>(queryDoc, query, cancellationToken);
+            var result = await PostAsync<StockToDateRequest, StockToDateResult>(queryDoc, query, cancellationToken: cancellationToken);
             
             return result?.Result?.StockData
                 .Select(s => new Model.Products.StockToDate
             {
                 ProductCode = s.Product.First().Code,
                 ProductName = s.Product.First().Name,
+                ProductId = s.Id,
                 OnStock = s.Amount,
                 Reserved = s.AmountRequired,
                 Price = s.AveragePrice,

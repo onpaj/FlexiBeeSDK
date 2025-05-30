@@ -13,4 +13,9 @@ public class OperationResultDetail
     public Stats? Stats { get; set; }
     [JsonProperty("results")]
     public List<Result>? Results { get; set; }
+
+    [JsonProperty("message")]
+    public string Message { get; set; }
+    
+    public bool IsSuccess => Success == "true";
 }

@@ -37,7 +37,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
                 .WithLimit(limit)
                 .Build();
 
-            var found = await GetAsync<LotsItem>(query, cancellationToken);
+            var found = await GetAsync<LotsItem>(query, cancellationToken: cancellationToken);
 
             if(!found.Any())
                 throw new KeyNotFoundException($"Entity {nameof(LotsItem)} not found");

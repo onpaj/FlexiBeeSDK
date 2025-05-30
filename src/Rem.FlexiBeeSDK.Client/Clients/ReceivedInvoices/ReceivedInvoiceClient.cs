@@ -31,7 +31,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
                 .WithRelation(Relations.Items)
                 .Build();
 
-           var found = await GetAsync<ReceivedInvoice>(query, cancellationToken);
+           var found = await GetAsync<ReceivedInvoice>(query, cancellationToken: cancellationToken);
 
            if(!found.Any())
                throw new KeyNotFoundException($"Entity {nameof(ReceivedInvoice)} with key {code} not found");

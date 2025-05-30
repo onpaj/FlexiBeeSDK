@@ -39,7 +39,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Contacts
                 .Raw(query)
                 .Build();
 
-            var found = await GetAsync<Contact>(q, cancellationToken);
+            var found = await GetAsync<Contact>(q, cancellationToken: cancellationToken);
 
             if (!found.Any())
                 throw new KeyNotFoundException($"Entity {nameof(Contact)} with query {query} not found");
