@@ -1,6 +1,6 @@
 namespace Rem.FlexiBeeSDK.Model.Products;
 
-public class StockToDate
+public class StockToDateSummary
 {
     public string ProductCode { get; set; }
     public string ProductName { get; set; }

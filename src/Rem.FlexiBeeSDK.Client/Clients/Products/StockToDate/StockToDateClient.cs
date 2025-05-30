@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
+using Rem.FlexiBeeSDK.Model.Products;
+using Rem.FlexiBeeSDK.Model.Products.StockToDate;
 
 namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
 {
@@ -25,7 +27,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
         protected override string ResourceIdentifier => Agenda.StockToDate;
         protected override string? RequestIdentifier => null;
 
-        public async Task<IReadOnlyList<Model.Products.StockToDate>> GetAsync(DateTime date, int warehouseId, int limit = 0, int skip = 0, CancellationToken cancellationToken = default)
+        public async Task<IReadOnlyList<StockToDateSummary>> GetAsync(DateTime date, int warehouseId, int limit = 0, int skip = 0, CancellationToken cancellationToken = default)
         {
             var queryDoc = new StockToDateRequest()
             {
@@ -39,7 +41,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
             var result = await PostAsync<StockToDateRequest, StockToDateResult>(queryDoc, query, cancellationToken: cancellationToken);
             
             return result?.Result?.StockData
-                .Select(s => new Model.Products.StockToDate
+                .Select(s => new StockToDateSummary
             {
                 ProductCode = s.Product.First().Code,
                 ProductName = s.Product.First().Name,
@@ -50,7 +52,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
                 ProductTypeId = s.ProductTypeId,
                 MoqName = s.Product.First().MoqName,
                 MoqAmount = s.Product.First().MoqAmount
-            }).ToList() ?? new List<Model.Products.StockToDate>();
+            }).ToList() ?? new List<StockToDateSummary>();
         }
     }
 }
