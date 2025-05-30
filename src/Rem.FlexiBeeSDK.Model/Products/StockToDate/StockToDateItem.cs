@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate;
+namespace Rem.FlexiBeeSDK.Model.Products.StockToDate;
 
 public class StockToDateItem
 {

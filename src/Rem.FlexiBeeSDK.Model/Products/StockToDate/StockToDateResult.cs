@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate;
+namespace Rem.FlexiBeeSDK.Model.Products.StockToDate;
 
-public class LotsResult
+public class StockToDateResult
 {
     [JsonProperty("@version")]
     public string Version { get; set; }
@@ -11,6 +11,6 @@ public class LotsResult
     [JsonProperty("@rowCount")]
     public string RowCount { get; set; }
 
-    [JsonProperty("sarze-expirace")]
-    public List<LotsItem> Lots { get; set; }
+    [JsonProperty("stav-skladu-k-datu")]
+    public List<StockToDateItem> StockData { get; set; }
 }

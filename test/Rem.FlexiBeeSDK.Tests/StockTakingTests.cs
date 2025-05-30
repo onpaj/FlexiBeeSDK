@@ -12,6 +12,7 @@ using Rem.FlexiBeeSDK.Client.Clients.Products.BoM;
 using Rem.FlexiBeeSDK.Client.Clients.Products.StockTaking;
 using Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate;
 using Rem.FlexiBeeSDK.Model;
+using Rem.FlexiBeeSDK.Model.Products.StockTaking;
 using Xunit;
 
 namespace Rem.FlexiBeeSDK.Tests

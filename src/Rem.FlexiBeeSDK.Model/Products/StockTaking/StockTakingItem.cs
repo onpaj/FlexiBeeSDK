@@ -1,6 +1,6 @@
 using System;
 
-namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockTaking;
+namespace Rem.FlexiBeeSDK.Model.Products.StockTaking;
 
 public class StockTakingItem
 {

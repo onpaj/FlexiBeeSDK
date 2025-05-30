@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
 
-namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockTaking;
+namespace Rem.FlexiBeeSDK.Model;
 
 public class FilterRequest
 {

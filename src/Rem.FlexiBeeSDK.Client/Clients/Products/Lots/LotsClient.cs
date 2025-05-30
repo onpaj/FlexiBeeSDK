@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
 using Rem.FlexiBeeSDK.Model.Products;
+using Rem.FlexiBeeSDK.Model.Products.Lots;
 
 namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
 {
@@ -26,7 +27,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
         protected override string ResourceIdentifier => Agenda.Lots;
         protected override string? RequestIdentifier => null;
 
-        public async Task<IReadOnlyList<Model.Products.ProductLot>> GetAsync(string? productCode = null, int limit = 0, int skip = 0, CancellationToken cancellationToken = default)
+        public async Task<IReadOnlyList<ProductLot>> GetAsync(string? productCode = null, int limit = 0, int skip = 0, CancellationToken cancellationToken = default)
         {
             var builder = new QueryBuilder();
             if(productCode != null)

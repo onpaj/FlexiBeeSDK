@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate;
+namespace Rem.FlexiBeeSDK.Model.Products.Lots;
 
 public class LotsItem
 {

@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM;
+namespace Rem.FlexiBeeSDK.Model.Products.BoM;
 
 public class BomRequest
 {

@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockTaking;
+namespace Rem.FlexiBeeSDK.Model.Products.StockTaking;
 
 public class AddStockTakingItemRequest
 {
@@ -12,7 +12,7 @@ public class AddStockTakingItemRequest
     public DateTime? Expiration { get; set; }
 
     [JsonProperty("inventura")]
-    internal int StockTakingHeaderId { get; set; }
+    public int StockTakingHeaderId { get; set; }
 
     [JsonProperty("mnozMjReal")]
     public decimal Amount { get; set; }
@@ -21,5 +21,5 @@ public class AddStockTakingItemRequest
     public string? Lot { get; set; }
 
     [JsonProperty("sklad")]
-    internal int WarehouseId { get; set; }
+    public int WarehouseId { get; set; }
 }

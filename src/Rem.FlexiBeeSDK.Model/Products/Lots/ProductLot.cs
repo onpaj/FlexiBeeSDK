@@ -1,4 +1,4 @@
-namespace Rem.FlexiBeeSDK.Model.Products;
+namespace Rem.FlexiBeeSDK.Model.Products.Lots;
 
 public class ProductLot
 {

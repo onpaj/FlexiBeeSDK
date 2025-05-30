@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
 using Rem.FlexiBeeSDK.Model.Products;
+using Rem.FlexiBeeSDK.Model.Products.BoM;
 
 namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
 {

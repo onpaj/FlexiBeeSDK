@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Rem.FlexiBeeSDK.Model.Products.StockTaking;
 
 namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockTaking;
 

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
+using Rem.FlexiBeeSDK.Model.Products.StockTaking;
 using Rem.FlexiBeeSDK.Model.Response;
 
 namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockTaking;
@@ -20,7 +21,7 @@ public class StockTakingClient : ResourceClient, IStockTakingClient
         IHttpClientFactory httpClientFactory, 
         IResultHandler resultHandler, 
         IStockTakingItemsClient stockTakingItemsClient,
-        ILogger logger) 
+        ILogger<StockTakingClient> logger) 
         : base(connection, httpClientFactory, resultHandler, logger)
     {
         _stockTakingItemsClient = stockTakingItemsClient;

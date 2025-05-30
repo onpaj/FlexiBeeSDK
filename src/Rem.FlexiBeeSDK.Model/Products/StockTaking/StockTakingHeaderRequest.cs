@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockTaking;
+namespace Rem.FlexiBeeSDK.Model.Products.StockTaking;
 
 public class StockTakingHeaderRequest
 {
