@@ -2,9 +2,16 @@
 
   <PropertyGroup>
 	  <TargetFramework>netstandard2.0</TargetFramework>
-    <UserSecretsId>38656631-cb86-4309-954e-e96d6b495aa4</UserSecretsId>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
+      <UserSecretsId>38656631-cb86-4309-954e-e96d6b495aa4</UserSecretsId>
+      <LangVersion>latest</LangVersion>
+      <Nullable>enable</Nullable>
+      <IncludeSymbols>true</IncludeSymbols>
+      <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+      <EmbedUntrackedSources>true</EmbedUntrackedSources>
+      <PublishRepositoryUrl>true</PublishRepositoryUrl>
+      <RepositoryUrl>https://github.com/onpaj/FlexiBeeSDK.git</RepositoryUrl>
+      <RepositoryType>git</RepositoryType>
+      <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +20,8 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
+      <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+      
   </ItemGroup>
 
   <ItemGroup>
@@ -22,5 +31,4 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <NoWarn>NU1803</NoWarn>
   </PropertyGroup>
-  
 </Project>
