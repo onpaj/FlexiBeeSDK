@@ -49,4 +49,4 @@ jobs:
         run: dotnet nuget push "**/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
         
       - name: Publish snupkg
-        run: dotnet nuget push "**/*.snupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push "**/*.snupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://www.nuget.org/api/v2/symbolpackage
