@@ -25,20 +25,30 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
         protected override string ResourceIdentifier => Agenda.BoM;
         protected override string? RequestIdentifier => null;
 
-        public async Task<IList<Model.BoMItem>> GetAsync(string code, CancellationToken cancellationToken = default)
+        public async Task<IList<Model.BoMItemV2>> GetAsync(string code, CancellationToken cancellationToken = default)
         {
-            var bomQuery = new BomRequest().FindByParentCode(code);
+            var query = new QueryBuilder()
+                .WithNoLimit()
+                .WithFullDetail()
+                .Raw($"(otecCenik=\"code:{code}\")")
+                .Build();
             
-           var result = await PostAsync<BomRequest, BomList>(bomQuery, new FlexiQuery(), cancellationToken: cancellationToken);
-           return result.Result.BoM;
+            var result = await GetAsync<BoMItemV2>(query, cancellationToken: cancellationToken);
+
+            return result;
         }
 
-        public async Task<IList<Model.BoMItem>> GetByIngredientAsync(string code, CancellationToken cancellationToken = default)
+        public async Task<IList<Model.BoMItemV2>> GetByIngredientAsync(string code, CancellationToken cancellationToken = default)
         {
-            var bomQuery = new BomRequest().FindByIngredientCode(code);
+            var query = new QueryBuilder()
+                .WithNoLimit()
+                .WithFullDetail()
+                .Raw($"(cenik=\"code:{code}\")")
+                .Build();
             
-            var result = await PostAsync<BomRequest, BomList>(bomQuery, new FlexiQuery(), cancellationToken: cancellationToken);
-            return result.Result.BoM;
+            var result = await GetAsync<BoMItemV2>(query, cancellationToken: cancellationToken);
+
+            return result;
         }
         
         public async Task<bool> RecalculatePurchasePrice(int bomId, CancellationToken cancellationToken = default)

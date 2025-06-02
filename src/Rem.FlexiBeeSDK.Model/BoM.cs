@@ -57,4 +57,47 @@ namespace Rem.FlexiBeeSDK.Model
         [JsonProperty("kusovnik")]
         public List<BoMItem> BoM { get; set; }
     }
+    
+    
+    public class BoMItemV2
+    {
+        [JsonProperty("id")]
+        public int Id { get; set; }
+
+        [JsonProperty("lastUpdate")]
+        public DateTime LastUpdate { get; set; }
+
+        [JsonProperty("nazev")]
+        public string Name { get; set; }
+
+        [JsonProperty("mnoz")]
+        public double Amount { get; set; }
+
+        [JsonProperty("hladina")]
+        public int Level { get; set; }
+
+        [JsonProperty("poradi")]
+        public int Order { get; set; }
+
+        [JsonProperty("cesta")]
+        public string Path { get; set; }
+
+        [JsonProperty("otecCenik")]
+        public string ParentCode { get; set; }
+
+        [JsonProperty("otecCenik@showAs")]
+        public string ParentFullName { get; set; }
+
+        [JsonProperty("cenik")]
+        public string IngredientCode { get; set; }
+
+        [JsonProperty("cenik@showAs")]
+        public string IngredientFullName { get; set; }
+
+        [JsonProperty("otec")]
+        public int? ParentTemplateId { get; set; }
+
+        [JsonProperty("otec@showAs")]
+        public string ParentTemplateName { get; set; }
+    }
 }
