@@ -18,4 +18,10 @@ public class Product
     
     [JsonProperty("baleniMj1")]
     public string MoqAmount { get; set; }
+    
+    [JsonProperty("evidSarze")]
+    public bool HasLots { get; set; }
+    
+    [JsonProperty("evidExpir")]
+    public bool HasExpiration { get; set; }
 }

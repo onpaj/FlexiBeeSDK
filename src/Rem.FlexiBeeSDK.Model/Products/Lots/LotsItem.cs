@@ -1,3 +1,4 @@
+using System;
 using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model.Products.Lots;
@@ -9,7 +10,7 @@ public class LotsItem
     [JsonProperty("sarze")]
     public string Lot { get; set; }
     [JsonProperty("expirace")]
-    public string Expiration { get; set; }
+    public DateTime? Expiration { get; set; }
     [JsonProperty("cenik")]
     public string ProductCode { get; set; }
     [JsonProperty("pocet")]

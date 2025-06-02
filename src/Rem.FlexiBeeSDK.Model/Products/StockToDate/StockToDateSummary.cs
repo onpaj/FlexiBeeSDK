@@ -11,4 +11,6 @@ public class StockToDateSummary
     public string MoqName { get; set; }
     public string MoqAmount { get; set; }
     public int ProductId { get; set; }
+    public bool HasLots { get; set; }
+    public bool HasExpiration { get; set; }
 }

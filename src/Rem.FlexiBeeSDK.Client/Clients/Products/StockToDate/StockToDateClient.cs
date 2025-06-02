@@ -51,7 +51,9 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
                 Price = s.AveragePrice,
                 ProductTypeId = s.ProductTypeId,
                 MoqName = s.Product.First().MoqName,
-                MoqAmount = s.Product.First().MoqAmount
+                MoqAmount = s.Product.First().MoqAmount,
+                HasLots = s.Product.First().HasLots,
+                HasExpiration = s.Product.First().HasExpiration,
             }).ToList() ?? new List<StockToDateSummary>();
         }
     }

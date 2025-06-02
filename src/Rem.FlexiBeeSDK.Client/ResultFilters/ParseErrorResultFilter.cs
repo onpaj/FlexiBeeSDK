@@ -18,7 +18,7 @@ public class ParseErrorResultFilter : IResultFilter
         
     public Task ApplyAsync(OperationResultDetail resultData)
     {
-        foreach (var error in resultData.Results?.SelectMany(s => s.Errors) ?? new List<Error>())
+        foreach (var error in resultData.Results?.Where(w => w.Errors != null && w.Errors.Any()).SelectMany(s => s?.Errors) ?? new List<Error>())
         {
             if (error?.Message?.Contains(_matchPhrase) ?? false)
                 error.ErrorType = _errorType;
