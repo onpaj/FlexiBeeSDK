@@ -14,7 +14,7 @@ public class BomRequest
     public string AccessAttribs => "true";
 
     [JsonProperty("detail")]
-    public string Detail => "custom:id,mnoz,hladina,poradi,cesta,cenik(id,kod,nazev,nakupCena,popis),nazev";
+    public string Detail => "custom:id,mnoz,hladina,poradi,cesta,cenik(id,kod,nazev,nakupCena,popis),nazev,otecCenik(id,kod,nazev)";
 
     [JsonProperty("limit")] public string Limit => "0";
 

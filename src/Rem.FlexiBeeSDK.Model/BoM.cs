@@ -41,6 +41,9 @@ namespace Rem.FlexiBeeSDK.Model
 
         [JsonProperty("cenik")]
         public List<BoMProduct> Products { get; set; }
+        
+        [JsonProperty("otecCenik")]
+        public List<BoMProduct> MasterProducts { get; set; }
 
         [JsonProperty("nazev")]
         public string Name { get; set; }
