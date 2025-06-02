@@ -63,7 +63,7 @@ namespace Rem.FlexiBeeSDK.Tests
                     ProductCode = "AKL021",
                     Amount = 2000,
                     Lot = "101024",
-                    Expiration = DateTime.Parse("2027-08-31"),
+                    Expiration = "2027-08-31",
                 }
             });
         }
