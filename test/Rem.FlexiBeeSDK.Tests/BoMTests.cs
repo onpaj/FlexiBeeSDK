@@ -51,5 +51,15 @@ namespace Rem.FlexiBeeSDK.Tests
             
             Assert.Empty(result);
         }
+        
+        [Fact]
+        public async Task GetKusovnikByIngredient()
+        {
+            var client = _fixture.Create<BoMClient>();
+
+            var kusovnik = await client.GetByIngredientAsync("LAH001");
+
+            Assert.NotEmpty(kusovnik);
+        }
     }
 }

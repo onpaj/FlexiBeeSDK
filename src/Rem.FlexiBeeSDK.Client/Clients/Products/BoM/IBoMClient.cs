@@ -8,6 +8,8 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
     {
         Task<IList<Model.BoMItem>> GetAsync(string code, CancellationToken cancellationToken = default);
 
+        Task<IList<Model.BoMItem>> GetByIngredientAsync(string code, CancellationToken cancellationToken = default);
+
         Task<bool> RecalculatePurchasePrice(int bomId, CancellationToken cancellationToken = default);
     }
 }

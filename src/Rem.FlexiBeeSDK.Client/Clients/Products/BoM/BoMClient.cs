@@ -27,12 +27,20 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
 
         public async Task<IList<Model.BoMItem>> GetAsync(string code, CancellationToken cancellationToken = default)
         {
-            var bomQuery = new BomRequest(code);
+            var bomQuery = new BomRequest().FindByParentCode(code);
             
            var result = await PostAsync<BomRequest, BomList>(bomQuery, new FlexiQuery(), cancellationToken: cancellationToken);
            return result.Result.BoM;
         }
 
+        public async Task<IList<Model.BoMItem>> GetByIngredientAsync(string code, CancellationToken cancellationToken = default)
+        {
+            var bomQuery = new BomRequest().FindByIngredientCode(code);
+            
+            var result = await PostAsync<BomRequest, BomList>(bomQuery, new FlexiQuery(), cancellationToken: cancellationToken);
+            return result.Result.BoM;
+        }
+        
         public async Task<bool> RecalculatePurchasePrice(int bomId, CancellationToken cancellationToken = default)
         {
             var document = new Dictionary<string, object>()

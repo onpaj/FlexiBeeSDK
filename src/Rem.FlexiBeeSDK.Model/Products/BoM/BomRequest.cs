@@ -5,13 +5,8 @@ namespace Rem.FlexiBeeSDK.Model.Products.BoM;
 public class BomRequest
 {
     [JsonIgnore]
-    public string Code { get; }
+    public string Code { get; set; }
 
-    public BomRequest(string code)
-    {
-        Code = code;
-    }
-        
     [JsonProperty("as-gui")]
     public string AsGui => "true";
 
@@ -26,11 +21,25 @@ public class BomRequest
     [JsonProperty("includes")]
     public string Includes = "/kusovnik/cenik,/kusovnik/cenik/cenik/mj1,/kusovnik/otec,/kusovnik/otecCenik";
 
-    [JsonProperty("filter")] public string Filter => $"otecCenik.kod eq \"{Code}\"";
+    [JsonProperty("filter")] public string Filter { get; set; }
 
     [JsonProperty("use-internal-id")] public string UseInternalId => "true";
 
     [JsonProperty("no-ext-ids")] public string NoExtIds => "true";
 
     [JsonProperty("@version")] public string Version = "1.0";
+
+    public BomRequest FindByParentCode(string code)
+    {
+        Code = code;
+        Filter = $"otecCenik.kod eq \"{Code}\"";
+        return this;
+    }
+    
+    public BomRequest FindByIngredientCode(string code)
+    {
+        Code = code;
+        Filter = $"cenik.kod eq \"{Code}\"";
+        return this;
+    }
 }
