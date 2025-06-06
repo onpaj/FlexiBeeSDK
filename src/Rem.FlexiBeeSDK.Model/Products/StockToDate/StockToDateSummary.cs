@@ -13,4 +13,5 @@ public class StockToDateSummary
     public int ProductId { get; set; }
     public bool HasLots { get; set; }
     public bool HasExpiration { get; set; }
+    public double Volume { get; set; }
 }
