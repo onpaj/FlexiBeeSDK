@@ -24,4 +24,7 @@ public class Product
     
     [JsonProperty("evidExpir")]
     public bool HasExpiration { get; set; }
+    
+    [JsonProperty("objem")]
+    public double Volume { get; set; }
 }
