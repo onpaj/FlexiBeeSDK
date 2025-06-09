@@ -27,4 +27,7 @@ public class Product
     
     [JsonProperty("objem")]
     public double Volume { get; set; }
+
+    [JsonProperty("hmotMj")]
+    public double Weight { get; set; }
 }

@@ -55,6 +55,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
                 HasLots = s.Product.First().HasLots,
                 HasExpiration = s.Product.First().HasExpiration,
                 Volume = s.Product.First().Volume,
+                Weight = s.Product.First().Weight,
             }).ToList() ?? new List<StockToDateSummary>();
         }
     }

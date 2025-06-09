@@ -14,4 +14,5 @@ public class StockToDateSummary
     public bool HasLots { get; set; }
     public bool HasExpiration { get; set; }
     public double Volume { get; set; }
+    public double Weight { get; set; }
 }

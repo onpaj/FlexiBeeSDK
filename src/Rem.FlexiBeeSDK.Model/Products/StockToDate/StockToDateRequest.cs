@@ -8,7 +8,7 @@ public class StockToDateRequest
 
     [JsonProperty("detail")]
     public string Detail { get; set; } =
-        "custom:cenik(nazev,kod,id,baleniNazev1,baleniMj1,evidSarze,evidExpir,objem),eanKod,id,mj1(nazev,kod,id),nazev,pozadavkyMJ,prumCena,skupZboz(nazev,kod,id),stavMJ,stavMJPozad,stitky,tuz";
+        "custom:cenik(nazev,kod,id,baleniNazev1,baleniMj1,evidSarze,evidExpir,objem,hmotMj),eanKod,id,mj1(nazev,kod,id),nazev,pozadavkyMJ,prumCena,skupZboz(nazev,kod,id),stavMJ,stavMJPozad,stitky,tuz";
 
     [JsonProperty("limit")] public int Limit { get; set; } = 0;
 
