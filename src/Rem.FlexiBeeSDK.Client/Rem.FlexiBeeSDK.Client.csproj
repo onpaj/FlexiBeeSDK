@@ -12,6 +12,8 @@
       <RepositoryUrl>https://github.com/onpaj/FlexiBeeSDK.git</RepositoryUrl>
       <RepositoryType>git</RepositoryType>
       <DebugType>portable</DebugType>
+      <PackageReadmeFile>FlexiBeeSDK_Documentation.md</PackageReadmeFile>
+      <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,4 +33,27 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <NoWarn>NU1803</NoWarn>
   </PropertyGroup>
+
+  <!-- Include documentation files in NuGet package -->
+  <ItemGroup>
+    <!-- Package README that shows in NuGet manager -->
+    <None Include="..\..\FlexiBeeSDK_Documentation.md">
+      <Pack>true</Pack>
+      <PackagePath>FlexiBeeSDK_Documentation.md</PackagePath>
+    </None>
+    
+    <!-- Content files that get copied to consuming projects -->
+    <Content Include="..\..\FlexiBeeSDK_Documentation.md">
+      <Pack>true</Pack>
+      <PackagePath>content\FlexiBeeSDK_Documentation.md</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    
+    <Content Include="..\..\CLAUDE.md">
+      <Pack>true</Pack>
+      <PackagePath>content\CLAUDE.md</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>
