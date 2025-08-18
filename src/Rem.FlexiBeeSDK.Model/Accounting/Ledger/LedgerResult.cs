@@ -12,5 +12,5 @@ public class LedgerResult
     public string RowCount { get; set; }
 
     [JsonProperty("ucetni-denik")]
-    public List<LedgerItem> LedgerItems { get; set; }
+    public List<LedgerItemFlexiDto> LedgerItems { get; set; }
 }

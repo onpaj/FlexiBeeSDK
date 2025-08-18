@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model.Accounting.Ledger;
 
-public class LedgerItem
+public class LedgerItemFlexiDto
 {
     [JsonProperty("id")]
     public int Id { get; set; }
@@ -38,7 +38,7 @@ public class LedgerItem
     public string DepartmentShowAs { get; set; }
 
     [JsonProperty("stredisko")]
-    public List<Department> Department { get; set; }
+    public List<DepartmentFlexiDto> Department { get; set; }
 
     [JsonProperty("popis")]
     public string Description { get; set; }
@@ -62,7 +62,7 @@ public class LedgerItem
     public string CurrencyShowAs { get; set; }
 
     [JsonProperty("mena")]
-    public List<Currency> Currency { get; set; }
+    public List<CurrencyFlexiDto> Currency { get; set; }
 
     [JsonProperty("kurz")]
     public double ExchangeRate { get; set; }
@@ -80,9 +80,9 @@ public class LedgerItem
     public string DebitAccountShowAs { get; set; }
 
     [JsonProperty("mdUcet")]
-    public List<Account> DebitAccountList { get; set; }
+    public List<AccountFlexiDto> DebitAccountList { get; set; }
     
-    public Account? DebitAccount => DebitAccountList.FirstOrDefault(); 
+    public AccountFlexiDto? DebitAccount => DebitAccountList.FirstOrDefault(); 
 
     [JsonProperty("dalUcet@evidencePath")]
     public string CreditAccountEvidencePath { get; set; }
@@ -97,9 +97,9 @@ public class LedgerItem
     public string CreditAccountShowAs { get; set; }
 
     [JsonProperty("dalUcet")]
-    public List<Account> CreditAccountList { get; set; }
+    public List<AccountFlexiDto> CreditAccountList { get; set; }
     
-    public Account? CreditAccount => CreditAccountList.FirstOrDefault(); 
+    public AccountFlexiDto? CreditAccount => CreditAccountList.FirstOrDefault(); 
 
     [JsonProperty("zuctovano")]
     public bool IsCleared { get; set; }
