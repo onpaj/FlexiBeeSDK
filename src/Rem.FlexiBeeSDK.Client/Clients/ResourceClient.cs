@@ -219,9 +219,4 @@ namespace Rem.FlexiBeeSDK.Client.Clients
             return client;
         }
     }
-
-    public class FlexiQuery
-    {
-        public IDictionary<string, string> Parameters { get; set; } = new Dictionary<string, string>();
-    }
 }
