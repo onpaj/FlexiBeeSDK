@@ -22,7 +22,7 @@ public class StockItemMovementFlexiDto
     public string Name { get; set; }
 
     [JsonProperty("mnozMj")]
-    public double QuantityPerUnit { get; set; }
+    public double Amount { get; set; }
 
     [JsonProperty("cenaMj")]
     public double PricePerUnit { get; set; }
