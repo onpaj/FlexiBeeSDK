@@ -1,14 +1,16 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model.Accounting.Ledger;
 
 public class LedgerRequest
 {
-    public LedgerRequest(DateTime dateFrom, DateTime dateTo, string? debitAccountPrefix = null, string? creditAccountPrefix = null, string? departmentId = null)
+    public LedgerRequest(DateTime dateFrom, DateTime dateTo, IEnumerable<string>? debitAccountPrefixes = null, IEnumerable<string>? creditAccountPrefixes = null, string? departmentId = null)
     {
         Filter =
-            $"((datUcto gte \"{dateFrom:yyyy-MM-dd}\" and datUcto lte \"{dateTo:yyyy-MM-dd}\") {GetAccountFilterString("mdUcet", debitAccountPrefix)} {GetAccountFilterString("dalUcet", creditAccountPrefix)}  {GetDepartmentFilterString(departmentId)})";
+            $"((datUcto gte \"{dateFrom:yyyy-MM-dd}\" and datUcto lte \"{dateTo:yyyy-MM-dd}\") {GetAccountFilterString("mdUcet", debitAccountPrefixes)} {GetAccountFilterString("dalUcet", creditAccountPrefixes)} {GetDepartmentFilterString(departmentId)})";
     }
     
     [JsonProperty("add-row-count")] public bool AddRowCount { get; set; } = true;
@@ -35,12 +37,13 @@ public class LedgerRequest
     
     [JsonProperty("filter")] public string Filter { get; private set; }
 
-    private string GetAccountFilterString(string fieldName, string? accountPrefix = null)
+    private string GetAccountFilterString(string fieldName, IEnumerable<string>? accountPrefixes = null)
     {
-        if(accountPrefix == null)
+        if(accountPrefixes == null || !accountPrefixes.Any())
             return String.Empty;
 
-        return $"and {fieldName}.kod begins \"{accountPrefix}\"";
+        var accounts = accountPrefixes.Select(s => $"{fieldName}.kod begins \"{s}\"");
+        return $" and ({string.Join(" or ", accounts)})";
     }
     
     private string GetDepartmentFilterString(string? departmentId = null)
@@ -48,6 +51,6 @@ public class LedgerRequest
         if(departmentId == null)
             return String.Empty;
 
-        return $"and stredisko.kod = \"{departmentId}\"";
+        return $" and stredisko.kod = \"{departmentId}\"";
     }
 }

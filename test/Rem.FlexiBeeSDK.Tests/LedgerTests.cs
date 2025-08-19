@@ -46,13 +46,13 @@ namespace Rem.FlexiBeeSDK.Tests
             var client = _fixture.Create<LedgerClient>();
             var dateFrom = DateTime.Parse("2025-06-01");
             var dateTo = DateTime.Parse("2025-06-30");
-            var accountPrefix = "331";
+            string[] accountPrefixes = ["331"];
             
 
-            var ledger = await client.GetAsync(dateFrom, dateTo, debitAccountPrefix: accountPrefix);
+            var ledger = await client.GetAsync(dateFrom, dateTo, debitAccountPrefixes: accountPrefixes);
 
             ledger.Should().NotBeEmpty();
-            ledger.Should().OnlyContain(w => w.DebitAccount != null && w.DebitAccount.Code.StartsWith(accountPrefix));
+            ledger.Should().OnlyContain(w => w.DebitAccount != null && w.DebitAccount.Code.StartsWith(accountPrefixes.First()));
         }
         
         [Fact]
@@ -61,13 +61,28 @@ namespace Rem.FlexiBeeSDK.Tests
             var client = _fixture.Create<LedgerClient>();
             var dateFrom = DateTime.Parse("2025-06-01");
             var dateTo = DateTime.Parse("2025-06-30");
-            var accountPrefix = "331";
+            string[] accountPrefixes = ["331"];
             
 
-            var ledger = await client.GetAsync(dateFrom, dateTo, creditAccountPrefix: accountPrefix);
+            var ledger = await client.GetAsync(dateFrom, dateTo, creditAccountPrefixes: accountPrefixes);
 
             ledger.Should().NotBeEmpty();
-            ledger.Should().OnlyContain(w => w.CreditAccount != null && w.CreditAccount.Code.StartsWith(accountPrefix));
+            ledger.Should().OnlyContain(w => w.CreditAccount != null && w.CreditAccount.Code.StartsWith(accountPrefixes.First()));
+        }
+        
+        [Fact]
+        public async Task GetLedgerByMultipleAccounts()
+        {
+            var client = _fixture.Create<LedgerClient>();
+            var dateFrom = DateTime.Parse("2025-06-01");
+            var dateTo = DateTime.Parse("2025-06-30");
+            string[] accountPrefixes = ["52","51"];
+            
+
+            var ledger = await client.GetAsync(dateFrom, dateTo, debitAccountPrefixes: accountPrefixes);
+
+            ledger.Should().NotBeEmpty();
+            ledger.Should().OnlyContain(w => w.CreditAccount != null && (w.DebitAccount.Code.StartsWith(accountPrefixes.First()) || w.DebitAccount.Code.StartsWith(accountPrefixes.Last())));
         }
         
         [Fact]

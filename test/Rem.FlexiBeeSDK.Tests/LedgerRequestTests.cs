@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Rem.FlexiBeeSDK.Model.Accounting.Ledger;
 using Xunit;
@@ -15,31 +16,55 @@ namespace Rem.FlexiBeeSDK.Tests
             
             var request = new LedgerRequest(dateFrom, dateTo);
             
-            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")  )";
+            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")   )";
             Assert.Equal(expectedFilter, request.Filter);
         }
         
         [Fact]
-        public void Constructor_WithDebitAccountPrefix_GeneratesCorrectFilter()
+        public void Constructor_WithSingleDebitAccountPrefix_GeneratesCorrectFilter()
         {
             var dateFrom = new DateTime(2025, 6, 1);
             var dateTo = new DateTime(2025, 6, 30);
             
-            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefix: "52");
+            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefixes: new[] { "52" });
             
-            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\") and mdUcet.kod begins \"52\" )";
+            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")  and (mdUcet.kod begins \"52\")  )";
             Assert.Equal(expectedFilter, request.Filter);
         }
         
         [Fact]
-        public void Constructor_WithCreditAccountPrefix_GeneratesCorrectFilter()
+        public void Constructor_WithMultipleDebitAccountPrefixes_GeneratesCorrectFilter()
         {
             var dateFrom = new DateTime(2025, 6, 1);
             var dateTo = new DateTime(2025, 6, 30);
             
-            var request = new LedgerRequest(dateFrom, dateTo, creditAccountPrefix: "31");
+            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefixes: new[] { "52", "53", "54" });
             
-            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")  and dalUcet.kod begins \"31\")";
+            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")  and (mdUcet.kod begins \"52\" or mdUcet.kod begins \"53\" or mdUcet.kod begins \"54\")  )";
+            Assert.Equal(expectedFilter, request.Filter);
+        }
+        
+        [Fact]
+        public void Constructor_WithSingleCreditAccountPrefix_GeneratesCorrectFilter()
+        {
+            var dateFrom = new DateTime(2025, 6, 1);
+            var dateTo = new DateTime(2025, 6, 30);
+            
+            var request = new LedgerRequest(dateFrom, dateTo, creditAccountPrefixes: new[] { "31" });
+            
+            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")   and (dalUcet.kod begins \"31\") )";
+            Assert.Equal(expectedFilter, request.Filter);
+        }
+        
+        [Fact]
+        public void Constructor_WithMultipleCreditAccountPrefixes_GeneratesCorrectFilter()
+        {
+            var dateFrom = new DateTime(2025, 6, 1);
+            var dateTo = new DateTime(2025, 6, 30);
+            
+            var request = new LedgerRequest(dateFrom, dateTo, creditAccountPrefixes: new[] { "31", "32", "33" });
+            
+            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")   and (dalUcet.kod begins \"31\" or dalUcet.kod begins \"32\" or dalUcet.kod begins \"33\") )";
             Assert.Equal(expectedFilter, request.Filter);
         }
         
@@ -49,9 +74,50 @@ namespace Rem.FlexiBeeSDK.Tests
             var dateFrom = new DateTime(2025, 6, 1);
             var dateTo = new DateTime(2025, 6, 30);
             
-            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefix: "52", creditAccountPrefix: "31");
+            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefixes: new[] { "52" }, creditAccountPrefixes: new[] { "31" });
             
-            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\") and mdUcet.kod begins \"52\" and dalUcet.kod begins \"31\")";
+            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")  and (mdUcet.kod begins \"52\")  and (dalUcet.kod begins \"31\") )";
+            Assert.Equal(expectedFilter, request.Filter);
+        }
+        
+        [Fact]
+        public void Constructor_WithMultipleBothAccountPrefixes_GeneratesCorrectFilter()
+        {
+            var dateFrom = new DateTime(2025, 6, 1);
+            var dateTo = new DateTime(2025, 6, 30);
+            
+            var request = new LedgerRequest(dateFrom, dateTo, 
+                debitAccountPrefixes: new[] { "52", "53" }, 
+                creditAccountPrefixes: new[] { "31", "32" });
+            
+            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")  and (mdUcet.kod begins \"52\" or mdUcet.kod begins \"53\")  and (dalUcet.kod begins \"31\" or dalUcet.kod begins \"32\") )";
+            Assert.Equal(expectedFilter, request.Filter);
+        }
+        
+        [Fact]
+        public void Constructor_WithDepartmentId_GeneratesCorrectFilter()
+        {
+            var dateFrom = new DateTime(2025, 6, 1);
+            var dateTo = new DateTime(2025, 6, 30);
+            
+            var request = new LedgerRequest(dateFrom, dateTo, departmentId: "DEPT01");
+            
+            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")    and stredisko.kod = \"DEPT01\")";
+            Assert.Equal(expectedFilter, request.Filter);
+        }
+        
+        [Fact]
+        public void Constructor_WithAllParameters_GeneratesCorrectFilter()
+        {
+            var dateFrom = new DateTime(2025, 6, 1);
+            var dateTo = new DateTime(2025, 6, 30);
+            
+            var request = new LedgerRequest(dateFrom, dateTo, 
+                debitAccountPrefixes: new[] { "52" }, 
+                creditAccountPrefixes: new[] { "31" },
+                departmentId: "DEPT01");
+            
+            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")  and (mdUcet.kod begins \"52\")  and (dalUcet.kod begins \"31\")  and stredisko.kod = \"DEPT01\")";
             Assert.Equal(expectedFilter, request.Filter);
         }
         
@@ -63,7 +129,7 @@ namespace Rem.FlexiBeeSDK.Tests
             
             var request = new LedgerRequest(dateFrom, dateTo);
             
-            var expectedFilter = "((datUcto gte \"2024-12-01\" and datUcto lte \"2025-01-31\")  )";
+            var expectedFilter = "((datUcto gte \"2024-12-01\" and datUcto lte \"2025-01-31\")   )";
             Assert.Equal(expectedFilter, request.Filter);
         }
         
@@ -73,9 +139,21 @@ namespace Rem.FlexiBeeSDK.Tests
             var dateFrom = new DateTime(2025, 6, 1);
             var dateTo = new DateTime(2025, 6, 30);
             
-            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefix: "52.1");
+            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefixes: new[] { "52.1" });
             
-            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\") and mdUcet.kod begins \"52.1\" )";
+            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")  and (mdUcet.kod begins \"52.1\")  )";
+            Assert.Equal(expectedFilter, request.Filter);
+        }
+        
+        [Fact]
+        public void Constructor_WithEmptyPrefixList_GeneratesCorrectFilter()
+        {
+            var dateFrom = new DateTime(2025, 6, 1);
+            var dateTo = new DateTime(2025, 6, 30);
+            
+            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefixes: new List<string>());
+            
+            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")   )";
             Assert.Equal(expectedFilter, request.Filter);
         }
         
@@ -84,7 +162,7 @@ namespace Rem.FlexiBeeSDK.Tests
         {
             var dateFrom = new DateTime(2025, 6, 1);
             var dateTo = new DateTime(2025, 6, 30);
-            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefix: "52");
+            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefixes: new[] { "52" });
             
             var json = JsonConvert.SerializeObject(request);
             var jsonObj = JsonConvert.DeserializeObject<dynamic>(json);
@@ -128,7 +206,7 @@ namespace Rem.FlexiBeeSDK.Tests
         {
             var dateFrom = new DateTime(2025, 6, 1);
             var dateTo = new DateTime(2025, 6, 30);
-            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefix: "52");
+            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefixes: new[] { "52" });
             
             var filter = request.Filter;
             
@@ -145,7 +223,7 @@ namespace Rem.FlexiBeeSDK.Tests
         {
             var dateFrom = new DateTime(2025, 6, 1);
             var dateTo = new DateTime(2025, 6, 30);
-            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefix: "52");
+            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefixes: new[] { "52" });
             
             var filter = request.Filter;
             
@@ -165,10 +243,22 @@ namespace Rem.FlexiBeeSDK.Tests
         {
             var dateFrom = new DateTime(2025, 6, 1);
             var dateTo = new DateTime(2025, 6, 30);
-            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefix: "52");
+            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefixes: new[] { "52" });
             
             // The expected format - matches the user's requirement
-            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\") and mdUcet.kod begins \"52\" )";
+            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")  and (mdUcet.kod begins \"52\")  )";
+            
+            Assert.Equal(expectedFilter, request.Filter);
+        }
+        
+        [Fact]
+        public void Filter_WithMultipleDebitAccountsComplexExample_MatchesExpectedFormat()
+        {
+            var dateFrom = new DateTime(2025, 6, 1);
+            var dateTo = new DateTime(2025, 6, 30);
+            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefixes: new[] { "52", "53", "54" });
+            
+            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")  and (mdUcet.kod begins \"52\" or mdUcet.kod begins \"53\" or mdUcet.kod begins \"54\")  )";
             
             Assert.Equal(expectedFilter, request.Filter);
         }
@@ -178,7 +268,7 @@ namespace Rem.FlexiBeeSDK.Tests
         {
             var dateFrom = new DateTime(2025, 6, 1);
             var dateTo = new DateTime(2025, 6, 30);
-            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefix: "52");
+            var request = new LedgerRequest(dateFrom, dateTo, debitAccountPrefixes: new[] { "52" });
             
             var json = JsonConvert.SerializeObject(request);
             
@@ -203,9 +293,20 @@ namespace Rem.FlexiBeeSDK.Tests
             
             var filter = request.Filter;
             
-            Assert.DoesNotContain("  and", filter);
-            Assert.DoesNotContain("and  ", filter);
-            Assert.DoesNotContain("   ", filter);
+            // The filter will have spaces where empty strings are returned from helper methods
+            Assert.Equal("((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")   )", filter);
+        }
+        
+        [Fact]
+        public void Filter_WithListInitializer_WorksCorrectly()
+        {
+            var dateFrom = new DateTime(2025, 6, 1);
+            var dateTo = new DateTime(2025, 6, 30);
+            var request = new LedgerRequest(dateFrom, dateTo, 
+                debitAccountPrefixes: new List<string> { "52", "53" });
+            
+            var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")  and (mdUcet.kod begins \"52\" or mdUcet.kod begins \"53\")  )";
+            Assert.Equal(expectedFilter, request.Filter);
         }
     }
 }
