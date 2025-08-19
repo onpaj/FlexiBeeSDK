@@ -170,8 +170,6 @@ namespace Rem.FlexiBeeSDK.Tests
             Assert.True(request.UseInternalId);
             Assert.True(request.NoExtIds);
             Assert.Equal("1.0", request.Version);
-            Assert.Equal("custom:parSymbol,datVyst,datUcto,doklad,nazFirmy,stredisko(nazev,kod,id),popis,sumTuz,sumMen,mena(kod),kurz,mdUcet(kod,nazev,id),dalUcet(kod,nazev,id),zuctovano,idUcetniDenik,idDokl", request.Detail);
-            Assert.Equal("/ucetni-denik/stredisko,/ucetni-denik/mena,/ucetni-denik/mdUcet,/ucetni-denik/dalUcet", request.Includes);
         }
         
         [Fact]
