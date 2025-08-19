@@ -69,5 +69,20 @@ namespace Rem.FlexiBeeSDK.Tests
             ledger.Should().NotBeEmpty();
             ledger.Should().OnlyContain(w => w.CreditAccount != null && w.CreditAccount.Code.StartsWith(accountPrefix));
         }
+        
+        [Fact]
+        public async Task GetLedgerByDepartmentId()
+        {
+            var client = _fixture.Create<LedgerClient>();
+            var dateFrom = DateTime.Parse("2025-06-01");
+            var dateTo = DateTime.Parse("2025-06-30");
+            var departmentId = "VYROBA";
+            
+
+            var ledger = await client.GetAsync(dateFrom, dateTo, departmentId: departmentId);
+
+            ledger.Should().NotBeEmpty();
+            ledger.Should().OnlyContain(w => w.CreditAccount != null && w.Department.Code.Equals(departmentId, StringComparison.InvariantCultureIgnoreCase));
+        }
     }
 }

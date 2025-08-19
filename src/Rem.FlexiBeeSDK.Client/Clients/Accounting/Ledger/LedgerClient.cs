@@ -25,9 +25,9 @@ public class LedgerClient : ResourceClient, ILedgerClient
     protected override string ResourceIdentifier => Agenda.Ledger;
     protected override string? RequestIdentifier => null;
 
-    public async Task<IReadOnlyList<LedgerItemFlexiDto>> GetAsync(DateTime dateFrom, DateTime dateTo, string? debitAccountPrefix = null, string? creditAccountPrefix = null, int limit = 0, int skip = 0, CancellationToken cancellationToken = default)
+    public async Task<IReadOnlyList<LedgerItemFlexiDto>> GetAsync(DateTime dateFrom, DateTime dateTo, string? debitAccountPrefix = null, string? creditAccountPrefix = null, string? departmentId = null, int limit = 0, int skip = 0, CancellationToken cancellationToken = default)
     {
-        var queryDoc = new LedgerRequest(dateFrom, dateTo, debitAccountPrefix, creditAccountPrefix)
+        var queryDoc = new LedgerRequest(dateFrom, dateTo, debitAccountPrefix, creditAccountPrefix, departmentId)
         {
             Limit = limit,
             Start = skip,

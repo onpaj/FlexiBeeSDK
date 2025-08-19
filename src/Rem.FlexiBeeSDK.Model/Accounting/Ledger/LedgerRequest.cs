@@ -5,10 +5,10 @@ namespace Rem.FlexiBeeSDK.Model.Accounting.Ledger;
 
 public class LedgerRequest
 {
-    public LedgerRequest(DateTime dateFrom, DateTime dateTo, string? debitAccountPrefix = null, string? creditAccountPrefix = null)
+    public LedgerRequest(DateTime dateFrom, DateTime dateTo, string? debitAccountPrefix = null, string? creditAccountPrefix = null, string? departmentId = null)
     {
         Filter =
-            $"((datUcto gte \"{dateFrom:yyyy-MM-dd}\" and datUcto lte \"{dateTo:yyyy-MM-dd}\") {GetAccountFilterString("mdUcet", debitAccountPrefix)} {GetAccountFilterString("dalUcet", creditAccountPrefix)})";
+            $"((datUcto gte \"{dateFrom:yyyy-MM-dd}\" and datUcto lte \"{dateTo:yyyy-MM-dd}\") {GetAccountFilterString("mdUcet", debitAccountPrefix)} {GetAccountFilterString("dalUcet", creditAccountPrefix)}  {GetDepartmentFilterString(departmentId)})";
     }
     
     [JsonProperty("add-row-count")] public bool AddRowCount { get; set; } = true;
@@ -41,5 +41,13 @@ public class LedgerRequest
             return String.Empty;
 
         return $"and {fieldName}.kod begins \"{accountPrefix}\"";
+    }
+    
+    private string GetDepartmentFilterString(string? departmentId = null)
+    {
+        if(departmentId == null)
+            return String.Empty;
+
+        return $"and stredisko.kod = \"{departmentId}\"";
     }
 }

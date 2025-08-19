@@ -38,7 +38,9 @@ public class LedgerItemFlexiDto
     public string DepartmentShowAs { get; set; }
 
     [JsonProperty("stredisko")]
-    public List<DepartmentFlexiDto> Department { get; set; }
+    public List<DepartmentFlexiDto> DepartmentList { get; set; }
+
+    public DepartmentFlexiDto Department => DepartmentList.First();
 
     [JsonProperty("popis")]
     public string Description { get; set; }
