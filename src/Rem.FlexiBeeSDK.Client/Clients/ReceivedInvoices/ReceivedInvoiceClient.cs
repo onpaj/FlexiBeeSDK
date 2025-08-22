@@ -23,6 +23,8 @@ namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
         }
 
         protected override string ResourceIdentifier => Agenda.ReceivedInvoices;
+        
+        protected override string? RequestIdentifier => null;
 
         public async Task<ReceivedInvoiceDetailFlexiDto> GetAsync(string code, CancellationToken cancellationToken = default)
         {
@@ -39,12 +41,12 @@ namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
            return found.Single();
         }
 
-        public async Task<IReadOnlyList<ReceivedInvoiceSearchDto>> SearchAsync(ReceivedInvoiceRequest searchRequest, CancellationToken cancellationToken = default)
+        public async Task<IReadOnlyList<ReceivedInvoiceFlexiDto>> SearchAsync(ReceivedInvoiceRequest searchRequest, CancellationToken cancellationToken = default)
         {
             var query = new FlexiQuery();
             var result = await PostAsync<ReceivedInvoiceRequest, ReceivedInvoiceSearchResult>(searchRequest, query, cancellationToken: cancellationToken);
 
-            return result?.Result?.ReceivedInvoices ?? new List<ReceivedInvoiceSearchDto>();
+            return result?.Result?.ReceivedInvoices ?? new List<ReceivedInvoiceFlexiDto>();
         }
     }
 }

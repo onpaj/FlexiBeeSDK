@@ -12,5 +12,5 @@ public class ReceivedInvoiceSearchResult
     public string RowCount { get; set; }
 
     [JsonProperty("faktura-prijata")]
-    public List<ReceivedInvoiceSearchDto> ReceivedInvoices { get; set; }
+    public List<ReceivedInvoiceFlexiDto> ReceivedInvoices { get; set; }
 }
