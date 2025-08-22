@@ -2,6 +2,8 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rem.FlexiBeeSDK.Client.Clients;
+using Rem.FlexiBeeSDK.Client.Clients.Accounting;
+using Rem.FlexiBeeSDK.Client.Clients.Accounting.Departments;
 using Rem.FlexiBeeSDK.Client.Clients.Accounting.Ledger;
 using Rem.FlexiBeeSDK.Client.Clients.BankAccounts;
 using Rem.FlexiBeeSDK.Client.Clients.Banks;
@@ -28,6 +30,8 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IStockToDateClient, StockToDateClient>();
         services.AddSingleton<IStockItemsMovementClient, StockItemsMovementClient>();
         services.AddSingleton<ILedgerClient, LedgerClient>();
+        services.AddSingleton<IAccountingTemplateClient, AccountingTemplateClient>();
+        services.AddSingleton<IDepartmentClient, DepartmentClient>();
         services.AddSingleton<IResultHandler, ResultHandler>();
 
         // Result filters

@@ -18,6 +18,8 @@ public class Agenda
     public const string StockTakings = "inventura";
     public const string StockTakingItems = "inventura-polozka";
     public const string Ledger = "ucetni-denik";
+    public const string AccountingTemplate = "predpis-zauctovani";
+    public const string Department = "stredisko";
     
     public const string Lots = "sarze-expirace";
     
