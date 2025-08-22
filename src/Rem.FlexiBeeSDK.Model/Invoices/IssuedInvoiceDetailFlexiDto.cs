@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model.Invoices
 {
-    public class IssuedInvoice : IValidate
+    public class IssuedInvoiceDetailFlexiDto : IValidate
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
@@ -62,7 +62,7 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
         public bool ItemsRemoveAll { get; set; } = true;
 
         [JsonProperty("polozkyDokladu", NullValueHandling = NullValueHandling.Ignore)]
-        public List<IssuedInvoiceItem> Items { get; set; }
+        public List<IssuedInvoiceItemFlexiDto> Items { get; set; }
 
         [JsonProperty("varSym", NullValueHandling = NullValueHandling.Ignore)]
         public string VarSymbol { get; set; }
@@ -144,7 +144,7 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
                 StoreCorrections(p);
         }
 
-        private void StoreCorrections(IssuedInvoiceItem p)
+        private void StoreCorrections(IssuedInvoiceItemFlexiDto p)
         {
             if (p.Code == "DARBAL")
                 p.Store = null;

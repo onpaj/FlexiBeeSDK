@@ -26,7 +26,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
 
         protected override string ResourceIdentifier => Agenda.IssuedInvoices;
 
-        public async Task<IssuedInvoice> GetAsync(string code, CancellationToken cancellationToken = default)
+        public async Task<IssuedInvoiceDetailFlexiDto> GetAsync(string code, CancellationToken cancellationToken = default)
         {
             var query = new QueryBuilder()
                 .Raw($"kod='{code}'")
@@ -34,15 +34,15 @@ namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
                 .WithRelation(Relations.References)
                 .Build();
 
-           var found = await GetAsync<IssuedInvoice>(query, cancellationToken: cancellationToken);
+           var found = await GetAsync<IssuedInvoiceDetailFlexiDto>(query, cancellationToken: cancellationToken);
 
            if(!found.Any())
-               throw new KeyNotFoundException($"Entity {nameof(IssuedInvoice)} with key {code} not found");
+               throw new KeyNotFoundException($"Entity {nameof(IssuedInvoiceDetailFlexiDto)} with key {code} not found");
 
            return found.Single();
         }
 
-        public Task<OperationResult<OperationResultDetail>> SaveAsync(IssuedInvoice invoice,
+        public Task<OperationResult<OperationResultDetail>> SaveAsync(IssuedInvoiceDetailFlexiDto invoice,
             CancellationToken cancellationToken = default) => PostAsync(invoice, cancellationToken: cancellationToken);
     }
 }

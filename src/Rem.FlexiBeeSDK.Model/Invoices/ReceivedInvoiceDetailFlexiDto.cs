@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model.Invoices
 {
-    public class ReceivedInvoice : IValidate
+    public class ReceivedInvoiceDetailFlexiDto : IValidate
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public string Id { get; set; }
@@ -67,7 +67,7 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
         public string Description { get; set; }
 
         [JsonProperty("polozkyDokladu", NullValueHandling = NullValueHandling.Ignore)]
-        public List<ReceivedInvoiceItem> Items { get; set; }
+        public List<ReceivedInvoiceItemFlexiDto> Items { get; set; }
 
         [JsonProperty("duzpPuv", NullValueHandling = NullValueHandling.Ignore)]
         public string DateTaxOrig { get; set; }

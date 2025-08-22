@@ -1,0 +1,83 @@
+using System;
+using Newtonsoft.Json;
+
+namespace Rem.FlexiBeeSDK.Model.Invoices;
+
+public class ReceivedInvoiceRequest
+{
+    public ReceivedInvoiceRequest(DateTime dateFrom, DateTime dateTo, string? label = null, string? accountingTemplate = null, string? documentNumber = null, string? companyId = null)
+    {
+        Filter =
+            $"((datUcto gte \"{dateFrom:yyyy-MM-dd}\" and datUcto lte \"{dateTo:yyyy-MM-dd}\") {GetLabelFilterString(label)} {GetAccountingTemplateFilterString(accountingTemplate)} {GetDocumentNumberFilterString(documentNumber)} {GetCompanyIdFilterString(companyId)})";
+    }
+    
+    public string Label { get; set; }
+
+    public DateTime? DateFrom { get; set; }
+
+    public DateTime? DateTo { get; set; }
+
+    public string AccountingTemplate { get; set; }
+
+    public string DocumentNumber { get; set; }
+
+    public string CompanyId { get; set; }
+    
+    
+    [JsonProperty("add-row-count")] public bool AddRowCount { get; set; } = true;
+
+    [JsonProperty("detail")]
+    public string Detail { get; set; } =
+        "custom:datVyst,kod,typDokl(kod,typDoklK),nazFirmy,cisDosle,varSym,stredisko,datSplat,sumZklCelkemMen,sumZklCelkem,mena(kod,id),sumCelkemMen,sumCelkem,juhSum,stavUhrK,juhSumMen,storno,popis,buc,smerKod(kod),iban,bic,zuctovano,datUcto,typUcOp(nazev,kod,id),id,podpisPrik,zamekK,stavOdpocetK,stavUzivK,bezPolozek,firma,ic";
+
+    [JsonProperty("limit")] public int Limit { get; set; } = 0;
+
+    [JsonProperty("start")] public int Start { get; set; } = 0;
+
+    [JsonProperty("includes")]
+    public string Includes { get; set; } =
+        "/faktura-prijata/typDokl,/faktura-prijata/stredisko,/faktura-prijata/mena,/faktura-prijata/smerKod,/faktura-prijata/typUcOp";
+
+    [JsonProperty("order")] public string Order { get; set; } = "datUcto";
+
+    [JsonProperty("use-internal-id")] public bool UseInternalId { get; set; } = true;
+
+    [JsonProperty("no-ext-ids")] public bool NoExtIds { get; set; } = true;
+
+    [JsonProperty("@version")] public string Version { get; set; } = "1.0";
+    
+    [JsonProperty("filter")] public string Filter { get; private set; }
+
+        
+    private string GetLabelFilterString(string? label = null)
+    {
+        if(label == null)
+            return String.Empty;
+
+        return $"stitky eq \"code:{label}\"";
+    }
+    
+    private string GetAccountingTemplateFilterString(string? accountingTemplate = null)
+    {
+        if(accountingTemplate == null)
+            return String.Empty;
+
+        return $"typUcOp.kod eq \"{accountingTemplate}\"";
+    }
+    
+    private string GetDocumentNumberFilterString(string? documentNumber = null)
+    {
+        if(documentNumber == null)
+            return String.Empty;
+
+        return $"kod eq \"{documentNumber}\"";
+    }
+    
+    private string GetCompanyIdFilterString(string? companyId = null)
+    {
+        if(companyId == null)
+            return String.Empty;
+
+        return $"ic eq \"code:{companyId}\"";
+    }
+}

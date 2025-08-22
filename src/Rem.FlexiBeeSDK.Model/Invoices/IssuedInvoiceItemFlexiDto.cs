@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model.Invoices
 {
-    public class IssuedInvoiceItem
+    public class IssuedInvoiceItemFlexiDto
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
         public long? Id { get; set; }

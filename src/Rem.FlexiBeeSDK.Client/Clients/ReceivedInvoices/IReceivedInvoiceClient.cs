@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Rem.FlexiBeeSDK.Model.Invoices;
 
@@ -6,6 +7,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
 {
     public interface  IReceivedInvoiceClient
     {
-        Task<ReceivedInvoice> GetAsync(string code, CancellationToken cancellationToken = default);
+        Task<ReceivedInvoiceDetailFlexiDto> GetAsync(string code, CancellationToken cancellationToken = default);
+        Task<IReadOnlyList<ReceivedInvoiceSearchDto>> SearchAsync(ReceivedInvoiceRequest searchRequest, CancellationToken cancellationToken = default);
     }
 }
