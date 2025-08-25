@@ -47,6 +47,11 @@ namespace Rem.FlexiBeeSDK.Tests
             var first = stockToDate.First();
             Assert.NotEqual(0, first.ProductTypeId);
             Assert.False(string.IsNullOrEmpty(first.ProductCode));
+            
+            // Validate Supplier properties are loaded
+            Assert.NotNull(first.SupplierCode);
+            Assert.NotEqual(0, first.SupplierId);
+            Assert.NotNull(first.SupplierName);
         }
     }
 }

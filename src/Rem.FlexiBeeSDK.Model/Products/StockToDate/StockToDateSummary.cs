@@ -15,4 +15,8 @@ public class StockToDateSummary
     public bool HasExpiration { get; set; }
     public double Volume { get; set; }
     public double Weight { get; set; }
+    public string? SupplierCode { get; set; }
+    public int? SupplierId { get; set; }
+    public string? SupplierName { get; set; }
+    public string? Note { get; set; }
 }

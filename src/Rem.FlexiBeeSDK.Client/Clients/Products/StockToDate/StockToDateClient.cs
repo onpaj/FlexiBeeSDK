@@ -56,6 +56,10 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
                 HasExpiration = s.Product.First().HasExpiration,
                 Volume = s.Product.First().Volume,
                 Weight = s.Product.First().Weight,
+                SupplierCode = s.Product.FirstOrDefault()?.SupplierCode?.Replace("code:", ""),
+                SupplierId = s.Product.FirstOrDefault()?.SupplierId,
+                SupplierName = s.Product.FirstOrDefault()?.SupplierName,
+                Note = s.Product.FirstOrDefault()?.Note,
             }).ToList() ?? new List<StockToDateSummary>();
         }
     }

@@ -10,7 +10,7 @@ public class StockToDateItem
     public int Id { get; set; }
 
     [JsonProperty("cenik")]
-    public List<Product> Product { get; set; }
+    public List<ProductFlexiDto> Product { get; set; }
 
     [JsonProperty("eanKod")]
     public string EanKod { get; set; }

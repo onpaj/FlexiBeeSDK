@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model.Products.StockToDate;
 
-public class Product
+public class ProductFlexiDto
 {
     [JsonProperty("id")]
     public int Id { get; set; }
@@ -30,4 +30,16 @@ public class Product
 
     [JsonProperty("hmotMj")]
     public double Weight { get; set; }
+    
+    [JsonProperty("dodavatel")]
+    public string SupplierCode { get; set; }
+
+    [JsonProperty("dodavatel@internalId")]
+    public int SupplierId { get; set; }
+
+    [JsonProperty("dodavatel@showAs")]
+    public string SupplierName { get; set; }
+    
+    [JsonProperty("poznam")]
+    public string Note { get; set; }
 }
