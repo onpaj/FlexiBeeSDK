@@ -11,6 +11,7 @@ using Rem.FlexiBeeSDK.Model;
 using Rem.FlexiBeeSDK.Model.Contacts;
 using Rem.FlexiBeeSDK.Model.Products;
 using Rem.FlexiBeeSDK.Model.Products.StockToDate;
+using ContactFlexiDto = Rem.FlexiBeeSDK.Model.Contacts.ContactFlexiDto;
 
 namespace Rem.FlexiBeeSDK.Client.Clients.Contacts
 {

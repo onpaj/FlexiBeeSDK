@@ -74,12 +74,17 @@ namespace Rem.FlexiBeeSDK.Client
 
         public QueryBuilder ByCode(string code)
         {
-            return Raw($"kod='{HttpUtility.UrlEncode(code)}'");
+            return Raw($"(kod='{HttpUtility.UrlEncode(code)}')");
         }
         
         public QueryBuilder ById(int id)
         {
             return Raw(id.ToString());
+        }
+        
+        public QueryBuilder ByProperty(string propertyName, string value)
+        {
+            return Raw($"({propertyName}='{HttpUtility.UrlEncode(value)}')");
         }
     }
 }
