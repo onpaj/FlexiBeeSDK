@@ -41,7 +41,7 @@ public class ContactListRequest
 
     [JsonProperty("detail")]
     public string Detail { get; set; } =
-        "custom:kod,nazev,ulice,psc,mesto,tel,mobil,email,platceDph,nespolehlivyPlatce,poznam,id,typVztahuK";
+        "custom:kod,nazev,ulice,psc,mesto,tel,mobil,email,platceDph,nespolehlivyPlatce,poznam,popis,id,typVztahuK";
 
     [JsonProperty("limit")] public int Limit { get; set; } = 0;
 
