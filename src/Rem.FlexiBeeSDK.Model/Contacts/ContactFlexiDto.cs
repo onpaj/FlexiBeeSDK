@@ -30,7 +30,7 @@ namespace Rem.FlexiBeeSDK.Model.Contacts
         public string City { get; set; }
 
         [JsonProperty("psc", NullValueHandling = NullValueHandling.Ignore)]
-        public long? ZipCode { get; set; }
+        public string? ZipCode { get; set; }
 
         [JsonProperty("stat", NullValueHandling = NullValueHandling.Ignore)]
         public string Country { get; set; }
