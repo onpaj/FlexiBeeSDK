@@ -30,9 +30,9 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Contacts
         protected override string ResourceIdentifier => Agenda.ContactList;
         protected override string? RequestIdentifier => null;
 
-        public async Task<IReadOnlyList<ContactFlexiDto>> GetAsync(ContactType contactType, int limit = 0, int skip = 0, CancellationToken cancellationToken = default)
+        public async Task<IReadOnlyList<ContactFlexiDto>> GetAsync(IEnumerable<ContactType> contactTypes, int limit = 0, int skip = 0, CancellationToken cancellationToken = default)
         {
-            var queryDoc = new ContactListRequest(contactType)
+            var queryDoc = new ContactListRequest(contactTypes)
             {
                 Limit = limit,
                 Start = skip,

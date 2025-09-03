@@ -22,7 +22,7 @@ namespace Rem.FlexiBeeSDK.Tests
         {
             var client = _fixture.Create<ContactListClient>();
             
-            var contacts = await client.GetAsync(ContactType.Supplier, limit: 10);
+            var contacts = await client.GetAsync([ContactType.Supplier], limit: 10);
 
             contacts.Should().NotBeEmpty();
             contacts.Should().OnlyContain(c => !string.IsNullOrEmpty(c.Code));
@@ -33,8 +33,8 @@ namespace Rem.FlexiBeeSDK.Tests
         {
             var client = _fixture.Create<ContactListClient>();
             
-            var firstPage = await client.GetAsync(ContactType.Supplier, limit: 5);
-            var secondPage = await client.GetAsync(ContactType.Supplier, limit: 5, skip: 5);
+            var firstPage = await client.GetAsync([ContactType.Supplier], limit: 5);
+            var secondPage = await client.GetAsync([ContactType.Supplier], limit: 5, skip: 5);
 
             firstPage.Should().NotBeEmpty();
             secondPage.Should().NotBeEmpty();
@@ -47,10 +47,21 @@ namespace Rem.FlexiBeeSDK.Tests
         {
             var client = _fixture.Create<ContactListClient>();
             
-            var contacts = await client.GetAsync(ContactType.Supplier);
+            var contacts = await client.GetAsync([ContactType.Supplier]);
 
             contacts.Should().NotBeEmpty();
             contacts.Should().OnlyContain(c => !string.IsNullOrEmpty(c.Code));
+        }
+        
+        [Fact]
+        public async Task GetSupplierContactsMultipleTypes()
+        {
+            var client = _fixture.Create<ContactListClient>();
+            
+            var contacts = await client.GetAsync([ContactType.SupplierAndCustomer]);
+
+            contacts.Should().NotBeEmpty();
+            contacts.Should().Contain(c => c.Code == "HERUFEK");
         }
     }
 }

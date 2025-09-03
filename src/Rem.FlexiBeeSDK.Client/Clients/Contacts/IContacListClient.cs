@@ -8,5 +8,5 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Contacts;
 
 public interface IContactListClient
 {
-    Task<IReadOnlyList<ContactFlexiDto>> GetAsync(ContactType contactType,int limit = 0, int skip = 0, CancellationToken cancellationToken = default);
+    Task<IReadOnlyList<ContactFlexiDto>> GetAsync(IEnumerable<ContactType> contactTypes, int limit = 0, int skip = 0, CancellationToken cancellationToken = default);
 }

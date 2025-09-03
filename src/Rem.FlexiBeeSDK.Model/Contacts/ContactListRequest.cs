@@ -1,13 +1,19 @@
+using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model.Contacts;
 
 public class ContactListRequest
 {
-    public ContactListRequest(ContactType contactType)
+    public ContactListRequest(ContactType contactType) : this([contactType])
     {
-        Filter =
-            $"typVztahuK in (\"typVztahu.{GetContactTypeString(contactType)}\")";
+        
+    }
+
+    public ContactListRequest(IEnumerable<ContactType> contactTypes)
+    {
+        Filter = $"typVztahuK in ({string.Join(",", contactTypes.Select(s => $"\"typVztahu.{GetContactTypeString(s)}\""))})";
     }
 
     private string GetContactTypeString(ContactType contactType)
@@ -21,9 +27,15 @@ public class ContactListRequest
         {
             case ContactType.Supplier:
                 return "dodavatel";
+            case ContactType.SupplierAndCustomer:
+                return "odberDodav";
+            case ContactType.Customer:
+                return "odberatel";
+            case ContactType.All:
+                return "vsechno";
         }
 
-        return "dodavatel";
+        return "vsechno";
     }
     
     private static ContactType ToContactType(string contactType)
@@ -32,6 +44,12 @@ public class ContactListRequest
         {
             case "typVztahu.dodavatel":
                 return ContactType.Supplier;
+            case "typVztahu.odberDodav":
+                return ContactType.SupplierAndCustomer;
+            case "typVztahu.odberatel":
+                return ContactType.Customer;
+            case "typVztahu.vsechno":
+                return ContactType.All;
         }
 
         return ContactType.Supplier;

@@ -2,5 +2,8 @@ namespace Rem.FlexiBeeSDK.Model.Contacts;
 
 public enum ContactType
 {
-    Supplier
+    Supplier,
+    SupplierAndCustomer,
+    Customer,
+    All
 }
