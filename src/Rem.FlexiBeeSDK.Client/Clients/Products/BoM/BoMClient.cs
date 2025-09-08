@@ -25,30 +25,24 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
         protected override string ResourceIdentifier => Agenda.BoM;
         protected override string? RequestIdentifier => null;
 
-        public async Task<IList<Model.BoMItemV2>> GetAsync(string code, CancellationToken cancellationToken = default)
+        public async Task<IList<Model.BoMItemFlexiDto>> GetAsync(string code, CancellationToken cancellationToken = default)
         {
-            var query = new QueryBuilder()
-                .WithNoLimit()
-                .WithFullDetail()
-                .Raw($"(otecCenik=\"code:{code}\")")
-                .Build();
-            
-            var result = await GetAsync<BoMItemV2>(query, cancellationToken: cancellationToken);
+            var queryDoc = new BomRequest().FindByParentCode(code);
 
-            return result;
+            var query = new FlexiQuery();
+            var result = await PostAsync<BomRequest, BomResult>(queryDoc, query, cancellationToken: cancellationToken);
+
+            return result?.Result?.BoMItems ?? new List<BoMItemFlexiDto>();
         }
 
-        public async Task<IList<Model.BoMItemV2>> GetByIngredientAsync(string code, CancellationToken cancellationToken = default)
+        public async Task<IList<Model.BoMItemFlexiDto>> GetByIngredientAsync(string code, CancellationToken cancellationToken = default)
         {
-            var query = new QueryBuilder()
-                .WithNoLimit()
-                .WithFullDetail()
-                .Raw($"(cenik=\"code:{code}\")")
-                .Build();
-            
-            var result = await GetAsync<BoMItemV2>(query, cancellationToken: cancellationToken);
+            var queryDoc = new BomRequest().FindByIngredientCode(code);
 
-            return result;
+            var query = new FlexiQuery();
+            var result = await PostAsync<BomRequest, BomResult>(queryDoc, query, cancellationToken: cancellationToken);
+
+            return result?.Result?.BoMItems ?? new List<BoMItemFlexiDto>();
         }
         
         public async Task<bool> RecalculatePurchasePrice(int bomId, CancellationToken cancellationToken = default)
