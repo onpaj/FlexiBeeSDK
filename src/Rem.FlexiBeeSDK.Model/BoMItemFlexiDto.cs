@@ -28,26 +28,27 @@ public class BoMItemFlexiDto
     [JsonProperty("cesta")]
     public string Path { get; set; }
 
-    //[JsonProperty("otecCenik")]
-    public string? ParentCode => ParentProduct.FirstOrDefault()?.Code;
+    public string? ParentCode => ParentProduct?.Code;
         
     [JsonProperty("otecCenik")]
-    public List<BomProductFlexiDto> ParentProduct { get; set; } =  new List<BomProductFlexiDto>();
-    public string? ParentFullName => ParentProduct.FirstOrDefault()?.Name;
-    public int? ParentTemplateId => Parent.FirstOrDefault()?.Id;
+    public List<BomProductFlexiDto> ParentProductList { get; set; } =  new List<BomProductFlexiDto>();
+    public BomProductFlexiDto? ParentProduct => ParentProductList.FirstOrDefault();
+    public string? ParentFullName => ParentProduct?.Name;
+    public int? ParentTemplateId => Parent?.Id;
         
         
         
     [JsonProperty("cenik")]
     public List<BomProductFlexiDto> Ingredient { get; set; } = new List<BomProductFlexiDto>();
-        
     public string IngredientCode => Ingredient.FirstOrDefault()!.Code;
     public string IngredientFullName => Ingredient.FirstOrDefault()!.Name;
 
         
     [JsonProperty("otec")]
-    public List<ParentBomFlexiDto> Parent { get; set; }
+    public List<ParentBomFlexiDto> ParentList { get; set; }
 
+    public ParentBomFlexiDto? Parent => ParentList?.FirstOrDefault();
+    
     [JsonProperty("otec@showAs")]
     public string ParentTemplateName { get; set; }
 }
