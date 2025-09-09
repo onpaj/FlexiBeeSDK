@@ -35,6 +35,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IDepartmentClient, DepartmentClient>();
         services.AddSingleton<IContactListClient, ContactListClient>();
         services.AddSingleton<IContactClient, ContactClient>();
+        services.AddSingleton<IProductSetsClient, ProductSetsClient>();
 
         
         services.AddSingleton<IResultHandler, ResultHandler>();

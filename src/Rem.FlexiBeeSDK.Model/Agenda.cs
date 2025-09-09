@@ -21,6 +21,7 @@ public class Agenda
     public const string Ledger = "ucetni-denik";
     public const string AccountingTemplate = "predpis-zauctovani";
     public const string Department = "stredisko";
+    public const string Sets = "sady-a-komplety";
     
     public const string Lots = "sarze-expirace";
     
