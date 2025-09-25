@@ -7,10 +7,13 @@ public class IssuedOrderStockMovementFlexiDto
 {
     [JsonProperty("typDokl")]
     public string WarehouseDocumentTypeFormated => $"code:{WarehouseDocumentType}";
+    [JsonIgnore]
     public string WarehouseDocumentType { get; set; }
     
     [JsonProperty("sklad")]
     public string WarehouseCodeFormatted => $"code:{WarehouseCode}";
+    
+    [JsonIgnore]
     public string WarehouseCode { get; set; }
 
     [JsonProperty("polozkyObchDokladu")]

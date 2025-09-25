@@ -6,7 +6,7 @@ namespace Rem.FlexiBeeSDK.Model.IssuedOrders;
 
 public class IssuedOrderFlexiDto
 {
-    [JsonProperty("id")]
+    [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
     public int Id { get; set; }
 
     [JsonProperty("datVyst")]
@@ -18,6 +18,7 @@ public class IssuedOrderFlexiDto
     [JsonProperty("typDokl")]
     public List<IssuedOrderDocumentTypeFlexiDto> DocumentTypeList { get; set; }
 
+    [JsonIgnore]
     public IssuedOrderDocumentTypeFlexiDto DocumentType => DocumentTypeList.First();
 
     [JsonProperty("nazFirmy")]
@@ -25,7 +26,8 @@ public class IssuedOrderFlexiDto
 
     [JsonProperty("stredisko")]
     public List<IssuedOrderDepartmentFlexiDto> DepartmentList { get; set; }
-        
+       
+    [JsonIgnore]
     public IssuedOrderDepartmentFlexiDto? Department => DepartmentList.FirstOrDefault();
 
     [JsonProperty("sumZklCelkemMen")]
@@ -50,6 +52,7 @@ public class IssuedOrderFlexiDto
     [JsonProperty("stavDoklObch")]
     public List<IssuedOrderStateFlexiDto> StateList { get; set; }
         
+    [JsonIgnore]
     IssuedOrderStateFlexiDto State => StateList.First();
 
     [JsonProperty("popis")]

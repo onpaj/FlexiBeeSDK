@@ -33,7 +33,6 @@ public class CreateIssuedOrderFlexiDto
     public string Note { get; set; }
 
     [JsonProperty("stredisko")] public string DepartmentFormatted => $"code:{DepartmentCode}";
-    
     public string DepartmentCode { get; set; }
 
     [JsonProperty("typDokl")] public string DocumentTypeFormatted => $"code:{DocumentType}";
@@ -41,6 +40,8 @@ public class CreateIssuedOrderFlexiDto
 
     [JsonProperty("typDoklNabFak")]
     public string WarehouseDocumentTypeFormated => $"code:{WarehouseDocumentType}";
+    
+    [JsonIgnore]
     public string WarehouseDocumentType { get; set; }
 
     [JsonProperty("uzivatel")]
