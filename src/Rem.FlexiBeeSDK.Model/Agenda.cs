@@ -22,6 +22,7 @@ public class Agenda
     public const string AccountingTemplate = "predpis-zauctovani";
     public const string Department = "stredisko";
     public const string Sets = "sady-a-komplety";
+    public const string IssuedOrders = "objednavka-vydana";
     
     public const string Lots = "sarze-expirace";
     

@@ -86,29 +86,29 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         }
         
 
-        protected virtual Task<OperationResult<OperationResultDetail>> PostAsync<TRequest>(TRequest document, FlexiQuery? query = default, string? customResourceIdentifier = null, CancellationToken cancellationToken = default)
+        protected virtual Task<OperationResult<OperationResultDetail>> PostAsync<TRequest>(TRequest document, FlexiQuery? query = default, string? customResourceIdentifier = null, string? customRequestIdentifier = null, CancellationToken cancellationToken = default)
         {
-            return SendAsync<TRequest, OperationResultDetail>(document, HttpMethod.Post, query, customResourceIdentifier, cancellationToken);
+            return SendAsync<TRequest, OperationResultDetail>(document, HttpMethod.Post, query, customResourceIdentifier, customRequestIdentifier, cancellationToken);
         }
         
-        protected virtual Task<OperationResult<TResult>> PostAsync<TRequest, TResult>(TRequest document, FlexiQuery? query = default, string? customResourceIdentifier = null, CancellationToken cancellationToken = default)
+        protected virtual Task<OperationResult<TResult>> PostAsync<TRequest, TResult>(TRequest document, FlexiQuery? query = default, string? customResourceIdentifier = null, string? customRequestIdentifier = null, CancellationToken cancellationToken = default)
         {
-            return SendAsync<TRequest, TResult>(document, HttpMethod.Post, query, customResourceIdentifier, cancellationToken);
+            return SendAsync<TRequest, TResult>(document, HttpMethod.Post, query, customResourceIdentifier, customRequestIdentifier, cancellationToken);
         }
 
-        protected Task<OperationResult<OperationResultDetail>> PutAsync<TRequest>(TRequest document, FlexiQuery? query = default, string? customResourceIdentifier = null, CancellationToken cancellationToken = default)
+        protected Task<OperationResult<OperationResultDetail>> PutAsync<TRequest>(TRequest document, FlexiQuery? query = default, string? customResourceIdentifier = null, string? customRequestIdentifier = null, CancellationToken cancellationToken = default)
         {
-            return SendAsync<TRequest, OperationResultDetail>(document, HttpMethod.Put, query, customResourceIdentifier, cancellationToken);
+            return SendAsync<TRequest, OperationResultDetail>(document, HttpMethod.Put, query, customResourceIdentifier, customRequestIdentifier, cancellationToken);
         }
         
-        protected Task<OperationResult<TResult>> PutAsync<TRequest, TResult>(TRequest document, FlexiQuery? query = default, string? customResourceIdentifier = null, CancellationToken cancellationToken = default)
+        protected Task<OperationResult<TResult>> PutAsync<TRequest, TResult>(TRequest document, FlexiQuery? query = default, string? customResourceIdentifier = null, string? customRequestIdentifier = null, CancellationToken cancellationToken = default)
         {
-            return SendAsync<TRequest, TResult>(document, HttpMethod.Put, query, customResourceIdentifier, cancellationToken);
+            return SendAsync<TRequest, TResult>(document, HttpMethod.Put, query, customResourceIdentifier, customRequestIdentifier, cancellationToken);
         }
 
-        protected virtual async Task<OperationResult<TResult>> SendAsync<TRequest, TResult>(TRequest document, HttpMethod method, FlexiQuery? query = default, string? customResourceIdentifier = null, CancellationToken cancellationToken = default)
+        protected virtual async Task<OperationResult<TResult>> SendAsync<TRequest, TResult>(TRequest document, HttpMethod method, FlexiQuery? query = default, string? customResourceIdentifier = null, string? customRequestIdentifier = null, CancellationToken cancellationToken = default)
         {
-            var result = await SendInternal(document, method, query, customResourceIdentifier, cancellationToken); 
+            var result = await SendInternal(document, method, query, customResourceIdentifier, customRequestIdentifier, cancellationToken); 
             var resultContent = await result.Content.ReadAsStringAsync();
             if (!result.IsSuccessStatusCode)
             {
@@ -138,7 +138,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients
         }
         
         
-        private async Task<HttpResponseMessage> SendInternal<TRequest>(TRequest document, HttpMethod method, FlexiQuery? query = default, string? customResourceIdentifier = null, CancellationToken cancellationToken = default)
+        private async Task<HttpResponseMessage> SendInternal<TRequest>(TRequest document, HttpMethod method, FlexiQuery? query = default, string? customResourceIdentifier = null, string? requestIdentifier = null, CancellationToken cancellationToken = default)
         {
             var uri = GetUri(document, query, customResourceIdentifier);
             var client = GetClient();
@@ -147,13 +147,15 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
             string jsonRequest;
             
-            if (customResourceIdentifier == null && RequestIdentifier != null)
+            requestIdentifier = requestIdentifier ?? RequestIdentifier;
+            
+            if (customResourceIdentifier == null && requestIdentifier != null)
             {
                 jsonRequest = JsonConvert.SerializeObject(new
                 {
                     winstrom = new Dictionary<string, object>()
                     {
-                        { RequestIdentifier, document }
+                        { requestIdentifier, document }
                     }
                 });
             }
