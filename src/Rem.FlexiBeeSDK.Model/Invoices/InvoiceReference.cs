@@ -13,7 +13,7 @@ public class InvoiceReference
     public bool Canceled { get; set; }
 
     [JsonProperty("castka")]
-    public double Ammount { get; set; }
+    public double Amount { get; set; }
 
     [JsonProperty("typVazbyK")]
     public string ReferenceType { get; set; }

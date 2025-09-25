@@ -26,7 +26,7 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
         public string Store { get; set; }
 
         [JsonProperty("mnozMj", NullValueHandling = NullValueHandling.Ignore)]
-        public string Ammount { get; set; }
+        public string Amount { get; set; }
 
         [JsonProperty("sumCelkem", NullValueHandling = NullValueHandling.Ignore)]
         public string SumTotal { get; set; }

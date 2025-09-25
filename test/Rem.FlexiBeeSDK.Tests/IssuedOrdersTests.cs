@@ -84,7 +84,7 @@ namespace Rem.FlexiBeeSDK.Tests
                         ProductCode = "SER001001M",
                         Name = "Bezstarostná krása - meziprodukt",
                         WarehouseCode = "POLOTOVARY",
-                        Ammount = 2,
+                        Amount = 2,
                         LotNumber = "xxxx",
                         ExpirationDate = DateTime.Parse("2029-09-01"),
                     }
@@ -116,7 +116,7 @@ namespace Rem.FlexiBeeSDK.Tests
                         new ()
                         {
                             Id = order.Items[0].Id,
-                            Ammount = order.Items[0].Ammount,
+                            Amount = order.Items[0].Amount,
                             LotNumber = "xxxx",
                             ExpirationDate = DateTime.Parse("2029-09-01"),
                         }

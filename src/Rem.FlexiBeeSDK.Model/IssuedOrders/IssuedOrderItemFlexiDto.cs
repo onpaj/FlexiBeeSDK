@@ -29,7 +29,7 @@ public class IssuedOrderItemFlexiDto
     [JsonProperty("kopZakazku")] public bool CopyOrder => true;
 
     [JsonProperty("mnozMj")]
-    public double Ammount { get; set; }
+    public double Amount { get; set; }
 
     [JsonProperty("nazev")]
     public string Name { get; set; }

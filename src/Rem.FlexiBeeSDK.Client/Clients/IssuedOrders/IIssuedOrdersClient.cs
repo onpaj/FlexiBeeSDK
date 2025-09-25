@@ -16,4 +16,7 @@ public interface IIssuedOrdersClient
     Task<IssuedOrderFlexiDto?> GetAsync(int id, CancellationToken cancellationToken = default);
     
     Task<OperationResult<OperationResultDetail>> SaveAsync(CreateIssuedOrderFlexiDto issuedOrder, CancellationToken cancellationToken = default);
+
+    Task<OperationResult<OperationResultDetail>> FinalizeAsync(FinalizeIssuedOrderFlexiDto order,
+        CancellationToken cancellationToken = default);
 }

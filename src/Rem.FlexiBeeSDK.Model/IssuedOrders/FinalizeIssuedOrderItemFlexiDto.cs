@@ -8,7 +8,7 @@ public class FinalizeIssuedOrderItemFlexiDto
     [JsonProperty("id")] public string Id { get; set; }
     
     [JsonProperty("mj")]
-    public double Ammount { get; set; }
+    public double Amount { get; set; }
 
     [JsonProperty("sarze")]
     public string? LotNumber { get; set; }
