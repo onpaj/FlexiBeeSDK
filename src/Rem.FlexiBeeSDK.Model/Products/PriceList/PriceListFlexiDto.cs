@@ -3,10 +3,10 @@ using Newtonsoft.Json;
 public class PriceListFlexiDto
 {
     [JsonProperty("cenaZakl", NullValueHandling = NullValueHandling.Ignore)]
-    public int? BasePrice { get; set; }
+    public double? BasePrice { get; set; }
 
     [JsonProperty("cenaZaklBezDph", NullValueHandling = NullValueHandling.Ignore)]
-    public int? BasePriceWithoutVat { get; set; }
+    public double? BasePriceWithoutVat { get; set; }
 
     [JsonProperty("cenaZaklVcDph", NullValueHandling = NullValueHandling.Ignore)]
     public double? BasePriceWithVat { get; set; }
@@ -15,10 +15,10 @@ public class PriceListFlexiDto
     public int? PriceUnit { get; set; }
 
     [JsonProperty("hmotMj", NullValueHandling = NullValueHandling.Ignore)]
-    public int? Weight { get; set; }
+    public double? Weight { get; set; }
 
     [JsonProperty("hmotObal", NullValueHandling = NullValueHandling.Ignore)]
-    public int? PackagingWeight { get; set; }
+    public double? PackagingWeight { get; set; }
 
     [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
     public string Id => $"code:{ProductCode}";
@@ -36,7 +36,7 @@ public class PriceListFlexiDto
     public string? Name { get; set; }
 
     [JsonProperty("objem", NullValueHandling = NullValueHandling.Ignore)]
-    public int? Volume { get; set; }
+    public double? Volume { get; set; }
 
     [JsonProperty("poznam", NullValueHandling = NullValueHandling.Ignore)]
     public string? Note { get; set; }
