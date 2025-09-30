@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -59,6 +60,26 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
             var result = await PutAsync(document, cancellationToken: cancellationToken);
 
             return result.IsSuccess;
+        }
+        
+        
+        public async Task<ProductWeightFlexiDto?> GetBomWeight(string productCode, CancellationToken cancellationToken = default)
+        {
+           var bom = await GetAsync(productCode, cancellationToken: cancellationToken);
+
+           if (!bom.Any())
+               return null;
+           
+           var netWeight = bom.Where(w => w.Level == 2 && w.IngredientCode.Substring(0, 6) == productCode.Substring(0, 6))
+               .Sum(s => s.Amount); // Material only
+           var grossWeight = bom.Where(w => w.Level == 2).Sum(s => s.Amount);
+
+           return new ProductWeightFlexiDto()
+           {
+               ProductCode = productCode,
+               NetWeight = netWeight > 0 ? netWeight : grossWeight,
+               Amount = bom.Where(w => w.Level == 1).Sum(s => s.Amount)
+           };
         }
     }
 }

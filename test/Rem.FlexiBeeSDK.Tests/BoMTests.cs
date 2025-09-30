@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoFixture;
+using FluentAssertions;
 using Microsoft.Extensions.Configuration;
 using Rem.FlexiBeeSDK.Client;
 using Rem.FlexiBeeSDK.Client.Clients;
@@ -60,6 +61,32 @@ namespace Rem.FlexiBeeSDK.Tests
             var kusovnik = await client.GetByIngredientAsync("AKL112");
 
             Assert.NotEmpty(kusovnik);
+        }
+        
+        [Theory]
+        [InlineData("OCH007250")]
+        [InlineData("OCH007001M")]
+        public async Task GetWeight(string productCode)
+        {
+            var client = _fixture.Create<BoMClient>();
+
+            var weight = await client.GetBomWeight(productCode);
+
+            weight.Should().NotBeNull();
+            weight.ProductCode.Should().Be(productCode);
+            weight.NetWeight.Should().BeGreaterThan(0);
+            weight.Amount.Should().BeGreaterThan(0);
+        }
+        
+        [Theory]
+        [InlineData("AKL001")]
+        public async Task GetWeightShouldBeNull(string productCode)
+        {
+            var client = _fixture.Create<BoMClient>();
+
+            var weight = await client.GetBomWeight(productCode);
+
+            weight.Should().BeNull();
         }
     }
 }

@@ -11,6 +11,7 @@ public class Agenda
     public const string ReceivedInvoices = "faktura-prijata";
     public const string IssuedInvoices = "faktura-vydana";
     public const string BoM = "kusovnik";
+    public const string PriceList = "cenik";
     public const string Contact = "kontakt";
     public const string ContactList = "adresar";
     public const string UserQuery = "uzivatelsky-dotaz";
