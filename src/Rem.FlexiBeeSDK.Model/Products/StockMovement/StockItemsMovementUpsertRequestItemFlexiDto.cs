@@ -36,7 +36,4 @@ public class StockItemsMovementUpsertRequestItemFlexiDto
 
     [JsonProperty("sarze", NullValueHandling = NullValueHandling.Ignore)]
     public string? LotNumber { get; set; }
-
-    [JsonProperty("sklad", NullValueHandling = NullValueHandling.Ignore)]
-    public string WarehouseId { get; set; }
 }
