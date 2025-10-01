@@ -20,13 +20,13 @@ public class StockItemsMovementUpsertRequestItemFlexiDto
     public string ProductCode { get; set; }
 
     [JsonProperty("mnozMj", NullValueHandling = NullValueHandling.Ignore)]
-    public int? Amount { get; set; }
+    public double Amount { get; set; }
 
     [JsonProperty("mnozMjPrijem", NullValueHandling = NullValueHandling.Ignore)]
-    public int? AmountReceived { get; set; }
+    public double? AmountReceived { get; set; }
 
     [JsonProperty("mnozMjVydej", NullValueHandling = NullValueHandling.Ignore)]
-    public int? AmountIssued { get; set; }
+    public double? AmountIssued { get; set; }
 
     [JsonProperty("nazev", NullValueHandling = NullValueHandling.Ignore)]
     public string ProductName { get; set; }
