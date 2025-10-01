@@ -11,6 +11,7 @@ using Rem.FlexiBeeSDK.Model;
 using Rem.FlexiBeeSDK.Model.Products;
 using Rem.FlexiBeeSDK.Model.Products.StockMovement;
 using Rem.FlexiBeeSDK.Model.Products.StockToDate;
+using Rem.FlexiBeeSDK.Model.Response;
 
 namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockMovement
 {
@@ -58,5 +59,9 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockMovement
 
             return result?.Result?.StockItemMovements ?? new List<StockItemMovementFlexiDto>();
         }
+        
+        
+        public Task<OperationResult<OperationResultDetail>> SaveAsync(StockItemsMovementUpsertRequestFlexiDto stockMovementRequest, CancellationToken cancellationToken = default)
+            => PostAsync(new StockItemsMovementUpsertRequestEnvelopeFlexiDto(stockMovementRequest), cancellationToken: cancellationToken);
     }
 }

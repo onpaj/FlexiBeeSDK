@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
@@ -94,6 +95,41 @@ namespace Rem.FlexiBeeSDK.Tests
 
             items.Should().OnlyContain(w => w.Date >=dateFrom && w.Date <= dateTo);
             items.Should().OnlyContain(w => w.Document.MovementDirectionCode == "typPohybu.vydej");
+        }
+        
+        [Fact]
+        public async Task CreateStockItemsMovement()
+        {
+            var client = _fixture.Create<StockItemsMovementClient>();
+
+            var request = new StockItemsMovementUpsertRequestFlexiDto()
+            {
+                CreatedBy = "heblo",
+                AccountingDate = DateTime.Now,
+                IssueDate = DateTime.Now,
+                StockItems = new List<StockItemsMovementUpsertRequestItemFlexiDto>()
+                {
+                    new()
+                    {
+                        ProductCode = "PMA002001M",
+                        ProductName = "Moje Moringová - meziprodukt",
+                        Amount = 2,
+                        AmountIssued = 2,
+                        LotNumber = null,
+                        Expiration = null,
+                        UnitPrice = 1.82,
+                    }
+                },
+                Description = "MO-2025-027",
+                DocumentTypeCode = "VYROBA-POLOTOVAR",
+                StockMovementDirection = StockMovementDirection.Out,
+                Note = "MO-2025-027 - Note",
+            };
+            var result = await client.SaveAsync(request);
+
+            result.Should().NotBeNull();
+            result.IsSuccess.Should().BeTrue(result.GetErrorMessage());
+            result.ErrorMessage.Should().BeNullOrEmpty();
         }
     }
 }

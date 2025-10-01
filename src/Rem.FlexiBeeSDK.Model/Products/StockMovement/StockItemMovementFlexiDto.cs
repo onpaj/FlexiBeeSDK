@@ -60,9 +60,9 @@ public class StockItemMovementFlexiDto
     public string PriceListShowAs { get; set; }
 
     [JsonProperty("cenik")]
-    public List<StockItemProductFlexiDto> PriceList { get; set; }
+    public List<StockItemProductFlexiDto> Items { get; set; }
 
-    public string ProductCode => PriceList.First().Code;
+    public string ProductCode => Items.First().Code;
 
     [JsonProperty("expirace")]
     public string Expiration { get; set; }
