@@ -30,15 +30,23 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockMovement
         protected override string ResourceIdentifier => Agenda.StockMovements;
         protected override string? RequestIdentifier => null;
 
+        public async Task<IReadOnlyList<StockItemMovementFlexiDto>> GetAsync(int documentId,
+            CancellationToken cancellationToken = default)
+        {
+            var queryDoc = new StockItemMovementRequest(documentId);
+            
+            return await GetAsync(queryDoc, cancellationToken);
+        }
+
         public async Task<IReadOnlyList<StockItemMovementFlexiDto>> GetAsync(
-            DateTime dateFrom, 
-            DateTime dateTo, 
-            StockMovementDirection direction = StockMovementDirection.Any, 
+            DateTime dateFrom,
+            DateTime dateTo,
+            StockMovementDirection direction = StockMovementDirection.Any,
             string? storeCode = null,
             int? documentTypeId = null,
             string? documentCode = null,
-            int limit = 0, 
-            int skip = 0, 
+            int limit = 0,
+            int skip = 0,
             CancellationToken cancellationToken = default)
         {
             var queryDoc = new StockItemMovementRequest(
@@ -48,14 +56,19 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockMovement
                 storeCode,
                 documentTypeId,
                 documentCode
-                )
+            )
             {
                 Limit = limit,
                 Start = skip,
             };
+            
+            return await GetAsync(queryDoc, cancellationToken);
+        }
 
+        private  async Task<IReadOnlyList<StockItemMovementFlexiDto>> GetAsync(StockItemMovementRequest request, CancellationToken cancellationToken = default)
+        {
             var query = new FlexiQuery();
-            var result = await PostAsync<StockItemMovementRequest, StockItemsMovementResult>(queryDoc, query, cancellationToken: cancellationToken);
+            var result = await PostAsync<StockItemMovementRequest, StockItemsMovementResult>(request, query, cancellationToken: cancellationToken);
 
             return result?.Result?.StockItemMovements ?? new List<StockItemMovementFlexiDto>();
         }

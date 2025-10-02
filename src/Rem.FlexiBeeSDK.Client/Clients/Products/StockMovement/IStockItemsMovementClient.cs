@@ -20,6 +20,9 @@ public interface IStockItemsMovementClient
         int limit = 0, 
         int skip = 0, 
         CancellationToken cancellationToken = default);
+
+    Task<IReadOnlyList<StockItemMovementFlexiDto>> GetAsync(int documentId,
+        CancellationToken cancellationToken = default);
     
     Task<OperationResult<OperationResultDetail>> SaveAsync(StockItemsMovementUpsertRequestFlexiDto request, CancellationToken cancellationToken);
 }

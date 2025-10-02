@@ -18,7 +18,14 @@ public class StockItemMovementRequest
         Filter =
             $"((doklSklad.datVyst gte \"{dateFrom:yyyy-MM-dd}\" and doklSklad.datVyst lte \"{dateTo:yyyy-MM-dd}\") {GetDirectionFilterString(direction)} {GetDocumentTypeFilterString(documentTypeId)} {GetDocumentNumberFilterString(documentCode)} {GetStoreCodeFilterString(storeCode)})";
     }
-    
+
+    public StockItemMovementRequest(int documentId)
+    {
+        Filter = $"(doklSklad.id eq {documentId})";
+        Limit = 0;
+        Start = 0;
+    }
+
     [JsonProperty("add-row-count")] public bool AddRowCount { get; set; } = true;
 
     [JsonProperty("detail")]
@@ -59,7 +66,7 @@ public class StockItemMovementRequest
 
         return $"and doklSklad.kod eq \"{documentNumber}\"";
     }
-        
+    
     private string GetStoreCodeFilterString(string? storeCode = null)
     {
         if(storeCode == null)

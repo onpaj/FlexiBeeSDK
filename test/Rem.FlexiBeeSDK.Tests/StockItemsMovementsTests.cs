@@ -83,6 +83,19 @@ namespace Rem.FlexiBeeSDK.Tests
         }
         
         [Fact]
+        public async Task GetStockItemsByDocumentId()
+        {
+            var client = _fixture.Create<StockItemsMovementClient>();
+            var documentId = 79260;
+
+            var items = await client.GetAsync(documentId);
+
+            items.Should().NotBeEmpty();
+
+            items.Should().OnlyContain(w => w.Document.Id == documentId);
+        }
+        
+        [Fact]
         public async Task GetStockItemsByDirection()
         {
             var client = _fixture.Create<StockItemsMovementClient>();
