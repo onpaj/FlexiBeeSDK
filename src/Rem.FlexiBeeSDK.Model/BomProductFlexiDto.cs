@@ -12,4 +12,7 @@ public class BomProductFlexiDto
 
     [JsonProperty("nakupCena")]
     public double PurchasePrice { get; set; }
+    
+    [JsonProperty("skupZboz@internalId")]
+    public string ProductTypeId { get; set; }
 }
