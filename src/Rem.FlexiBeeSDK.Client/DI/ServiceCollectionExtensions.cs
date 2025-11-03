@@ -12,6 +12,7 @@ using Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices;
 using Rem.FlexiBeeSDK.Client.Clients.Products.BoM;
 using Rem.FlexiBeeSDK.Client.Clients.Products.StockMovement;
 using Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate;
+using Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 
 namespace Rem.FlexiBeeSDK.Client.DI;
@@ -37,7 +38,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IContactClient, ContactClient>();
         services.AddSingleton<IProductSetsClient, ProductSetsClient>();
         services.AddSingleton<IPriceListClient, PriceListClient>();
-
+        services.AddSingleton<IReceivedInvoiceClient, ReceivedInvoiceClient>();
         
         services.AddSingleton<IResultHandler, ResultHandler>();
 
