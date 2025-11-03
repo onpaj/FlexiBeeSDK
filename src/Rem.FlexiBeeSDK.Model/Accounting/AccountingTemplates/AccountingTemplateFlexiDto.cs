@@ -16,4 +16,14 @@ public class AccountingTemplateFlexiDto
 
     [JsonProperty("nazev")]
     public string Name { get; set; }
+    
+    [JsonProperty("popis", NullValueHandling = NullValueHandling.Ignore)]
+    public string Description { get; set; }
+
+    [JsonProperty("poznam", NullValueHandling = NullValueHandling.Ignore)]
+    public string Note { get; set; }
+    
+    [JsonProperty("protiUcetVydej", NullValueHandling = NullValueHandling.Ignore)]
+    public string AccountCodeRaw { get; set; }
+    public string AccountCode => AccountCodeRaw.Replace("code:", "");
 }

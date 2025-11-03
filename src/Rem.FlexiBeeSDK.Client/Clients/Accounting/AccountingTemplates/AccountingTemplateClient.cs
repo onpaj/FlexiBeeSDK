@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
 using Rem.FlexiBeeSDK.Model.Accounting;
+using Rem.FlexiBeeSDK.Model.Accounting.AccountingTemplates;
 
 namespace Rem.FlexiBeeSDK.Client.Clients.Accounting;
 
@@ -27,8 +28,13 @@ public class AccountingTemplateClient : ResourceClient, IAccountingTemplateClien
 
     public async Task<IReadOnlyList<AccountingTemplateFlexiDto>> GetAsync(CancellationToken cancellationToken = default)
     {
-        var query = new QueryBuilder().Build();
-        var result = await GetAsync<AccountingTemplateFlexiDto>(query, cancellationToken: cancellationToken);
-        return result.ToList().AsReadOnly();
+        var queryDoc = new AccountingTemplateRequest()
+        {
+        };
+
+        var query = new FlexiQuery();
+        var result = await PostAsync<AccountingTemplateRequest, AccountingTemplateResult>(queryDoc, query, cancellationToken: cancellationToken);
+
+        return result?.Result?.AccountingTemplates ?? new List<AccountingTemplateFlexiDto>();
     }
 }
