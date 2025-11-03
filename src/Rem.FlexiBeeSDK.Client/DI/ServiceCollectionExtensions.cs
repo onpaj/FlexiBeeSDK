@@ -9,8 +9,10 @@ using Rem.FlexiBeeSDK.Client.Clients.BankAccounts;
 using Rem.FlexiBeeSDK.Client.Clients.Banks;
 using Rem.FlexiBeeSDK.Client.Clients.Contacts;
 using Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices;
+using Rem.FlexiBeeSDK.Client.Clients.IssuedOrders;
 using Rem.FlexiBeeSDK.Client.Clients.Products.BoM;
 using Rem.FlexiBeeSDK.Client.Clients.Products.StockMovement;
+using Rem.FlexiBeeSDK.Client.Clients.Products.StockTaking;
 using Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate;
 using Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
@@ -39,6 +41,13 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IProductSetsClient, ProductSetsClient>();
         services.AddSingleton<IPriceListClient, PriceListClient>();
         services.AddSingleton<IReceivedInvoiceClient, ReceivedInvoiceClient>();
+        services.AddSingleton<ILotsClient, LotsClient>();
+        services.AddSingleton<IStockTakingClient, StockTakingClient>();
+        services.AddSingleton<IStockTakingItemsClient, StockTakingItemsClient>();
+        services.AddScoped<IIssuedOrdersClient, IssuedOrdersClient>();
+        
+        
+        
         
         services.AddSingleton<IResultHandler, ResultHandler>();
 
