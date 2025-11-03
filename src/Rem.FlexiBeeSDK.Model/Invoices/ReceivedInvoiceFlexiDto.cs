@@ -10,7 +10,7 @@ namespace Rem.FlexiBeeSDK.Model.Invoices;
         public int Id { get; set; }
 
         [JsonProperty("datVyst")]
-        public string IssueDate { get; set; }
+        public DateTime? IssueDate { get; set; }
 
         [JsonProperty("kod")]
         public string Code { get; set; }
@@ -55,7 +55,7 @@ namespace Rem.FlexiBeeSDK.Model.Invoices;
         public DepartmentFlexiDto? Department =>  DepartmentList?.FirstOrDefault();
 
         [JsonProperty("datSplat")]
-        public string DueDate { get; set; }
+        public DateTime? DueDate { get; set; }
 
         [JsonProperty("sumZklCelkemMen")]
         public double TotalBaseAmountForeign { get; set; }
@@ -130,7 +130,7 @@ namespace Rem.FlexiBeeSDK.Model.Invoices;
         public bool IsAccounted { get; set; }
 
         [JsonProperty("datUcto")]
-        public string AccountingDate { get; set; }
+        public DateTime? AccountingDate { get; set; }
 
         [JsonProperty("typUcOp@evidencePath")]
         public string AccountingTemplateEvidencePath { get; set; }
