@@ -46,8 +46,8 @@ namespace Rem.FlexiBeeSDK.Tests
         public async Task Search_ShouldReturnByLabel()
         {
             var client = _fixture.Create<ReceivedInvoiceClient>();
-            var dateFrom = DateTime.Parse("2025-01-01");
-            var dateTo = DateTime.Parse("2025-12-30");
+            var dateFrom = DateTime.Parse("2025-10-04");
+            var dateTo = DateTime.Parse("2025-11-04");
             string label = "KLASIFIKACE";
 
             var invoices = await client.SearchAsync(new ReceivedInvoiceRequest(dateFrom, dateTo, label));

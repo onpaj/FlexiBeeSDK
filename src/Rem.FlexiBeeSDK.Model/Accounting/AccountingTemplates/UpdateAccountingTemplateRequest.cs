@@ -12,8 +12,8 @@ public class UpdateAccountingTemplateRequest
             new ()
             {
                 Code = invoiceCode,
-                AccountingTemplateCode = $"code:{accountingTemplateCode}",
-                DepartmentCode = $"code:{departmentCode}",
+                AccountingTemplateCode = accountingTemplateCode != null ? $"code:{accountingTemplateCode}" : null,
+                DepartmentCode = departmentCode != null ? $"code:{departmentCode}" :  null,
             }
         };
     }
