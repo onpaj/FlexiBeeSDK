@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -8,6 +9,7 @@ using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
 using Rem.FlexiBeeSDK.Model.Accounting;
 using Rem.FlexiBeeSDK.Model.Accounting.AccountingTemplates;
+using Rem.FlexiBeeSDK.Model.Response;
 
 namespace Rem.FlexiBeeSDK.Client.Clients.Accounting;
 
@@ -36,5 +38,12 @@ public class AccountingTemplateClient : ResourceClient, IAccountingTemplateClien
         var result = await PostAsync<AccountingTemplateRequest, AccountingTemplateResult>(queryDoc, query, cancellationToken: cancellationToken);
 
         return result?.Result?.AccountingTemplates ?? new List<AccountingTemplateFlexiDto>();
+    }
+
+    public Task<OperationResult<OperationResultDetail>> UpdateInvoice(string invoiceCode, string? accountingTemplateCode, string? departmentCode,
+        CancellationToken cancellationToken = default)
+    {
+        var request = new UpdateAccountingTemplateRequest(invoiceCode, accountingTemplateCode, departmentCode);
+        return PostAsync(request, cancellationToken: cancellationToken);
     }
 }

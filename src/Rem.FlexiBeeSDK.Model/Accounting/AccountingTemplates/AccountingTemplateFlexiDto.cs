@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace Rem.FlexiBeeSDK.Model.Accounting;
+namespace Rem.FlexiBeeSDK.Model.Accounting.AccountingTemplates;
 
 public class AccountingTemplateFlexiDto
 {

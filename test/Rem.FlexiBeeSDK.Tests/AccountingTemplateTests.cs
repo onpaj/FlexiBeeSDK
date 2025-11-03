@@ -42,7 +42,21 @@ namespace Rem.FlexiBeeSDK.Tests
             firstTemplate.Id.Should().BeGreaterThan(0);
             firstTemplate.Code.Should().NotBeNullOrEmpty();
             firstTemplate.Name.Should().NotBeNullOrEmpty();
-            firstTemplate.LastUpdate.Should().NotBe(default);
+            firstTemplate.AccountCode.Should().NotBeNullOrEmpty();
+        }
+        
+        [Fact]
+        public async Task UpdateInvoice_ShouldReturnUpdatedTemplate()
+        {
+            var client = _fixture.Create<AccountingTemplateClient>();
+
+            var templates = await client.UpdateInvoice("PF250051", "SLUŽBY-IT", "VYROBA");
+
+            templates.IsSuccess.Should().BeTrue($"{templates.StatusCode}:{templates.ErrorMessage}");
+            templates.Result?.Stats?.Updated.Should().Be("1");
+
+            var result = templates.Result?.Results?.FirstOrDefault();
+            result.Should().NotBeNull();
         }
     }
 }
