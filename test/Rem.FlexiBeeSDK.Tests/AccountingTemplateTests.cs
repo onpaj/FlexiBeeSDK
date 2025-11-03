@@ -50,7 +50,7 @@ namespace Rem.FlexiBeeSDK.Tests
         {
             var client = _fixture.Create<AccountingTemplateClient>();
 
-            var templates = await client.UpdateInvoice("PF250051", "SLUŽBY-IT", "VYROBA");
+            var templates = await client.UpdateInvoiceAsync("PF250051", "SLUŽBY-IT", "VYROBA");
 
             templates.IsSuccess.Should().BeTrue($"{templates.StatusCode}:{templates.ErrorMessage}");
             templates.Result?.Stats?.Updated.Should().Be("1");

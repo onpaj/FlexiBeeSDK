@@ -40,7 +40,7 @@ public class AccountingTemplateClient : ResourceClient, IAccountingTemplateClien
         return result?.Result?.AccountingTemplates ?? new List<AccountingTemplateFlexiDto>();
     }
 
-    public Task<OperationResult<OperationResultDetail>> UpdateInvoice(string invoiceCode, string? accountingTemplateCode, string? departmentCode,
+    public Task<OperationResult<OperationResultDetail>> UpdateInvoiceAsync(string invoiceCode, string? accountingTemplateCode, string? departmentCode,
         CancellationToken cancellationToken = default)
     {
         var request = new UpdateAccountingTemplateRequest(invoiceCode, accountingTemplateCode, departmentCode);

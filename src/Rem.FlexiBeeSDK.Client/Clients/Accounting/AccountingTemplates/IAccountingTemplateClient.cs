@@ -11,5 +11,5 @@ public interface IAccountingTemplateClient
 {
     Task<IReadOnlyList<AccountingTemplateFlexiDto>> GetAsync(CancellationToken cancellationToken = default);
     
-    Task<OperationResult<OperationResultDetail>> UpdateInvoice(string invoiceCode, string? accountingTemplateCode, string? departmentCode, CancellationToken cancellationToken = default);
+    Task<OperationResult<OperationResultDetail>> UpdateInvoiceAsync(string invoiceCode, string? accountingTemplateCode, string? departmentCode, CancellationToken cancellationToken = default);
 }
