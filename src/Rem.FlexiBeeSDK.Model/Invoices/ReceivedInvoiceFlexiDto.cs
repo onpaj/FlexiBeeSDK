@@ -186,9 +186,11 @@ namespace Rem.FlexiBeeSDK.Model.Invoices;
         public string CompanyShowAs { get; set; }
 
         [JsonProperty("ic")]
-        public string CompanyIdNumber { get; set; }
+        public string CompanyId { get; set; }
         
         [JsonProperty("stitky")]
         public string Labels { get; set; }
 
+        [JsonProperty("polozkyDokladu", NullValueHandling = NullValueHandling.Ignore)]
+        public List<ReceivedInvoiceItemFlexiDto> Items { get; set; }
     }

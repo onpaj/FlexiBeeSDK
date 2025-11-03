@@ -50,10 +50,14 @@ namespace Rem.FlexiBeeSDK.Tests
             var dateTo = DateTime.Parse("2025-12-30");
             string label = "KLASIFIKACE";
 
-            var departments = await client.SearchAsync(new ReceivedInvoiceRequest(dateFrom, dateTo, label));
+            var invoices = await client.SearchAsync(new ReceivedInvoiceRequest(dateFrom, dateTo, label));
 
-            departments.Should().NotBeEmpty();
-            departments.Should().OnlyContain(d => d.Labels == label);
+            invoices.Should().NotBeEmpty();
+            invoices.Should().OnlyContain(d => d.Labels == label);
+            var first = invoices.FirstOrDefault();
+            
+            first.Should().NotBeNull();
+            first.Items.Should().NotBeEmpty();
         }
     }
 }

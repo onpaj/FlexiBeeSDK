@@ -84,13 +84,14 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
         [JsonProperty("stat", NullValueHandling = NullValueHandling.Ignore)]
         public string CompanyState { get; set; }
         [JsonProperty("ic", NullValueHandling = NullValueHandling.Ignore)]
-        public string CIN { get; set; }
+        public string CompanyId { get; set; }
         [JsonProperty("dic", NullValueHandling = NullValueHandling.Ignore)]
-        public string VATIN { get; set; }
+        public string VatNumber { get; set; }
         [JsonProperty("varSym", NullValueHandling = NullValueHandling.Ignore)]
         public string VarSymbol { get; set; }
         [JsonProperty("bezPolozek", NullValueHandling = NullValueHandling.Ignore)]
         public bool WithoutItems { get; set; }
+        
         [JsonProperty("typDokl", NullValueHandling = NullValueHandling.Ignore)]
         public string DocumentType { get; set; }
         

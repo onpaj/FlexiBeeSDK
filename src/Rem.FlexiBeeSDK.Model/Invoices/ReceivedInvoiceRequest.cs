@@ -16,7 +16,7 @@ public class ReceivedInvoiceRequest
 
     [JsonProperty("detail")]
     public string Detail { get; set; } =
-        "custom:datVyst,kod,typDokl(kod,typDoklK),nazFirmy,cisDosle,varSym,stredisko(id,kod),datSplat,sumZklCelkemMen,sumZklCelkem,mena(kod,id),sumCelkemMen,sumCelkem,juhSum,stavUhrK,juhSumMen,storno,popis,buc,stitky,smerKod(kod),iban,bic,zuctovano,datUcto,typUcOp(nazev,kod,id),id,podpisPrik,zamekK,stavOdpocetK,stavUzivK,bezPolozek,firma,ic";
+        "custom:datVyst,kod,typDokl(kod,typDoklK),nazFirmy,cisDosle,varSym,stredisko(id,kod),datSplat,sumZklCelkemMen,sumZklCelkem,mena(kod,id),sumCelkemMen,sumCelkem,juhSum,stavUhrK,juhSumMen,storno,popis,buc,stitky,smerKod(kod),iban,bic,zuctovano,datUcto,typUcOp(nazev,kod,id),id,podpisPrik,zamekK,stavOdpocetK,stavUzivK,bezPolozek,firma,ic,polozkyDokladu(id,nazev,kod,mnozMj,sumZkl,sumDph,sumCelkem,cenaMj,poznam)";
 
     [JsonProperty("limit")] public int Limit { get; set; } = 0;
 
@@ -24,7 +24,7 @@ public class ReceivedInvoiceRequest
 
     [JsonProperty("includes")]
     public string Includes { get; set; } =
-        "/faktura-prijata/typDokl,/faktura-prijata/stredisko,/faktura-prijata/mena,/faktura-prijata/smerKod,/faktura-prijata/typUcOp";
+        "/faktura-prijata/typDokl,/faktura-prijata/stredisko,/faktura-prijata/mena,/faktura-prijata/smerKod,/faktura-prijata/typUcOp,/faktura-prijata/polozkyDokladu";
 
     [JsonProperty("order")] public string Order { get; set; } = "datVyst";
 
