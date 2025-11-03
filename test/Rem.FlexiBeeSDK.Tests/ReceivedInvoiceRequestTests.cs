@@ -15,7 +15,7 @@ namespace Rem.FlexiBeeSDK.Tests
             
             var request = new ReceivedInvoiceRequest(dateFrom, dateTo);
             
-            var expectedFilter = "((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\")    )";
+            var expectedFilter = "((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\"))";
             Assert.Equal(expectedFilter, request.Filter);
         }
         
@@ -27,7 +27,7 @@ namespace Rem.FlexiBeeSDK.Tests
             
             var request = new ReceivedInvoiceRequest(dateFrom, dateTo, label: "URGENT");
             
-            var expectedFilter = "((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\") and stitky eq \"code:URGENT\"   )";
+            var expectedFilter = "((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\") and stitky eq \"code:URGENT\")";
             Assert.Equal(expectedFilter, request.Filter);
         }
         
@@ -39,7 +39,7 @@ namespace Rem.FlexiBeeSDK.Tests
             
             var request = new ReceivedInvoiceRequest(dateFrom, dateTo, accountingTemplate: "SLUZBY-OSTATNI");
             
-            var expectedFilter = "((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\")  and typUcOp.kod eq \"SLUZBY-OSTATNI\"  )";
+            var expectedFilter = "((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\") and typUcOp.kod eq \"SLUZBY-OSTATNI\")";
             Assert.Equal(expectedFilter, request.Filter);
         }
         
@@ -51,7 +51,7 @@ namespace Rem.FlexiBeeSDK.Tests
             
             var request = new ReceivedInvoiceRequest(dateFrom, dateTo, documentNumber: "PF250809");
             
-            var expectedFilter = "((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\")   and kod eq \"PF250809\" )";
+            var expectedFilter = "((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\") and kod eq \"PF250809\")";
             Assert.Equal(expectedFilter, request.Filter);
         }
         
@@ -63,7 +63,7 @@ namespace Rem.FlexiBeeSDK.Tests
             
             var request = new ReceivedInvoiceRequest(dateFrom, dateTo, companyId: "12345678");
             
-            var expectedFilter = "((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\")    and ic eq \"code:12345678\")";
+            var expectedFilter = "((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\") and ic eq \"code:12345678\")";
             Assert.Equal(expectedFilter, request.Filter);
         }
         
@@ -82,7 +82,7 @@ namespace Rem.FlexiBeeSDK.Tests
                 companyId: "12345678"
             );
             
-            var expectedFilter = "((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\") and stitky eq \"code:URGENT\" and typUcOp.kod eq \"SLUZBY-OSTATNI\" and kod eq \"PF250809\" and ic eq \"code:12345678\")";;
+            var expectedFilter = "((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\") and stitky eq \"code:URGENT\" and typUcOp.kod eq \"SLUZBY-OSTATNI\" and kod eq \"PF250809\" and ic eq \"code:12345678\")";
             Assert.Equal(expectedFilter, request.Filter);
         }
         
@@ -94,7 +94,7 @@ namespace Rem.FlexiBeeSDK.Tests
             
             var request = new ReceivedInvoiceRequest(dateFrom, dateTo);
             
-            var expectedFilter = "((datVyst gte \"2024-12-01\" and datVyst lte \"2025-01-31\")    )";
+            var expectedFilter = "((datVyst gte \"2024-12-01\" and datVyst lte \"2025-01-31\"))";
             Assert.Equal(expectedFilter, request.Filter);
         }
         
@@ -106,7 +106,7 @@ namespace Rem.FlexiBeeSDK.Tests
             
             var request = new ReceivedInvoiceRequest(dateFrom, dateTo, documentNumber: "PF-2508.09/A");
             
-            var expectedFilter = "((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\")   and kod eq \"PF-2508.09/A\" )";
+            var expectedFilter = "((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\") and kod eq \"PF-2508.09/A\")";
             Assert.Equal(expectedFilter, request.Filter);
         }
         
@@ -282,8 +282,7 @@ namespace Rem.FlexiBeeSDK.Tests
             
             var filter = request.Filter;
             
-            // The filter will have spaces where empty strings are returned from helper methods
-            Assert.Equal("((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\")    )", filter);
+            Assert.Equal("((datVyst gte \"2025-08-01\" and datVyst lte \"2025-08-31\"))", filter);
         }
         
         [Fact]
@@ -303,15 +302,41 @@ namespace Rem.FlexiBeeSDK.Tests
             var filter = request.Filter;
             
             var dateIndex = filter.IndexOf("datVyst");
-            var labelIndex = filter.IndexOf("and stitky");
-            var templateIndex = filter.IndexOf("and typUcOp");
-            var numberIndex = filter.IndexOf("and kod eq");
-            var companyIndex = filter.IndexOf("and ic eq");
+            var labelIndex = filter.IndexOf("stitky");
+            var templateIndex = filter.IndexOf("typUcOp");
+            var numberIndex = filter.IndexOf("kod eq");
+            var companyIndex = filter.IndexOf("ic eq");
             
             Assert.True(dateIndex < labelIndex);
             Assert.True(labelIndex < templateIndex);
             Assert.True(templateIndex < numberIndex);
             Assert.True(numberIndex < companyIndex);
+        }
+        
+        [Fact]
+        public void Constructor_WithNullDates_GeneratesEmptyFilter()
+        {
+            var request = new ReceivedInvoiceRequest();
+            
+            Assert.Equal(string.Empty, request.Filter);
+        }
+        
+        [Fact]
+        public void Constructor_WithOnlyLabel_GeneratesCorrectFilter()
+        {
+            var request = new ReceivedInvoiceRequest(label: "URGENT");
+            
+            var expectedFilter = "(stitky eq \"code:URGENT\")";
+            Assert.Equal(expectedFilter, request.Filter);
+        }
+        
+        [Fact]
+        public void Constructor_WithOnlyAccountingTemplate_GeneratesCorrectFilter()
+        {
+            var request = new ReceivedInvoiceRequest(accountingTemplate: "SLUZBY-OSTATNI");
+            
+            var expectedFilter = "(typUcOp.kod eq \"SLUZBY-OSTATNI\")";
+            Assert.Equal(expectedFilter, request.Filter);
         }
     }
 }

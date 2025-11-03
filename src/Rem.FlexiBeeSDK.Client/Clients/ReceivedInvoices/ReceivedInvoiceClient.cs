@@ -26,17 +26,14 @@ namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
         
         protected override string? RequestIdentifier => null;
 
-        public async Task<ReceivedInvoiceDetailFlexiDto> GetAsync(string code, CancellationToken cancellationToken = default)
+        public async Task<ReceivedInvoiceFlexiDto> GetAsync(string code, CancellationToken cancellationToken = default)
         {
-            var query = new QueryBuilder()
-                .Raw($"(kod='{code}')")
-                .WithRelation(Relations.Items)
-                .Build();
+            var query = new FlexiQuery();
+            var result = await PostAsync<ReceivedInvoiceRequest, ReceivedInvoiceSearchResult>(new ReceivedInvoiceRequest(documentNumber: code), query, cancellationToken: cancellationToken);
 
-           var found = await GetAsync<ReceivedInvoiceDetailFlexiDto>(query, cancellationToken: cancellationToken);
-
+           var found = result?.Result?.ReceivedInvoices ?? new List<ReceivedInvoiceFlexiDto>();
            if(!found.Any())
-               throw new KeyNotFoundException($"Entity {nameof(ReceivedInvoiceDetailFlexiDto)} with key {code} not found");
+               throw new KeyNotFoundException($"Entity {nameof(ReceivedInvoiceFlexiDto)} with key {code} not found");
 
            return found.Single();
         }

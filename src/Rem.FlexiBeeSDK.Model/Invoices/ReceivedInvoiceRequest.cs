@@ -1,14 +1,37 @@
 using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model.Invoices;
 
 public class ReceivedInvoiceRequest
 {
-    public ReceivedInvoiceRequest(DateTime dateFrom, DateTime dateTo, string? label = null, string? accountingTemplate = null, string? documentNumber = null, string? companyId = null)
+    public ReceivedInvoiceRequest(DateTime? dateFrom = null, DateTime? dateTo = null, string? label = null, string? accountingTemplate = null, string? documentNumber = null, string? companyId = null)
     {
-        Filter =
-            $"((datVyst gte \"{dateFrom:yyyy-MM-dd}\" and datVyst lte \"{dateTo:yyyy-MM-dd}\") {GetLabelFilterString(label)} {GetAccountingTemplateFilterString(accountingTemplate)} {GetDocumentNumberFilterString(documentNumber)} {GetCompanyIdFilterString(companyId)})";
+        var filters = new List<string>();
+        
+        if (dateFrom.HasValue && dateTo.HasValue)
+        {
+            filters.Add($"(datVyst gte \"{dateFrom.Value:yyyy-MM-dd}\" and datVyst lte \"{dateTo.Value:yyyy-MM-dd}\")");
+        }
+        
+        var labelFilter = GetLabelFilterString(label);
+        if (!string.IsNullOrEmpty(labelFilter))
+            filters.Add(labelFilter);
+            
+        var accountingTemplateFilter = GetAccountingTemplateFilterString(accountingTemplate);
+        if (!string.IsNullOrEmpty(accountingTemplateFilter))
+            filters.Add(accountingTemplateFilter);
+            
+        var documentNumberFilter = GetDocumentNumberFilterString(documentNumber);
+        if (!string.IsNullOrEmpty(documentNumberFilter))
+            filters.Add(documentNumberFilter);
+            
+        var companyIdFilter = GetCompanyIdFilterString(companyId);
+        if (!string.IsNullOrEmpty(companyIdFilter))
+            filters.Add(companyIdFilter);
+        
+        Filter = filters.Count > 0 ? $"({string.Join(" and ", filters)})" : string.Empty;
     }
     
     
@@ -42,7 +65,7 @@ public class ReceivedInvoiceRequest
         if(label == null)
             return String.Empty;
 
-        return $"and stitky eq \"code:{label}\"";
+        return $"stitky eq \"code:{label}\"";
     }
     
     private string GetAccountingTemplateFilterString(string? accountingTemplate = null)
@@ -50,7 +73,7 @@ public class ReceivedInvoiceRequest
         if(accountingTemplate == null)
             return String.Empty;
 
-        return $"and typUcOp.kod eq \"{accountingTemplate}\"";
+        return $"typUcOp.kod eq \"{accountingTemplate}\"";
     }
     
     private string GetDocumentNumberFilterString(string? documentNumber = null)
@@ -58,7 +81,7 @@ public class ReceivedInvoiceRequest
         if(documentNumber == null)
             return String.Empty;
 
-        return $"and kod eq \"{documentNumber}\"";
+        return $"kod eq \"{documentNumber}\"";
     }
     
     private string GetCompanyIdFilterString(string? companyId = null)
@@ -66,6 +89,6 @@ public class ReceivedInvoiceRequest
         if(companyId == null)
             return String.Empty;
 
-        return $"and ic eq \"code:{companyId}\"";
+        return $"ic eq \"code:{companyId}\"";
     }
 }

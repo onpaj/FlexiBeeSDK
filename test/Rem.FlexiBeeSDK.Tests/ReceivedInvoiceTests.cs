@@ -28,7 +28,7 @@ namespace Rem.FlexiBeeSDK.Tests
         {
             var client = _fixture.Create<ReceivedInvoiceClient>();
 
-            var faktura = await client.GetAsync("PF00492");
+            var faktura = await client.GetAsync("PF250951");
 
             Assert.NotNull(faktura);
             Assert.NotEmpty(faktura.Items);
