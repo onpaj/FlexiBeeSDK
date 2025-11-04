@@ -11,9 +11,9 @@ namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
         Task<ReceivedInvoiceFlexiDto> GetAsync(string code, CancellationToken cancellationToken = default);
         Task<IReadOnlyList<ReceivedInvoiceFlexiDto>> SearchAsync(ReceivedInvoiceRequest searchRequest, CancellationToken cancellationToken = default);
 
-        Task<OperationResult<ReceivedInvoiceTagsResult>> AddTagAsync(int invoiceId, string tagCode, CancellationToken cancellationToken = default);
-        Task<OperationResult<ReceivedInvoiceTagsResult>> RemoveTagAsync(int invoiceId, string tagCode, CancellationToken cancellationToken = default);
+        Task<OperationResult<ReceivedInvoiceTagsResult>> AddTagAsync(string invoiceId, string tagCode, CancellationToken cancellationToken = default);
+        Task<OperationResult<ReceivedInvoiceTagsResult>> RemoveTagAsync(string invoiceId, string tagCode, CancellationToken cancellationToken = default);
 
-        Task<List<string>> GetTagsAsync(int invoiceId, CancellationToken cancellationToken = default);
+        Task<List<string>> GetTagsAsync(string invoiceId, CancellationToken cancellationToken = default);
     }
 }

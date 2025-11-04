@@ -65,29 +65,29 @@ namespace Rem.FlexiBeeSDK.Tests
         {
             var client = _fixture.Create<ReceivedInvoiceClient>();
 
-            var tags = await client.GetTagsAsync(54327);
+            var tags = await client.GetTagsAsync("PF251047");
             tags.Should().NotBeNull();
             tags.Should().NotBeEmpty();
         }
         
         [Fact]
-        public async Task AddTags_ShouldAddNewTag()
+        public async Task AddAndRemoveTags()
         {
-            var invoiceId = 75642;
+            var invoiceCode = "PF251047";
             var client = _fixture.Create<ReceivedInvoiceClient>();
 
-            var tags = await client.GetTagsAsync(invoiceId);
+            var tags = await client.GetTagsAsync(invoiceCode);
             tags.Should().NotBeNull();
             tags.Should().NotContain(s => !string.IsNullOrEmpty(s));
 
-            await client.AddTagAsync(invoiceId, "KLASIFIKACE");
-            tags = await client.GetTagsAsync(invoiceId);
+            await client.AddTagAsync(invoiceCode, "KLASIFIKACE");
+            tags = await client.GetTagsAsync(invoiceCode);
             tags.Should().NotBeNull();
             tags.Should().Contain(s => !string.IsNullOrEmpty(s));
             tags.Should().Contain("KLASIFIKACE");
             
-            await client.RemoveTagAsync(invoiceId, "KLASIFIKACE");
-            tags = await client.GetTagsAsync(invoiceId);
+            await client.RemoveTagAsync(invoiceCode, "KLASIFIKACE");
+            tags = await client.GetTagsAsync(invoiceCode);
             tags.Should().NotBeNull();
             tags.Should().NotContain(s => !string.IsNullOrEmpty(s));
         }

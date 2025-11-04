@@ -48,35 +48,36 @@ namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
             return result?.Result?.ReceivedInvoices ?? new List<ReceivedInvoiceFlexiDto>();
         }
 
-        public async Task<OperationResult<ReceivedInvoiceTagsResult>> AddTagAsync(int invoiceId, string tagCode, CancellationToken cancellationToken = default)
+        public async Task<OperationResult<ReceivedInvoiceTagsResult>> AddTagAsync(string invoiceCode, string tagCode, CancellationToken cancellationToken = default)
         {
-            var tags = await GetTagsAsync(invoiceId, cancellationToken);
+            var tags = await GetTagsAsync(invoiceCode, cancellationToken);
             tags.Add(tagCode);
-            var result = await SaveTagsAsync(invoiceId, tags, cancellationToken);
+            var result = await SaveTagsAsync(invoiceCode, tags, cancellationToken);
             return result;
         }
 
-        public async Task<OperationResult<ReceivedInvoiceTagsResult>> RemoveTagAsync(int invoiceId, string tagCode, CancellationToken cancellationToken = default)
+        public async Task<OperationResult<ReceivedInvoiceTagsResult>> RemoveTagAsync(string invoiceCode, string tagCode, CancellationToken cancellationToken = default)
         {
-            var tags = await GetTagsAsync(invoiceId, cancellationToken);
+            var tags = await GetTagsAsync(invoiceCode, cancellationToken);
             tags.Remove(tagCode);
-            var result = await SaveTagsAsync(invoiceId, tags, cancellationToken);
+            var result = await SaveTagsAsync(invoiceCode, tags, cancellationToken);
             return result;
         }
 
-        public async Task<List<string>> GetTagsAsync(int invoiceId, CancellationToken cancellationToken = default)
+        public async Task<List<string>> GetTagsAsync(string invoiceCode, CancellationToken cancellationToken = default)
         {
-            var request = new ReceivedInvoiceTagsRequest(invoiceId);
+            var request = new ReceivedInvoiceTagsRequest(invoiceCode);
             var query = new FlexiQuery();
-            var currentTags =
+            var currentTags = 
                 await PostAsync<ReceivedInvoiceTagsRequest, ReceivedInvoiceTagsResult>(request, query, cancellationToken: cancellationToken);
+
 
             return currentTags.Result?.Invoices.FirstOrDefault()?.Tags ?? new List<string>();
         }
         
-        private async Task<OperationResult<ReceivedInvoiceTagsResult>> SaveTagsAsync(int invoiceId, IEnumerable<string> tags, CancellationToken cancellationToken = default)
+        private async Task<OperationResult<ReceivedInvoiceTagsResult>> SaveTagsAsync(string invoiceCode, IEnumerable<string> tags, CancellationToken cancellationToken = default)
         {
-            var request = new ReceivedInvoiceSetTagsRequest(invoiceId, tags);
+            var request = new ReceivedInvoiceSetTagsRequest(invoiceCode, tags);
             var currentTags =
                 await PostAsync<ReceivedInvoiceSetTagsRequest, ReceivedInvoiceTagsResult>(request, cancellationToken: cancellationToken);
 
@@ -107,11 +108,11 @@ namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
 
     public class ReceivedInvoiceTagsRequest
     {
-        private readonly int _invoiceId;
+        private readonly string _invoiceCode;
 
-        public ReceivedInvoiceTagsRequest(int invoiceId)
+        public ReceivedInvoiceTagsRequest(string invoiceCode)
         {
-            _invoiceId = invoiceId;
+            _invoiceCode = invoiceCode;
         }
 
 
@@ -130,7 +131,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
 
         [JsonProperty("@version")] public string Version { get; set; } = "1.0";
 
-        [JsonProperty("filter")] public string Filter => $"id in (\"{_invoiceId}\")";
+        [JsonProperty("filter")] public string Filter => $"kod in (\"{_invoiceCode}\")";
 
     }
     
@@ -138,7 +139,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
     public class ReceivedInvoiceSetTagDto
     {
         [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("stitky", NullValueHandling = NullValueHandling.Ignore)]
         public string TagsRaw { get; set; }
@@ -149,13 +150,13 @@ namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
 
     public class ReceivedInvoiceSetTagsRequest
     {
-        public ReceivedInvoiceSetTagsRequest(int invoiceId, IEnumerable<string> tags)
+        public ReceivedInvoiceSetTagsRequest(string invoiceCode, IEnumerable<string> tags)
         {
             Invoices = new List<ReceivedInvoiceSetTagDto>()
             {
                 new ReceivedInvoiceSetTagDto()
                 {
-                    Id = invoiceId,
+                    Id = $"code:{invoiceCode}",
                     TagsRaw = string.Join(", ", tags)
                 }
             };
