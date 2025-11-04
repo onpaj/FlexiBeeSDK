@@ -59,5 +59,37 @@ namespace Rem.FlexiBeeSDK.Tests
             first.Should().NotBeNull();
             first.Items.Should().NotBeEmpty();
         }
+        
+        [Fact]
+        public async Task GetTags_ShouldReturnById()
+        {
+            var client = _fixture.Create<ReceivedInvoiceClient>();
+
+            var tags = await client.GetTagsAsync(54327);
+            tags.Should().NotBeNull();
+            tags.Should().NotBeEmpty();
+        }
+        
+        [Fact]
+        public async Task AddTags_ShouldAddNewTag()
+        {
+            var invoiceId = 75642;
+            var client = _fixture.Create<ReceivedInvoiceClient>();
+
+            var tags = await client.GetTagsAsync(invoiceId);
+            tags.Should().NotBeNull();
+            tags.Should().NotContain(s => !string.IsNullOrEmpty(s));
+
+            await client.AddTagAsync(invoiceId, "KLASIFIKACE");
+            tags = await client.GetTagsAsync(invoiceId);
+            tags.Should().NotBeNull();
+            tags.Should().Contain(s => !string.IsNullOrEmpty(s));
+            tags.Should().Contain("KLASIFIKACE");
+            
+            await client.RemoveTagAsync(invoiceId, "KLASIFIKACE");
+            tags = await client.GetTagsAsync(invoiceId);
+            tags.Should().NotBeNull();
+            tags.Should().NotContain(s => !string.IsNullOrEmpty(s));
+        }
     }
 }

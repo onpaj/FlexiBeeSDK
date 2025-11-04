@@ -4,9 +4,11 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
 using Rem.FlexiBeeSDK.Model.Invoices;
+using Rem.FlexiBeeSDK.Model.Response;
 
 namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
 {
@@ -45,5 +47,130 @@ namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
 
             return result?.Result?.ReceivedInvoices ?? new List<ReceivedInvoiceFlexiDto>();
         }
+
+        public async Task<OperationResult<ReceivedInvoiceTagsResult>> AddTagAsync(int invoiceId, string tagCode, CancellationToken cancellationToken = default)
+        {
+            var tags = await GetTagsAsync(invoiceId, cancellationToken);
+            tags.Add(tagCode);
+            var result = await SaveTagsAsync(invoiceId, tags, cancellationToken);
+            return result;
+        }
+
+        public async Task<OperationResult<ReceivedInvoiceTagsResult>> RemoveTagAsync(int invoiceId, string tagCode, CancellationToken cancellationToken = default)
+        {
+            var tags = await GetTagsAsync(invoiceId, cancellationToken);
+            tags.Remove(tagCode);
+            var result = await SaveTagsAsync(invoiceId, tags, cancellationToken);
+            return result;
+        }
+
+        public async Task<List<string>> GetTagsAsync(int invoiceId, CancellationToken cancellationToken = default)
+        {
+            var request = new ReceivedInvoiceTagsRequest(invoiceId);
+            var query = new FlexiQuery();
+            var currentTags =
+                await PostAsync<ReceivedInvoiceTagsRequest, ReceivedInvoiceTagsResult>(request, query, cancellationToken: cancellationToken);
+
+            return currentTags.Result?.Invoices.FirstOrDefault()?.Tags ?? new List<string>();
+        }
+        
+        private async Task<OperationResult<ReceivedInvoiceTagsResult>> SaveTagsAsync(int invoiceId, IEnumerable<string> tags, CancellationToken cancellationToken = default)
+        {
+            var request = new ReceivedInvoiceSetTagsRequest(invoiceId, tags);
+            var currentTags =
+                await PostAsync<ReceivedInvoiceSetTagsRequest, ReceivedInvoiceTagsResult>(request, cancellationToken: cancellationToken);
+
+            return currentTags;
+        }
     }
+
+    public class ReceivedInvoiceTagsResult
+    {
+        [JsonProperty("@version", NullValueHandling = NullValueHandling.Ignore)]
+        public string Version { get; set; }
+
+        [JsonProperty("faktura-prijata", NullValueHandling = NullValueHandling.Ignore)]
+        public List<ReceivedInvoiceTagsDto> Invoices { get; set; }
+        
+    }
+
+    public class ReceivedInvoiceTagsDto
+    {
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
+        public int Id { get; set; }
+
+        [JsonProperty("stitky", NullValueHandling = NullValueHandling.Ignore)]
+        public string? TagsRaw { get; set; }
+        
+        public List<string> Tags => TagsRaw?.Split(',').Select(s => s.Trim()).ToList() ??  new List<string>();
+    }
+
+    public class ReceivedInvoiceTagsRequest
+    {
+        private readonly int _invoiceId;
+
+        public ReceivedInvoiceTagsRequest(int invoiceId)
+        {
+            _invoiceId = invoiceId;
+        }
+
+
+        [JsonProperty("add-row-count")] public bool AddRowCount { get; set; } = true;
+
+        [JsonProperty("detail")]
+        public string Detail { get; set; } = "custom:id,zamekK,stitky,polozkyFaktury(id)";
+
+        [JsonProperty("limit")] public int Limit { get; set; } = 0;
+
+        [JsonProperty("start")] public int Start { get; set; } = 0;
+
+        [JsonProperty("use-internal-id")] public bool UseInternalId { get; set; } = true;
+
+        [JsonProperty("no-ext-ids")] public bool NoExtIds { get; set; } = true;
+
+        [JsonProperty("@version")] public string Version { get; set; } = "1.0";
+
+        [JsonProperty("filter")] public string Filter => $"id in (\"{_invoiceId}\")";
+
+    }
+    
+    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
+    public class ReceivedInvoiceSetTagDto
+    {
+        [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)]
+        public int Id { get; set; }
+
+        [JsonProperty("stitky", NullValueHandling = NullValueHandling.Ignore)]
+        public string TagsRaw { get; set; }
+
+        [JsonProperty("stitky@removeAll", NullValueHandling = NullValueHandling.Ignore)]
+        public bool TagsRemoveAll { get; set; } = true;
+    }
+
+    public class ReceivedInvoiceSetTagsRequest
+    {
+        public ReceivedInvoiceSetTagsRequest(int invoiceId, IEnumerable<string> tags)
+        {
+            Invoices = new List<ReceivedInvoiceSetTagDto>()
+            {
+                new ReceivedInvoiceSetTagDto()
+                {
+                    Id = invoiceId,
+                    TagsRaw = string.Join(", ", tags)
+                }
+            };
+        }
+
+        [JsonProperty("@atomic", NullValueHandling = NullValueHandling.Ignore)]
+        public bool Atomic { get; set; }
+
+        [JsonProperty("faktura-prijata", NullValueHandling = NullValueHandling.Ignore)]
+        public List<ReceivedInvoiceSetTagDto> Invoices { get; set; }
+
+        [JsonProperty("@version", NullValueHandling = NullValueHandling.Ignore)]
+        public string Version { get; set; }
+    }
+
+
+
 }
