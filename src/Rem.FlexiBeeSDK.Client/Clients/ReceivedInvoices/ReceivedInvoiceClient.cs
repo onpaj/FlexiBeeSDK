@@ -48,18 +48,19 @@ namespace Rem.FlexiBeeSDK.Client.Clients.ReceivedInvoices
             return result?.Result?.ReceivedInvoices ?? new List<ReceivedInvoiceFlexiDto>();
         }
 
-        public async Task<OperationResult<ReceivedInvoiceTagsResult>> AddTagAsync(string invoiceCode, string tagCode, CancellationToken cancellationToken = default)
+        public async Task<OperationResult<ReceivedInvoiceTagsResult>> AddTagAsync(string invoiceCode, IEnumerable<string> tagCodes, CancellationToken cancellationToken = default)
         {
             var tags = await GetTagsAsync(invoiceCode, cancellationToken);
-            tags.Add(tagCode);
+            tags.AddRange(tagCodes);
             var result = await SaveTagsAsync(invoiceCode, tags, cancellationToken);
             return result;
         }
 
-        public async Task<OperationResult<ReceivedInvoiceTagsResult>> RemoveTagAsync(string invoiceCode, string tagCode, CancellationToken cancellationToken = default)
+        public async Task<OperationResult<ReceivedInvoiceTagsResult>> RemoveTagAsync(string invoiceCode, IEnumerable<string> tagCodes, CancellationToken cancellationToken = default)
         {
             var tags = await GetTagsAsync(invoiceCode, cancellationToken);
-            tags.Remove(tagCode);
+            foreach(var tagCode in tagCodes)
+                tags.Remove(tagCode);
             var result = await SaveTagsAsync(invoiceCode, tags, cancellationToken);
             return result;
         }
