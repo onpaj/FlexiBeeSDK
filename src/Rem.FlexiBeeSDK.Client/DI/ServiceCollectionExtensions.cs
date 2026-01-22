@@ -33,6 +33,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IBankAccountClient, BankAccountClient>();
         services.AddSingleton<IStockToDateClient, StockToDateClient>();
         services.AddSingleton<IStockItemsMovementClient, StockItemsMovementClient>();
+        services.AddSingleton<IStockMovementClient, StockMovementClient>();
         services.AddSingleton<ILedgerClient, LedgerClient>();
         services.AddSingleton<IAccountingTemplateClient, AccountingTemplateClient>();
         services.AddSingleton<IDepartmentClient, DepartmentClient>();
