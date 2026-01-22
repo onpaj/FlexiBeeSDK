@@ -22,20 +22,26 @@ namespace Rem.FlexiBeeSDK.Tests
         public async Task GetStockMovementById()
         {
             var client = _fixture.Create<StockMovementClient>();
-            var id = 89206;
 
-            var movement = await client.GetAsync(id);
+            // First get a movement by code to get its ID
+            var movement = await client.GetByCodeAsync("S-21268/2025");
+            movement.Should().NotBeNull("test data should exist");
 
-            movement.Should().NotBeNull();
-            movement.Id.Should().Be(id);
-            movement.Code.Should().NotBeNullOrEmpty();
+            var id = movement.Id;
+
+            // Now test GetAsync by ID
+            var movementById = await client.GetAsync(id);
+
+            movementById.Should().NotBeNull();
+            movementById.Id.Should().Be(id);
+            movementById.Code.Should().NotBeNullOrEmpty();
         }
 
         [Fact]
         public async Task GetStockMovementByCode()
         {
             var client = _fixture.Create<StockMovementClient>();
-            var code = "I+00008/2026";
+            var code = "S-21268/2025";
 
             var movement = await client.GetByCodeAsync(code);
 
@@ -173,8 +179,8 @@ namespace Rem.FlexiBeeSDK.Tests
             var client = _fixture.Create<StockMovementClient>();
 
             // First get an existing movement
-            var existingMovement = await client.GetByCodeAsync("I+00008/2026");
-            existingMovement.Should().NotBeNull();
+            var existingMovement = await client.GetByCodeAsync("S-21268/2025");
+            existingMovement.Should().NotBeNull("test data should exist");
 
             var updateMovement = new CreateStockMovementFlexiDto
             {
