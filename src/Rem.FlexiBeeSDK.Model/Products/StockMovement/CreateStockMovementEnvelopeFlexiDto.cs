@@ -10,21 +10,9 @@ public class CreateStockMovementEnvelopeFlexiDto
         StockMovements = new List<CreateStockMovementFlexiDto> { stockMovement };
     }
 
-    [JsonProperty("winstrom")]
-    public WinstromEnvelope Winstrom { get; set; } = new();
+    [JsonProperty("skladovy-pohyb", NullValueHandling = NullValueHandling.Ignore)]
+    public List<CreateStockMovementFlexiDto> StockMovements { get; set; }
 
-    public class WinstromEnvelope
-    {
-        [JsonProperty("skladovy-pohyb")]
-        public List<CreateStockMovementFlexiDto> StockMovements { get; set; }
-
-        [JsonProperty("@version")]
-        public string Version { get; set; } = "1.0";
-    }
-
-    [JsonIgnore]
-    private List<CreateStockMovementFlexiDto> StockMovements
-    {
-        set => Winstrom.StockMovements = value;
-    }
+    [JsonProperty("@version", NullValueHandling = NullValueHandling.Ignore)]
+    public string Version { get; set; } = "1.0";
 }
