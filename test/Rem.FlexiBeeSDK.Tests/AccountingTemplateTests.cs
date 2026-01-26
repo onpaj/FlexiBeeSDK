@@ -46,6 +46,37 @@ namespace Rem.FlexiBeeSDK.Tests
         }
         
         [Fact]
+        public async Task GetAccountingTemplates_ShouldMapModuleProperties()
+        {
+            var client = _fixture.Create<AccountingTemplateClient>();
+
+            var templates = await client.GetAsync();
+
+            templates.Should().NotBeEmpty();
+
+            var firstTemplate = templates.First();
+
+            // Verify that module properties are properly mapped by checking they exist and are accessible
+            var moduleProperties = new[]
+            {
+                firstTemplate.ModuleIssuedInvoicesAvailable,
+                firstTemplate.ModuleReceivedInvoicedAvailable,
+                firstTemplate.ModuleReceivablesAvailable,
+                firstTemplate.ModulePayablesAvailable,
+                firstTemplate.ModuleBankStatementsReceivedAvailable,
+                firstTemplate.ModuleBankStatementsIssuedAvailable,
+                firstTemplate.ModuleCashDocumentsReceivedAvailable,
+                firstTemplate.ModuleCashDocumentsIssuedAvailable,
+                firstTemplate.ModuleWarehouseMovementsReceivedAvailable,
+                firstTemplate.ModuleWarehouseMovementsIssuedAvailable,
+                firstTemplate.ModuleInternalDocumentsAvailable
+            };
+
+            // At least some modules should be available (not all false)
+            moduleProperties.Should().Contain(true);
+        }
+
+        [Fact]
         public async Task UpdateInvoice_ShouldReturnUpdatedTemplate()
         {
             var client = _fixture.Create<AccountingTemplateClient>();
