@@ -8,7 +8,7 @@ public class AccountingTemplateRequest
 
     [JsonProperty("detail")]
     public string Detail { get; set; } =
-        "custom:id,kod,nazev,popis,poznam,protiUcetVydej(kod)";
+        "custom:id,kod,nazev,popis,poznam,protiUcetVydej(kod),modulFav,modulFap,modulPhl,modulZav,modulBanP,modulBanV,modulPokP,modulPokV,modulSklP,modulSklV,modulInt";
 
     [JsonProperty("limit")] public int Limit { get; set; } = 0;
 
