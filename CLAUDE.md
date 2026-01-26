@@ -67,3 +67,46 @@ To run integration tests, configure user secrets with FlexiBeeSettings containin
 2. **Result Filtering** - Response data is processed through a pipeline of IResultFilter implementations
 3. **Fluent Queries** - Use QueryBuilder for constructing API queries with filters and parameters
 4. **Configuration-Based** - All connection settings managed through IConfiguration and FlexiBeeSettings
+
+## Documentation for Consumer Projects
+
+This SDK includes AI-ready documentation designed specifically for AI agents working in consumer projects:
+
+### Documentation Files
+
+- **FlexiBeeSDK_Documentation.md** - Comprehensive guide for AI agents with:
+  - Complete API reference for all clients
+  - Code examples for common operations
+  - FlexiBee resource mappings
+  - Data models and DTOs
+
+- **CLAUDE.md** (this file) - Development guidance for working on this SDK project
+
+### NuGet Package Structure
+
+When published as a NuGet package, documentation is included in the package:
+
+```
+rem.flexibeesdk.client/
+  content/
+    FlexiBeeSDK_Documentation.md  # Main documentation
+    CLAUDE.md                      # SDK development guide
+```
+
+Files are automatically copied to the `content/` folder in the NuGet package and to consumer project's output directory.
+
+### For Consumer Projects
+
+When a project uses this NuGet package, AI agents should add this to their `CLAUDE.md`:
+
+```markdown
+## NuGet Package Documentation
+
+Projekt používá FlexiBee SDK. Dokumentace je dostupná v NuGet cache:
+~/.nuget/packages/rem.flexibeesdk.client/*/content/FlexiBeeSDK_Documentation.md
+
+Když pracuješ s FlexiBee typy (IIssuedInvoiceClient, IContactClient, QueryBuilder, atd.),
+přečti tuto dokumentaci pro pochopení API.
+```
+
+This enables AI agents to discover and use the SDK documentation automatically.

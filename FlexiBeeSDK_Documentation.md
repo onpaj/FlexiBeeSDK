@@ -2,13 +2,63 @@
 
 Dokumentace pro .NET SDK pro integraci se systémem Abra FlexiBee. Tato dokumentace je určena primárně pro zpracování AI agenty v jiných projektech.
 
+## Pro AI agenty v consumer projektech
+
+Pokud jsi AI agent pracující v projektu, který používá FlexiBeeSDK NuGet package, tato dokumentace ti poskytne:
+- Kompletní seznam dostupných klientů a jejich metod
+- Příklady použití pro běžné operace
+- FlexiBee API resource názvy pro debugging a troubleshooting
+- Datové modely a jejich FlexiBee property mapping
+
+**Kde najít tuto dokumentaci:**
+- V NuGet cache: `~/.nuget/packages/rem.flexibeesdk.client/*/content/FlexiBeeSDK_Documentation.md`
+- V projektu (pokud byla zkopírována): hledej soubor `FlexiBeeSDK_Documentation.md`
+
+**Jak přidat do consumer CLAUDE.md:**
+```markdown
+## NuGet Package Documentation
+
+Projekt používá FlexiBee SDK. Dokumentace je dostupná v NuGet cache:
+~/.nuget/packages/rem.flexibeesdk.client/*/content/FlexiBeeSDK_Documentation.md
+
+Když pracuješ s FlexiBee typy (IIssuedInvoiceClient, IContactClient, QueryBuilder, atd.),
+přečti tuto dokumentaci pro pochopení API.
+```
+
 ## Přehled SDK
 
 FlexiBee SDK poskytuje typovaný .NET wrapper pro Abra FlexiBee API, ekonomický a skladový systém. SDK se skládá ze tří hlavních komponent:
 
 - **Rem.FlexiBeeSDK.Model** - datové modely a response typy
-- **Rem.FlexiBeeSDK.Client** - HTTP klienti a komunikační logika  
+- **Rem.FlexiBeeSDK.Client** - HTTP klienti a komunikační logika
 - **Rem.FlexiBeeSDK.Tests** - unit testy
+
+## Kompletní API Reference
+
+Tabulka všech dostupných klientů v SDK:
+
+| Interface | FlexiBee Resource | Hlavní metody | Popis |
+|-----------|-------------------|---------------|-------|
+| `IIssuedInvoiceClient` | `faktura-vydana` | Get, Save | Vydané faktury |
+| `IReceivedInvoiceClient` | `faktura-prijata` | Get, Search, AddTag, RemoveTag, GetTags | Přijaté faktury |
+| `IIssuedOrdersClient` | `objednavka-vydana` | Get, GetByCode, Save, Finalize | Vydané objednávky |
+| `IContactClient` | `kontakt` | Get, GetById | Kontakty (podle kódu nebo IČ) |
+| `IContactListClient` | `adresar` | Get | Seznam kontaktů s filtry |
+| `IBankClient` | `banka` | UnPairPayment | Bankovní operace |
+| `IBankAccountClient` | `bankovni-ucet` | ImportStatement | Bankovní účty |
+| `IBoMClient` | `kusovnik` | Get, GetByIngredient, RecalculatePurchasePrice, GetBomWeight | Kusovníky |
+| `IPriceListClient` | `cenik` | Save | Ceníky |
+| `IProductSetsClient` | Product sets | Get | Product sets |
+| `IStockToDateClient` | `stav-skladu-k-datu` | Get | Stavy skladu k datu |
+| `IStockMovementClient` | `skladovy-pohyb` | Get, GetByCode, Save, Update | Hlavičky skladových pohybů |
+| `IStockItemsMovementClient` | `skladovy-pohyb-polozka` | Get, Save | Položky skladových pohybů |
+| `ILotsClient` | `sarze-expirace` | Get | Šarže/expirace |
+| `IStockTakingClient` | `inventura` | GetHeader, CreateHeader, AddMissingLots, Recompute, Submit | Hlavičky inventur |
+| `IStockTakingItemsClient` | `inventura-polozka` | GetStockTakings, AddStockTakings | Položky inventur |
+| `ILedgerClient` | Účetní kniha | Get | Účetní položky |
+| `IAccountingTemplateClient` | Účetní předpisy | Get, UpdateInvoice | Účetní předpisy |
+| `IDepartmentClient` | Střediska | Get | Střediska |
+| `IUserQueryClient<T>` | Generické | Get | User-defined queries |
 
 ## Konfigurace a Setup
 
@@ -223,6 +273,184 @@ var lots = await client.GetAsync(
 ```
 
 **Transformace**: `LotsItem` → `ProductLot` s čištěním prefixů
+
+### 11. StockMovementClient (Skladové pohyby - hlavičky)
+
+**FlexiBee Resource**: `skladovy-pohyb`
+
+```csharp
+// Získání skladového pohybu podle ID
+var movement = await client.GetAsync(123, cancellationToken);
+
+// Získání podle kódu
+var movement = await client.GetByCodeAsync("SP-2024-001", cancellationToken);
+
+// Seznam pohybů s filtry
+var movements = await client.GetAsync(
+    dateFrom: DateTime.Now.AddMonths(-1),
+    dateTo: DateTime.Now,
+    direction: StockMovementDirection.In, // nebo Out
+    warehouseCode: "SKLAD-01",
+    documentTypeId: 5,
+    limit: 100,
+    skip: 0,
+    cancellationToken
+);
+
+// Vytvoření nového pohybu
+var result = await client.SaveAsync(newMovement, cancellationToken);
+
+// Aktualizace existujícího
+var result = await client.UpdateAsync(movement, cancellationToken);
+```
+
+**Důležité**: Pro vytvoření kompletního skladového pohybu použijte `StockMovementClient` pro hlavičku a `StockItemsMovementClient` pro položky.
+
+### 12. StockItemsMovementClient (Skladové pohyby - položky)
+
+**FlexiBee Resource**: `skladovy-pohyb-polozka`
+
+```csharp
+// Položky pohybu podle data a směru
+var items = await client.GetAsync(
+    dateFrom: DateTime.Now.AddMonths(-1),
+    dateTo: DateTime.Now,
+    direction: StockMovementDirection.In,
+    storeCode: "SKLAD-01",
+    documentTypeId: null,
+    documentCode: null,
+    limit: 100,
+    skip: 0,
+    cancellationToken
+);
+
+// Položky konkrétního dokladu
+var items = await client.GetAsync(documentId: 123, cancellationToken);
+
+// Uložení položek
+var result = await client.SaveAsync(itemsRequest, cancellationToken);
+```
+
+### 13. IssuedOrdersClient (Vydané objednávky)
+
+**FlexiBee Resource**: `objednavka-vydana`
+
+```csharp
+// Seznam objednávek
+var orders = await client.GetAsync(
+    dateFrom: DateTime.Now.AddMonths(-1),
+    dateTo: DateTime.Now,
+    documentTypeId: null,
+    limit: 100,
+    skip: 0,
+    cancellationToken
+);
+
+// Podle kódu
+var order = await client.GetByCodeAsync("OBJ-2024-001", cancellationToken);
+
+// Podle ID
+var order = await client.GetAsync(123, cancellationToken);
+
+// Vytvoření objednávky
+var result = await client.SaveAsync(newOrder, cancellationToken);
+
+// Finalizace objednávky
+var result = await client.FinalizeAsync(finalizeRequest, cancellationToken);
+```
+
+### 14. ContactListClient (Seznam kontaktů)
+
+**FlexiBee Resource**: `adresar`
+
+```csharp
+// Seznam kontaktů podle typu s paginací
+var contacts = await client.GetAsync(
+    contactTypes: new[] { ContactType.Customer, ContactType.Supplier },
+    limit: 100,
+    skip: 0,
+    cancellationToken
+);
+```
+
+**Rozdíl od ContactClient**: `ContactListClient` načítá seznamy kontaktů s filtry, zatímco `ContactClient` načítá jednotlivé kontakty podle kódu nebo IČ.
+
+### 15. LedgerClient (Účetní kniha)
+
+**FlexiBee Resource**: Účetní kniha
+
+```csharp
+// Účetní položky podle období a účtů
+var items = await client.GetAsync(
+    dateFrom: DateTime.Now.AddMonths(-1),
+    dateTo: DateTime.Now,
+    debitAccountPrefixes: new[] { "311", "321" },
+    creditAccountPrefix: new[] { "601", "602" },
+    departmentId: "STR-01",
+    limit: 1000,
+    skip: 0,
+    cancellationToken
+);
+```
+
+### 16. AccountingTemplateClient (Účetní předpisy)
+
+**FlexiBee Resource**: Účetní předpisy
+
+```csharp
+// Všechny účetní předpisy
+var templates = await client.GetAsync(cancellationToken);
+
+// Aktualizace faktury s účetním předpisem
+var result = await client.UpdateInvoiceAsync(
+    invoiceCode: "FAV-2024-001",
+    accountingTemplateCode: "PREDPIS-01",
+    departmentCode: "STR-01",
+    cancellationToken
+);
+```
+
+### 17. DepartmentClient (Střediska)
+
+**FlexiBee Resource**: Střediska
+
+```csharp
+// Všechna střediska
+var departments = await client.GetAsync(cancellationToken);
+```
+
+### 18. ProductSetsClient (Product Sets)
+
+**FlexiBee Resource**: Product sets
+
+```csharp
+// Product sets pro produkt s paginací
+var sets = await client.GetAsync(
+    productCode: "PROD-001",
+    limit: 100,
+    skip: 0,
+    cancellationToken
+);
+```
+
+### 19. UserQueryClient&lt;T&gt; (Generické user queries)
+
+**FlexiBee Resource**: Generické
+
+```csharp
+// Vlastní query s parametry
+var results = await client.GetAsync(
+    queryParameters: new Dictionary<string, string>
+    {
+        { "start", "0" },
+        { "limit", "100" },
+        { "detail", "full" }
+    },
+    cancellationToken
+);
+```
+
+**Použití**: Pro flexibilní queries kdy potřebujete plnou kontrolu nad parametry.
 
 ## Datové modely
 
