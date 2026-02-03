@@ -1,0 +1,210 @@
+Popis	Strojový název	Databázový název	Typ proměnné	Informace	*	rw	1	2	3	S
+ID	id	IdDoklSklad	integer			ro	×	×	×	×
+Poslední změna	lastUpdate	lastUpdate	datetime			ro		×	×	×
+Upravil	updatedBy	IdUpdatedBy	relation (Uživatelé ve firmě 20024)	Max. délka: 254
+ro			×	×
+Vytvořil	createdBy	idUziv	relation (Uživatelé ve firmě 20024)	Max. délka: 254
+ro			×	×
+Datum vytvoření	createdDate	CreatedDate	datetime			ro			×	×
+Interní číslo	kod	Kod	string	Max. délka: 20
+×	rw		×	×	×
+Zámek	zamekK	ZamekK	select	Možné hodnoty:
+Otevřeno (zamek.otevreno)
+Prohlédnuto (zamek.prohlednuto)
+Zamknuto mimo účetní (zamek.polozamceno)
+Zamknuto (zamek.zamceno)
+Max. délka: 50
+ro			×	×
+Typ pohybu	typPohybuK	TypPohybuK	select	Možné hodnoty:
+Příjem (typPohybu.prijem)
+Výdej (typPohybu.vydej)
+Max. délka: 50
+×	rw			×	×
+Variabilní symbol	varSym	VarSym	string	Max. délka: 30
+rw			×	×
+Číslo objednávky	cisObj	CisObj	string	Max. délka: 2 000
+rw			×	×
+Dodací list	cisDodak	CisDodak	string	Max. délka: 30
+rw			×	×
+Doprava a vyskladnění	doprava	Doprava	string			rw			×	×
+Datum vystavení	datVyst	DatVyst	date		×	rw		×	×	×
+Popis	popis	Popis	string	Max. délka: 255
+rw		×	×	×
+Poznámka	poznam	Poznam	string			rw			×	×
+Úvodní text (tiskne se před položkami)	uvodTxt	UvodTxt	string			rw			×	×
+Závěrečný text (tiskne se za položkami)	zavTxt	ZavTxt	string			rw			×	×
+Osvob., bez DPH [Kč]	sumOsv	SumOsv	numeric	Max. poč. číslic: 15
+Počet deset. míst: 2
+ro			×	×
+Celková suma základů osvobozených od DPH v základní měně firmy. Pokud je doklad položkový, je automaticky dopočítáváno z položek.
+Základ celkem [Kč]	sumZklCelkem	sumOsv + sumZklSniz + sumZklSniz2 + sumZklZakl	numeric	Max. poč. číslic: 15
+Počet deset. míst: 2
+ro			×	×
+Celková suma všech základů (tj. částka bez DPH) v základní měně firmy. Toto je výsledná částka bez DPH. Pokud je doklad položkový, je automaticky dopočítáváno z položek.
+Celkem [Kč]	sumCelkem	SumCelkem	numeric	Max. poč. číslic: 15
+Počet deset. míst: 2
+ro		×	×	×
+Celková suma včetně DPH v základní měně firmy. (tj. kolik má zákazník zaplatit). Pokud je doklad položkový, je automaticky dopočítáváno z položek.
+Osvob., bez DPH [měna]	sumOsvMen	SumOsvMen	numeric			ro			×	×
+Celková suma základů osvobozených od DPH v měně dokladu. Pokud je měna dokladu shodná se základní měnou firmy, je tato položka nulová. Pokud je doklad položkový, je automaticky dopočítáváno z položek.
+Základ celkem [měna]	sumZklCelkemMen	sumOsvMen + sumZklSnizMen + sumZklSniz2Men + sumZklZaklMen	numeric	Max. poč. číslic: 15
+Počet deset. míst: 2
+ro			×	×
+Celková suma všech základů (tj. částka bez DPH) v měně dokladu. Pokud je měna dokladu shodná se základní měnou firmy, je tato položka nulová. Toto je výsledná částka bez DPH. Pokud je doklad položkový, je automaticky dopočítáváno z položek.
+Celkem [měna]	sumCelkemMen	SumCelkemMen	numeric	Max. poč. číslic: 15
+Počet deset. míst: 2
+ro		×	×	×
+Celková suma včetně DPH v měně dokladu. Pokud je měna dokladu shodná se základní měnou firmy, je tato položka nulová. (tj. kolik má zákazník zaplatit). Pokud je doklad položkový, je automaticky dopočítáváno z položek.
+Kurz	kurz	Kurz	numeric	Max. poč. číslic: 19
+Počet deset. míst: 6
+rw			×	×
+Kurz, který určuje přepočet mezi měnou firmy a měnou dokladu. Pokud není vyplněna měna, je roven nule.
+Kurz. množství	kurzMnozstvi	KurzMnozstvi	numeric	Max. poč. číslic: 19
+Počet deset. míst: 6
+Min. hodnota: 0
+rw			×	×
+Kurzové množství, které určuje vztah mezi základní měnou firmy a měnou dokladu. Např. kurz mezi CZK a Japonským jenem se určuje jako 1 CZK : 100 JPY.
+Název firmy nebo jméno osoby	nazFirmy	NazFirmy	string	Max. délka: 255
+rw			×	×
+Pokud se vyplní položka 'firma' není potřeba doplňovat, protože bude zkopírováno z adresáře.
+Název firmy - druhá řádka	faNazev2		string	Max. délka: 255
+ro			×	
+Ulice	ulice	Ulice	string	Max. délka: 255
+rw			×	×
+Pokud se vyplní položka 'firma' není potřeba doplňovat, protože bude zkopírováno z adresáře.
+Město	mesto	Mesto	string	Max. délka: 255
+rw			×	×
+Pokud se vyplní položka 'firma' není potřeba doplňovat, protože bude zkopírováno z adresáře.
+PSČ	psc	Psc	string	Max. délka: 255
+rw			×	×
+Pokud se vyplní položka 'firma' není potřeba doplňovat, protože bude zkopírováno z adresáře.
+Kraj	region	Idregion	relation (Regiony 20021)			rw			×	×
+Pošt. kraj	faRegion	Idfaregion	relation (Regiony 20021)			rw			×	×
+EAN	eanKod	EanKod	string	Max. délka: 20
+rw			×	×
+Pokud se vyplní položka 'firma' není potřeba doplňovat, protože bude zkopírováno z adresáře.
+IČO	ic	Ic	string	Max. délka: 20
+rw			×	×
+Pokud se vyplní položka 'firma' není potřeba doplňovat, protože bude zkopírováno z adresáře.
+DIČ	dic	Dic	string	Max. délka: 20
+rw			×	×
+Pokud se vyplní položka 'firma' není potřeba doplňovat, protože bude zkopírováno z adresáře.
+Přílohy	pocetPriloh	PocetPriloh	integer			ro			×	×
+Poštovní adresa je shodná se sídlem	postovniShodna	PostovniShodna	logic			rw			×	×
+Pokud je true, je poštovní adresa shodná s fakturační. Pokud se vyplní položka 'firma' není potřeba doplňovat, protože bude zkopírováno z adresáře.
+Pošt. jméno firmy	faNazev	FaNazev	string	Max. délka: 255
+rw			×	×
+Poštovní adresa. Vyplňuje se jen pokud postovniShodna je false. Pokud se vyplní položka 'firma' není potřeba doplňovat, protože bude zkopírováno z adresáře.
+Pošt. ulice	faUlice	FaUlice	string	Max. délka: 255
+rw			×	×
+Poštovní adresa. Vyplňuje se jen pokud postovniShodna je false. Pokud se vyplní položka 'firma' není potřeba doplňovat, protože bude zkopírováno z adresáře.
+Pošt. město	faMesto	FaMesto	string	Max. délka: 255
+rw			×	×
+Poštovní adresa. Vyplňuje se jen pokud postovniShodna je false. Pokud se vyplní položka 'firma' není potřeba doplňovat, protože bude zkopírováno z adresáře.
+Pošt. PSČ	faPsc	FaPsc	string	Max. délka: 255
+rw			×	×
+Poštovní adresa. Vyplňuje se jen pokud postovniShodna je false. Pokud se vyplní položka 'firma' není potřeba doplňovat, protože bude zkopírováno z adresáře.
+Pošt. stát	faStat	IdFaStatu	relation (Státy 20004)	Max. délka: 3
+rw			×	×
+Pošt. EAN	faEanKod	FaEanKod	string	Max. délka: 20
+rw			×	×
+Poštovní adresa. Vyplňuje se jen pokud postovniShodna je false. Pokud se vyplní položka 'firma' není potřeba doplňovat, protože bude zkopírováno z adresáře.
+Bezpoložkový doklad	bezPolozek	BezPolozek	logic			rw			×	×
+Obsahuje tento doklad položky? Pokud obsahuje, je cena určena jejich součtem. V opačném případě je možné určovat výslednou cenu (sumCelkSniz apod.)
+Je účetní	ucetni	Ucetni	logic			ro			×	×
+Zaúčtováno	zuctovano	Zuctovano	logic			ro			×	×
+Datum zaúčtování	datUcto	DatUcto	date			rw			×	×
+Storno	storno	Storno	logic			ro			×	×
+Štítky	stitky		string			rw			×	
+Hrom. fakturace	hromFakt	HromFakt	logic			rw			×	×
+Typ dokladu	typDokl	IdTypDokl	relation (Typy skladových dokladů 7001)		×	rw			×	×
+Sklad	sklad	IdBsp	relation (Seznam skladů 7020)		×	rw			×	×
+Měna	mena	IdMeny	relation (Měny 20005)			rw		×	×	×
+Zkratka firmy	firma	IdFirmy	relation (Adresy firem 4021)			rw		×	×	×
+Vazba na firmu v adresáři. Pokud není vyplněna, měly by být vyplněny položky s detailními informacemi o firmě.
+Stát	stat	IdStatu	relation (Státy 20004)	Max. délka: 3
+rw			×	×
+Místo určení	mistUrc	IdMur	relation (Místa určení 4006)			rw			×	×
+Předpis zaúčtování	typUcOp	IdTypUcOp	relation (Předpisy zaúčtování - sklad 20141)			rw			×	×
+Účet skladu	primUcet	IdPrimUcet	relation (Účtový rozvrh 2001)	Max. délka: 6
+rw			×	×
+Protiúčet	protiUcet	IdProtiUcet	relation (Účtový rozvrh 2001)	Max. délka: 6
+rw			×	×
+Středisko	stredisko	IdStred	relation (Střediska 20001)	Max. délka: 20
+rw			×	×
+Činnost	cinnost	IdCinnost	relation (Činnost 20013)			rw			×	×
+Zakázka	zakazka	IdZakazky	relation (Zakázky 20002)	Max. délka: 30
+rw			×	×
+Stát odesl.	statOdesl	IdStatOdesl	relation (Státy 20004)	Max. délka: 3
+rw			×	×
+Stát určení	statUrc	IdStatUrc	relation (Státy 20004)	Max. délka: 3
+rw			×	×
+Stát původu	statPuvod	IdStatPuvod	relation (Státy 20004)	Max. délka: 3
+rw			×	×
+Podmínky dodání	dodPodm	IdDodPodm	relation (Dodací podmínky 21008)			rw			×	×
+Transakce	obchTrans	IdObchTrans	relation (Obchodní transakce 21013)			rw			×	×
+Druh dopravy	druhDopr	IdDruhDopr	relation (Druh dopravy 21009)			rw			×	×
+Zvláštní pohyby	zvlPoh	IdZvlPoh	relation (Zvláštní pohyby 21014)			rw			×	×
+Kraj odesílatele	krajUrc	IdKrajUrc	relation (Kraje určení 21010)			rw			×	×
+Uživatel	uzivatel	IdUziv	relation (Uživatelé ve firmě 20024)	Max. délka: 254
+ro			×	×
+Zodpovědná osoba	zodpOsoba	IdZodpOsoba	relation (Uživatelé ve firmě 20024)	Max. délka: 254
+rw			×	×
+Kontaktní osoba	kontaktOsoba	IdKontaktOsoba	relation (Kontakty 4003)			rw			×	×
+Kontaktní jméno	kontaktJmeno	KontaktJmeno	string	Max. délka: 255
+rw			×	×
+Kontaktní e-mail	kontaktEmail	KontaktEmail	string	Max. délka: 255
+rw			×	×
+Kontaktní telefon	kontaktTel	KontaktTel	string	Max. délka: 255
+rw			×	×
+Čís. řada	rada	IdRady	relation (Dokladové řady - sklad 7006)			rw			×	×
+Zdroj pro faktury	zdrojProFak	ZdrojProFak	logic		×	rw			×	×
+Stav dokladu	stavSkladK	StavSkladK	select	Možné hodnoty:
+Vyfakturován (stavSklad.vyfakt)
+Částečně vyfakturován (stavSklad.vyfaktCast)
+Vyfakturován hromadně (stavSklad.vyfaktHrom)
+Částečně vyfakturován hromadně (stavSklad.vyfaktHromCast)
+Vygenerován z faktury (stavSklad.vygenFakt)
+Vygenerován z faktury - neúplný (stavSklad.vygenFaktNeuplny)
+Uhrazen pokladnou (stavSklad.uhrazen)
+Částečně uhrazen pokladnou (stavSklad.uhrazenCast)
+Uhrazen pokladnou hromadně (stavSklad.uhrazenHrom)
+Částečně uhrazen pokladnou hromadně (stavSklad.uhrazenHromCast)
+Vygenerován z pokladny (stavSklad.vygenPokl)
+Vygenerován z pokladny - neúplný (stavSklad.vygenPoklNeuplny)
+Převodka (stavSklad.prevodka)
+Výroba (stavSklad.vyroba)
+Nefakturovatelné (stavSklad.nefakturovatelne)
+Max. délka: 50
+rw			×	×
+Typ pohybu + upřesnění	typPohybuSkladK	TypPohybuSkladK	select	Možné hodnoty:
+"Holý" příjem (typPohybuSklad.prijemHoly)
+Příjem polotovaru (typPohybuSklad.prijemPolot)
+Příjem po faktuře (typPohybuSklad.prijemPoFak)
+Příjem po objednávce (typPohybuSklad.prijemPoObch)
+Příjem pro převodku (typPohybuSklad.prijemPrevod)
+Příjem pro fakturaci (typPohybuSklad.prijemProFak)
+Příjem výrobku (typPohybuSklad.prijemVyrob)
+Příjem (dobropis, vratka) (typPohybuSklad.prijemVratka)
+"Holý" výdej (typPohybuSklad.vydejHoly)
+Výdej polotovaru (typPohybuSklad.vydejPolot)
+Výdej po faktuře (typPohybuSklad.vydejPoFak)
+Výdej po objednávce (typPohybuSklad.vydejPoObch)
+Výdej pro převodku (typPohybuSklad.vydejPrevod)
+Výdej pro fakturaci (ceny z ceníku) (typPohybuSklad.vydejProFakCenik)
+Výdej pro fakturaci (ceny ručně) (typPohybuSklad.vydejProFakRucne)
+Výdej výrobku (typPohybuSklad.vydejVyrob)
+Výdej (dobropis, vratka) (typPohybuSklad.prijemVydejVratka)
+Max. délka: 50
+rw			×	×
+Typ skladového dokladu	typDoklSkl	IdTypDoklSkl	relation (Typy skladových dokladů 7001)			rw			×	×
+Forma dopravy	formaDopravy	IdFormaDopravy	relation (Formy dopravy 20038)			rw			×	×
+Uuid	uuid	Uuid	string	Max. délka: 50
+ro			×	×
+Zdroj	source	Source	string	Max. délka: 50
+rw			×	×
+Vynechat ze salda	vyloucitSaldo	VyloucitSaldo	logic			rw			×	×
+Sklad cíl	skladCil	IdSkladCil	relation (Seznam skladů 7028)			rw			×	×
+Inventura	inventura	IdInventura	relation (Inventury 7026)			rw			×	×
+ID výdejního místa	branchId	BranchId	string	Max. délka: 255
+rw			×	×
