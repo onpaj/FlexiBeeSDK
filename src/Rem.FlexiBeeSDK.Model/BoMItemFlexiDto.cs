@@ -42,7 +42,8 @@ public class BoMItemFlexiDto
     public List<BomProductFlexiDto> Ingredient { get; set; } = new List<BomProductFlexiDto>();
     public string IngredientCode => Ingredient.FirstOrDefault()!.Code;
     public string IngredientFullName => Ingredient.FirstOrDefault()!.Name;
-
+    public bool HasLots => Ingredient.FirstOrDefault()!.HasLots;
+    public bool HasExpiration => Ingredient.FirstOrDefault()!.HasExpiration;
         
     [JsonProperty("otec")]
     public List<ParentBomFlexiDto> ParentList { get; set; }

@@ -15,4 +15,10 @@ public class BomProductFlexiDto
     
     [JsonProperty("skupZboz@internalId")]
     public int ProductTypeId { get; set; }
+    
+    [JsonProperty("evidSarze")]
+    public bool HasLots { get; set; }
+    
+    [JsonProperty("evidExpir")]
+    public bool HasExpiration { get; set; }
 }
