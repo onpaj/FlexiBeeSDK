@@ -45,6 +45,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
 
             return found.Select(s => new ProductLot()
             {
+                Id = s.Id,
                 Amount = s.Amount,
                 Lot = s.Lot,
                 Expiration = s.Expiration,

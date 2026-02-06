@@ -8,4 +8,5 @@ public class ProductLot
     public decimal Amount { get; set; }
     public DateTime? Expiration { get; set; }
     public string? Lot { get; set; }
+    public int Id { get; set; }
 }
