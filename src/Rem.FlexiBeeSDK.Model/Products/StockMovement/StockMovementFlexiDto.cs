@@ -66,6 +66,11 @@ public class StockMovementFlexiDto
     [JsonProperty("skladovePolozky")]
     public List<StockItemMovementFlexiDto> Items { get; set; }
 
+    [JsonProperty("typUcOp")]
+    public string AccountTemplateRaw { get; set; }
+
+    public string AccountTemplateCode => AccountTemplateRaw?.Replace("code:", "");
+
     [JsonProperty("varSym")]
     public string VariableSymbol { get; set; }
 

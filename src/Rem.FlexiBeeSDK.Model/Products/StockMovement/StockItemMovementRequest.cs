@@ -30,7 +30,7 @@ public class StockItemMovementRequest
 
     [JsonProperty("detail")]
     public string Detail { get; set; } =
-        "custom:doklSklad(id,typDokl,kod,typPohybuK),datVyst,nazev,mnozMj,cenaMj,sumCelkem,sklad(id,nazev,kod),cenik(id,kod),expirace,storno,stornoPol,sarze,id";
+        "custom:doklSklad(id,typDokl,kod,typPohybuK,typUcOp),datVyst,nazev,mnozMj,cenaMj,sumCelkem,sklad(id,nazev,kod),cenik(id,kod),expirace,storno,stornoPol,sarze,id";
 
     [JsonProperty("limit")] public int Limit { get; set; } = 0;
 
@@ -38,7 +38,7 @@ public class StockItemMovementRequest
 
     [JsonProperty("includes")]
     public string Includes { get; set; } =
-        "/skladovy-pohyb-polozka/doklSklad,/skladovy-pohyb-polozka/doklSklad/skladovy-pohyb/firma,/skladovy-pohyb-polozka/sklad,/skladovy-pohyb-polozka/cenik";
+        "/skladovy-pohyb-polozka/doklSklad,/skladovy-pohyb-polozka/doklSklad/skladovy-pohyb/firma,/skladovy-pohyb-polozka/sklad,/skladovy-pohyb-polozka/cenik,skladovy-pohyb-polozka/doklSklad/typUcOp";
 
     [JsonProperty("order")] public string Order { get; set; } = "datUcto";
 

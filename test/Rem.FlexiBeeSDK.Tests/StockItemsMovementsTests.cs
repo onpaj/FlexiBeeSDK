@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
@@ -143,6 +144,162 @@ namespace Rem.FlexiBeeSDK.Tests
             result.Should().NotBeNull();
             result.IsSuccess.Should().BeTrue(result.GetErrorMessage());
             result.ErrorMessage.Should().BeNullOrEmpty();
+        }
+
+        [Fact]
+        public async Task CreateStockItemsMovement_VyrobaPolotovar_Out_Warehouse5_ShouldHaveVyrobaSpotreba()
+        {
+            var client = _fixture.Create<StockItemsMovementClient>();
+
+            var request = new StockItemsMovementUpsertRequestFlexiDto()
+            {
+                CreatedBy = "heblo",
+                AccountingDate = DateTime.Now,
+                IssueDate = DateTime.Now,
+                StockItems = new List<StockItemsMovementUpsertRequestItemFlexiDto>()
+                {
+                    new()
+                    {
+                        ProductCode = "PMA002001M",
+                        ProductName = "Moje Moringová - meziprodukt",
+                        Amount = 2,
+                        AmountIssued = 2,
+                        LotNumber = null,
+                        Expiration = null,
+                        UnitPrice = 1.82,
+                    }
+                },
+                DocumentTypeCode = "VYROBA-POLOTOVAR",
+                WarehouseId = "5",
+                StockMovementDirection = StockMovementDirection.Out,
+            };
+            var saveResult = await client.SaveAsync(request);
+
+            saveResult.Should().NotBeNull();
+            saveResult.IsSuccess.Should().BeTrue(saveResult.GetErrorMessage());
+
+            var documentId = int.Parse(saveResult.Result.Results.First().Id);
+            var items = await client.GetAsync(documentId);
+
+            items.Should().NotBeEmpty();
+            items.FirstOrDefault()?.Document.AccountTemplateCode.Should().Be("VYROBA-SPOTREBA");
+        }
+
+        [Fact]
+        public async Task CreateStockItemsMovement_VyrobaPolotovar_In_Warehouse20_ShouldHaveVyrobaPrijemPolot()
+        {
+            var client = _fixture.Create<StockItemsMovementClient>();
+
+            var request = new StockItemsMovementUpsertRequestFlexiDto()
+            {
+                CreatedBy = "heblo",
+                AccountingDate = DateTime.Now,
+                IssueDate = DateTime.Now,
+                StockItems = new List<StockItemsMovementUpsertRequestItemFlexiDto>()
+                {
+                    new StockItemsMovementUpsertRequestItemFlexiDto
+                    {
+                        ProductCode = "PMA002001M",
+                        ProductName = "Moje Moringová - meziprodukt",
+                        Amount = 2,
+                        AmountReceived = 2,
+                        LotNumber = null,
+                        Expiration = null,
+                        UnitPrice = 1.82,
+                    }
+                },
+                DocumentTypeCode = "VYROBA-POLOTOVAR",
+                WarehouseId = "20",
+                StockMovementDirection = StockMovementDirection.In,
+            };
+            var saveResult = await client.SaveAsync(request);
+
+            saveResult.Should().NotBeNull();
+            saveResult.IsSuccess.Should().BeTrue(saveResult.GetErrorMessage());
+
+            var documentId = int.Parse(saveResult.Result.Results.First().Id);
+            var items = await client.GetAsync(documentId);
+
+            items.Should().NotBeEmpty();
+            items.FirstOrDefault()?.Document.AccountTemplateCode.Should().Be("VYROBA-PRIJEM-POLOT");
+        }
+
+        [Fact]
+        public async Task CreateStockItemsMovement_VVydejMaterial_Out_Warehouse5_ShouldHaveVyrobaSpotreba()
+        {
+            var client = _fixture.Create<StockItemsMovementClient>();
+
+            var request = new StockItemsMovementUpsertRequestFlexiDto()
+            {
+                CreatedBy = "heblo",
+                AccountingDate = DateTime.Now,
+                IssueDate = DateTime.Now,
+                StockItems = new List<StockItemsMovementUpsertRequestItemFlexiDto>()
+                {
+                    new()
+                    {
+                        ProductCode = "PMA002001M",
+                        ProductName = "Moje Moringová - meziprodukt",
+                        Amount = 2,
+                        AmountIssued = 2,
+                        LotNumber = null,
+                        Expiration = null,
+                        UnitPrice = 1.82,
+                    }
+                },
+                DocumentTypeCode = "V-VYDEJ-MATERIAL",
+                WarehouseId = "5",
+                StockMovementDirection = StockMovementDirection.Out,
+            };
+            var saveResult = await client.SaveAsync(request);
+
+            saveResult.Should().NotBeNull();
+            saveResult.IsSuccess.Should().BeTrue(saveResult.GetErrorMessage());
+
+            var documentId = int.Parse(saveResult.Result.Results.First().Id);
+            var items = await client.GetAsync(documentId);
+
+            items.Should().NotBeEmpty();
+            items.FirstOrDefault()?.Document.AccountTemplateCode.Should().Be("VYROBA-SPOTREBA");
+        }
+
+        [Fact]
+        public async Task CreateStockItemsMovement_VPrijemPolotovar_In_Warehouse20_ShouldHaveVyrobaPrijemPolot()
+        {
+            var client = _fixture.Create<StockItemsMovementClient>();
+
+            var request = new StockItemsMovementUpsertRequestFlexiDto()
+            {
+                CreatedBy = "heblo",
+                AccountingDate = DateTime.Now,
+                IssueDate = DateTime.Now,
+                StockItems = new List<StockItemsMovementUpsertRequestItemFlexiDto>()
+                {
+                    new()
+                    {
+                        ProductCode = "PMA002001M",
+                        ProductName = "Moje Moringová - meziprodukt",
+                        Amount = 2,
+                        AmountReceived = 2,
+                        LotNumber = null,
+                        Expiration = null,
+                        UnitPrice = 1.82,
+                    }
+                },
+                DocumentTypeCode = "V-PRIJEM-POLOTOVAR",
+                WarehouseId = "20",
+                StockMovementDirection = StockMovementDirection.In,
+            };
+            var saveResult = await client.SaveAsync(request);
+
+            saveResult.Should().NotBeNull();
+            saveResult.IsSuccess.Should().BeTrue(saveResult.GetErrorMessage());
+
+            var documentId = int.Parse(saveResult.Result.Results.First().Id);
+            var items = await client.GetAsync(documentId);
+
+            items.Should().NotBeEmpty();
+            items.FirstOrDefault()?.Document.AccountTemplateCode.Should().Be("VYROBA-PRIJEM-POLOT");
         }
     }
 }

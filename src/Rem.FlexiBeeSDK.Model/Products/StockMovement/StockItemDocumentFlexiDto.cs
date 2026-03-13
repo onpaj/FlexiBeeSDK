@@ -24,4 +24,9 @@ public class StockItemDocumentFlexiDto
 
     [JsonProperty("typPohybuK@showAs")]
     public string MovementDirectionName { get; set; }
+    
+    [JsonProperty("typUcOp")]
+    public string AccountTemplateRaw { get; set; }
+
+    public string AccountTemplateCode => AccountTemplateRaw?.Replace("code:", "");
 }

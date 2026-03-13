@@ -48,7 +48,7 @@ public class StockItemsMovementUpsertRequestFlexiDto
     public string StockMovementTypeString => $"typPohybuSklad.{(StockMovementDirection == StockMovementDirection.In ? "prijemHoly" : "vydejHoly")}";
 
     [JsonProperty("typUcOp", NullValueHandling = NullValueHandling.Ignore)]
-    public string AccountingOperationType { get; set; } = "42";
+    public string? AccountingOperationType { get; set; }
 
     [JsonProperty("uzivatel", NullValueHandling = NullValueHandling.Ignore)]
     public string User { get; set; }
