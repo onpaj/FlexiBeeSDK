@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -80,6 +81,40 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
                NetWeight = netWeight > 0 ? netWeight : grossWeight,
                Amount = bom.Where(w => w.Level == 1).Sum(s => s.Amount)
            };
+        }
+
+        public async Task UpdateIngredientAmountAsync(
+            string productCode,
+            string ingredientCode,
+            double newAmount,
+            CancellationToken cancellationToken = default)
+        {
+            var bom = await GetAsync(productCode, cancellationToken);
+
+            var ingredient = bom.FirstOrDefault(item =>
+                item.Level != 1 &&
+                StripCodePrefix(item.IngredientCode) == ingredientCode);
+
+            if (ingredient == null)
+                throw new InvalidOperationException(
+                    $"Ingredient '{ingredientCode}' not found in BoM for product '{productCode}'");
+
+            var document = new Dictionary<string, object>
+            {
+                {
+                    ResourceIdentifier,
+                    new UpdateBoMIngredientAmountRequest { Id = ingredient.Id, Amount = newAmount }
+                }
+            };
+
+            await PutAsync(document, cancellationToken: cancellationToken);
+        }
+
+        private static string StripCodePrefix(string code)
+        {
+            if (code == null) return null;
+            var trimmed = code.Trim();
+            return trimmed.StartsWith("code:") ? trimmed.Substring(5).Trim() : trimmed;
         }
     }
 }

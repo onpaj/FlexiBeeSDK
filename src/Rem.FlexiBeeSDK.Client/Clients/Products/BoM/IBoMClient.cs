@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Rem.FlexiBeeSDK.Model;
@@ -15,5 +15,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
         Task<bool> RecalculatePurchasePrice(int bomId, CancellationToken cancellationToken = default);
 
         Task<ProductWeightFlexiDto?> GetBomWeight(string productCode, CancellationToken cancellationToken = default);
+
+        Task UpdateIngredientAmountAsync(string productCode, string ingredientCode, double newAmount, CancellationToken cancellationToken = default);
     }
 }
