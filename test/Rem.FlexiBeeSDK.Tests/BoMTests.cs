@@ -88,5 +88,42 @@ namespace Rem.FlexiBeeSDK.Tests
 
             weight.Should().BeNull();
         }
+
+        [Fact]
+        public async Task UpdateIngredientAmount_ShouldSucceed()
+        {
+            var client = _fixture.Create<BoMClient>();
+
+            // Fetch current BoM to get a real ingredient and its current amount
+            var bom = await client.GetAsync("KRE003001M");
+            var ingredient = bom.FirstOrDefault(i => i.Level != 1);
+            ingredient.Should().NotBeNull("KRE003001M must have at least one non-header BoM item");
+
+            var ingredientCode = ingredient!.IngredientCode;
+            if (ingredientCode.StartsWith("code:"))
+                ingredientCode = ingredientCode.Substring(5).Trim();
+
+            // Update with the same amount — no net change, safe to run repeatedly
+            var act = async () => await client.UpdateIngredientAmountAsync(
+                "KRE003001M",
+                ingredientCode,
+                ingredient.Amount);
+
+            await act.Should().NotThrowAsync();
+        }
+
+        [Fact]
+        public async Task UpdateIngredientAmount_IngredientNotFound_ShouldThrow()
+        {
+            var client = _fixture.Create<BoMClient>();
+
+            var act = async () => await client.UpdateIngredientAmountAsync(
+                "KRE003001M",
+                "DOES_NOT_EXIST",
+                1.0);
+
+            await act.Should().ThrowAsync<InvalidOperationException>()
+                .WithMessage("*DOES_NOT_EXIST*");
+        }
     }
 }
