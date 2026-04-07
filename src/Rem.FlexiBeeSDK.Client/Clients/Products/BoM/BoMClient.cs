@@ -110,7 +110,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
             await PutAsync(document, cancellationToken: cancellationToken);
         }
 
-        private static string StripCodePrefix(string code)
+        private static string? StripCodePrefix(string? code)
         {
             if (code == null) return null;
             var trimmed = code.Trim();
