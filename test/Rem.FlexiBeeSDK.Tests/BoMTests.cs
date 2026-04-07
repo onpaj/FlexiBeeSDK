@@ -90,11 +90,11 @@ namespace Rem.FlexiBeeSDK.Tests
         }
 
         [Fact]
-        public async Task UpdateIngredientAmount_ShouldSucceed()
+        public async Task UpdateIngredientAmount_ChangesAndRestores()
         {
             var client = _fixture.Create<BoMClient>();
 
-            // Fetch current BoM to get a real ingredient and its current amount
+            // Fetch current BoM to get a real ingredient
             var bom = await client.GetAsync("KRE003001M");
             var ingredient = bom.FirstOrDefault(i => i.Level != 1);
             ingredient.Should().NotBeNull("KRE003001M must have at least one non-header BoM item");
@@ -103,13 +103,21 @@ namespace Rem.FlexiBeeSDK.Tests
             if (ingredientCode.StartsWith("code:"))
                 ingredientCode = ingredientCode.Substring(5).Trim();
 
-            // Update with the same amount — no net change, safe to run repeatedly
-            var act = async () => await client.UpdateIngredientAmountAsync(
-                "KRE003001M",
-                ingredientCode,
-                ingredient.Amount);
+            var originalAmount = ingredient.Amount;
+            var changedAmount = Math.Round(originalAmount + 0.001, 4);
 
-            await act.Should().NotThrowAsync();
+            // Change the amount
+            await client.UpdateIngredientAmountAsync("KRE003001M", ingredientCode, changedAmount);
+
+            // Verify the change persisted
+            var updatedBom = await client.GetAsync("KRE003001M");
+            var updatedIngredient = updatedBom.FirstOrDefault(i =>
+                i.Level != 1 && i.IngredientCode == ingredient.IngredientCode);
+            updatedIngredient.Should().NotBeNull();
+            updatedIngredient!.Amount.Should().BeApproximately(changedAmount, 0.0001);
+
+            // Restore original amount
+            await client.UpdateIngredientAmountAsync("KRE003001M", ingredientCode, originalAmount);
         }
 
         [Fact]
