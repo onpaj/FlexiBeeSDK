@@ -93,31 +93,31 @@ namespace Rem.FlexiBeeSDK.Tests
         public async Task UpdateIngredientAmount_ChangesAndRestores()
         {
             var client = _fixture.Create<BoMClient>();
+            var ingredientCode = "KRE003001M";
+            var productCode = "KRE003030";
 
+            
             // Fetch current BoM to get a real ingredient
-            var bom = await client.GetAsync("KRE003001M");
-            var ingredient = bom.FirstOrDefault(i => i.Level != 1);
-            ingredient.Should().NotBeNull("KRE003001M must have at least one non-header BoM item");
+            var bom = await client.GetAsync(productCode);
 
-            var ingredientCode = ingredient!.IngredientCode;
-            if (ingredientCode.StartsWith("code:"))
-                ingredientCode = ingredientCode.Substring(5).Trim();
+            var ingredient = bom.FirstOrDefault(i => i.IngredientCode == ingredientCode);
+            ingredient.Should().NotBeNull($"{ingredientCode} must have at least one non-header BoM item");
 
             var originalAmount = ingredient.Amount;
-            var changedAmount = Math.Round(originalAmount + 0.001, 4);
+            var changedAmount = Math.Round(originalAmount + 0.101, 4);
 
             // Change the amount
-            await client.UpdateIngredientAmountAsync("KRE003001M", ingredientCode, changedAmount);
+            await client.UpdateIngredientAmountAsync(productCode, ingredientCode, changedAmount);
 
             // Verify the change persisted
-            var updatedBom = await client.GetAsync("KRE003001M");
+            var updatedBom = await client.GetAsync(productCode);
             var updatedIngredient = updatedBom.FirstOrDefault(i =>
                 i.Level != 1 && i.IngredientCode == ingredient.IngredientCode);
             updatedIngredient.Should().NotBeNull();
             updatedIngredient!.Amount.Should().BeApproximately(changedAmount, 0.0001);
 
             // Restore original amount
-            await client.UpdateIngredientAmountAsync("KRE003001M", ingredientCode, originalAmount);
+            await client.UpdateIngredientAmountAsync(productCode, ingredientCode, originalAmount);
         }
 
         [Fact]

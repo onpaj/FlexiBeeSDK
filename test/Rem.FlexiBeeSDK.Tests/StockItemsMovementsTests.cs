@@ -125,9 +125,19 @@ namespace Rem.FlexiBeeSDK.Tests
                 {
                     new()
                     {
-                        ProductCode = "PMA002001M",
+                        ProductCode = "SEZ001001M",
                         ProductName = "Moje Moringová - meziprodukt",
                         Amount = 2,
+                        AmountIssued = 2,
+                        LotNumber = null,
+                        Expiration = null,
+                        UnitPrice = 1.82,
+                    },
+                    new()
+                    {
+                        ProductCode = "SEZ001001M",
+                        ProductName = "Moje Moringová - meziprodukt",
+                        Amount = 34,
                         AmountIssued = 2,
                         LotNumber = null,
                         Expiration = null,
@@ -135,9 +145,10 @@ namespace Rem.FlexiBeeSDK.Tests
                     }
                 },
                 Description = "MO-2025-027",
-                DocumentTypeCode = "VYROBA-POLOTOVAR",
+                DocumentTypeCode = "V-VYDEJ-POLOTOVAR",
                 StockMovementDirection = StockMovementDirection.Out,
                 Note = "MO-2025-027 - Note",
+                WarehouseId = "20",
             };
             var result = await client.SaveAsync(request);
 
@@ -261,6 +272,55 @@ namespace Rem.FlexiBeeSDK.Tests
 
             items.Should().NotBeEmpty();
             items.FirstOrDefault()?.Document.AccountTemplateCode.Should().Be("VYROBA-SPOTREBA");
+        }
+
+        [Fact]
+        public async Task CreateStockItemsMovement_ProductionBug_VVydejPolotovar_Out_Warehouse20()
+        {
+            var client = _fixture.Create<StockItemsMovementClient>();
+
+            var request = new StockItemsMovementUpsertRequestFlexiDto()
+            {
+                CreatedBy = "Mock User",
+                AccountingDate = DateTime.Parse("2026-03-31 10:13:57"),
+                IssueDate = DateTime.Parse("2026-03-31 10:13:57"),
+                AccountingOperationType = null,
+                Description = "SEZ001 Lesa pán",
+                DocumentTypeCode = "V-VYDEJ-POLOTOVAR",
+                Note = "MO-2026-159",
+                StockMovementDirection = StockMovementDirection.Out,
+                WarehouseId = "20",
+                StockItemsRemoveAll = null,
+                WithoutItems = null,
+                StockItems = new List<StockItemsMovementUpsertRequestItemFlexiDto>()
+                {
+                    new()
+                    {
+                        ProductCode = "SEZ001001M",
+                        ProductName = "Lesa pán - meziprodukt",
+                        Amount = 194,
+                        AmountIssued = 194,
+                        LotNumber = null,
+                        Expiration = null,
+                        UnitPrice = 0,
+                    },
+                    new()
+                    {
+                        ProductCode = "SEZ001001M",
+                        ProductName = "Lesa pán - meziprodukt",
+                        Amount = 28.2,
+                        AmountIssued = 28.2,
+                        LotNumber = null,
+                        Expiration = null,
+                        UnitPrice = 0,
+                    }
+                },
+            };
+            var result = await client.SaveAsync(request);
+
+            result.Should().NotBeNull();
+            result.IsSuccess.Should().BeTrue(result.GetErrorMessage());
+            result.ErrorMessage.Should().BeNullOrEmpty();
         }
 
         [Fact]

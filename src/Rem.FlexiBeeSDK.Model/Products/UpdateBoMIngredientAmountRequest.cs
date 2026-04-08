@@ -7,6 +7,6 @@ public class UpdateBoMIngredientAmountRequest
     [JsonProperty("id")]
     public int Id { get; set; }
 
-    [JsonProperty("mnozstvi")]
+    [JsonProperty("mnoz")]
     public double Amount { get; set; }
 }
