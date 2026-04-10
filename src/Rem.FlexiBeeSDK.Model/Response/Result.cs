@@ -9,6 +9,8 @@ public class Result
     public string? Id { get; set; }
     [JsonProperty("ref")]
     public string? Reference { get; set; }
+    [JsonProperty("code")]
+    public string? Code { get; set; }
     [JsonProperty("request-id")]
     public string? Requestid { get; set; }
     [JsonProperty("errors")]
