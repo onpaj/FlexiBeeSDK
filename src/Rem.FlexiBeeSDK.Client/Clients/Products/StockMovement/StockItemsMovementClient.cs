@@ -74,7 +74,26 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockMovement
         }
         
         
-        public Task<OperationResult<OperationResultDetail>> SaveAsync(StockItemsMovementUpsertRequestFlexiDto stockMovementRequest, CancellationToken cancellationToken = default)
-            => PostAsync(new StockItemsMovementUpsertRequestEnvelopeFlexiDto(stockMovementRequest), cancellationToken: cancellationToken);
+        public async Task<OperationResult<OperationResultDetail>> SaveAsync(StockItemsMovementUpsertRequestFlexiDto stockMovementRequest, CancellationToken cancellationToken = default)
+        {
+            var result = await PostAsync(new StockItemsMovementUpsertRequestEnvelopeFlexiDto(stockMovementRequest), cancellationToken: cancellationToken);
+
+            if (!result.IsSuccess)
+                return result;
+
+            var idString = result.Result?.Results?.FirstOrDefault()?.Id;
+            if (int.TryParse(idString, out var documentId))
+            {
+                var items = await GetAsync(documentId, cancellationToken);
+                var documentCode = items.FirstOrDefault()?.DocumentList?.FirstOrDefault()?.DocumentCode;
+                if (documentCode != null)
+                {
+                    var firstResult = result.Result!.Results!.First();
+                    firstResult.Code = documentCode;
+                }
+            }
+
+            return result;
+        }
     }
 }
