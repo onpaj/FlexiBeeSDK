@@ -9,6 +9,6 @@ namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
     {
         Task<IssuedInvoiceDetailFlexiDto> GetAsync(string code, CancellationToken cancellationToken = default);
         
-        Task<OperationResult<OperationResultDetail>> SaveAsync(IssuedInvoiceDetailFlexiDto invoice, CancellationToken cancellationToken = default);
+        Task<OperationResult<OperationResultDetail>> SaveAsync(IssuedInvoiceDetailFlexiDto invoice, bool unpairIfNecessary = false, CancellationToken cancellationToken = default);
     }
 }

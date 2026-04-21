@@ -192,8 +192,9 @@ namespace Rem.FlexiBeeSDK.Client.Clients
 
             if (query != null)
             {
-                uri += $"/query";
-                
+                if (query.IncludeQuerySegment)
+                    uri += $"/query";
+
                 if(query.Parameters.Any())
                     uri += $"?{FormatQuery(query)}";
             }

@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Rem.FlexiBeeSDK.Client.Clients.Banks;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
 using Rem.FlexiBeeSDK.Model.Invoices;
@@ -14,14 +15,18 @@ namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
 {
     public class IssuedInvoiceClient : ResourceClient, IIssuedInvoiceClient
     {
+        private readonly IBankClient _bankClient;
+
         public IssuedInvoiceClient(
-            FlexiBeeSettings connection, 
+            FlexiBeeSettings connection,
             IHttpClientFactory httpClientFactory,
             IResultHandler  resultHandler,
-            ILogger<IssuedInvoiceClient> logger
+            ILogger<IssuedInvoiceClient> logger,
+            IBankClient bankClient
             )
             : base(connection, httpClientFactory, resultHandler, logger)
         {
+            _bankClient = bankClient;
         }
 
         protected override string ResourceIdentifier => Agenda.IssuedInvoices;
@@ -42,7 +47,27 @@ namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
            return found.Single();
         }
 
-        public Task<OperationResult<OperationResultDetail>> SaveAsync(IssuedInvoiceDetailFlexiDto invoice,
-            CancellationToken cancellationToken = default) => PostAsync(invoice, cancellationToken: cancellationToken);
+        public async Task<OperationResult<OperationResultDetail>> SaveAsync(IssuedInvoiceDetailFlexiDto invoice,
+            bool unpairIfNecessary = false, CancellationToken cancellationToken = default)
+        {
+            if (unpairIfNecessary && !string.IsNullOrEmpty(invoice.Code))
+            {
+                try
+                {
+                    var existing = await GetAsync(invoice.Code, cancellationToken);
+                    var paymentIds = existing.GetBankPaymentsIds();
+                    foreach (var paymentId in paymentIds)
+                    {
+                        await _bankClient.UnPairPayment(paymentId, cancellationToken);
+                    }
+                }
+                catch (KeyNotFoundException)
+                {
+                    // Invoice doesn't exist yet, no need to unpair
+                }
+            }
+
+            return await PostAsync(invoice, cancellationToken: cancellationToken);
+        }
     }
 }

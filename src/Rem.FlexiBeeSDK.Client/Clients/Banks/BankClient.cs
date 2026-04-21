@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,11 +25,17 @@ public class BankClient : ResourceClient, IBankClient
     protected override string ResourceIdentifier => Agenda.Bank;
     public Task<OperationResult<OperationResultDetail>> UnPairPayment(int paymentId, CancellationToken cancellationToken = default)
     {
-        var request = new BankUnpairRequest()
+        var request = new List<BankUnpairRequest>
         {
-            Id = paymentId,
+            new() { Id = paymentId }
         };
 
-        return PostAsync(request, cancellationToken: cancellationToken);
+        var query = new FlexiQuery
+        {
+            IncludeQuerySegment = false,
+            Parameters = { ["use-internal-id"] = "true", ["no-ext-ids"] = "true" }
+        };
+
+        return PostAsync(request, query, cancellationToken: cancellationToken);
     }
 }
