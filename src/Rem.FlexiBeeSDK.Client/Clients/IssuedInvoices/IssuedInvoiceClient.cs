@@ -53,6 +53,20 @@ namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
            return found.Single();
         }
 
+        public async Task<IReadOnlyList<IssuedInvoiceDetailFlexiDto>> GetAllAsync(DateTime dateFrom, DateTime dateTo, CancellationToken cancellationToken = default)
+        {
+            var query = new QueryBuilder()
+                .Raw($"(datVyst gte \"{dateFrom:yyyy-MM-dd}\" and datVyst lte \"{dateTo:yyyy-MM-dd}\")")
+                .WithRelation(Relations.Items)
+                .WithRelation(Relations.References)
+                .WithFullDetail()
+                .WithNoLimit()
+                .Build();
+
+            var found = await GetAsync<IssuedInvoiceDetailFlexiDto>(query, cancellationToken: cancellationToken);
+            return found.ToList().AsReadOnly();
+        }
+
         public async Task<OperationResult<OperationResultDetail>> SaveAsync(IssuedInvoiceDetailFlexiDto invoice,
             bool unpairIfNecessary = false, CancellationToken cancellationToken = default)
         {

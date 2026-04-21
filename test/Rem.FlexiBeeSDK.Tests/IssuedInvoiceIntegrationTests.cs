@@ -30,6 +30,25 @@ public class IssuedInvoiceIntegrationTests
     }
 
     [Fact]
+    public async Task GetAllAsync_ForDateRange_ShouldReturn275InvoicesWithItemsAndPrices()
+    {
+        var dateFrom = new DateTime(2026, 4, 15);
+        var dateTo = new DateTime(2026, 4, 15);
+
+        var invoices = await _client.GetAllAsync(dateFrom, dateTo);
+
+        invoices.Should().HaveCount(275);
+        invoices.Should().AllSatisfy(invoice =>
+        {
+            invoice.Items.Should().NotBeNullOrEmpty($"invoice {invoice.Code} should have items");
+            invoice.Items.Should().AllSatisfy(item =>
+            {
+                item.PricePerUnit.Should().NotBe(0, $"item {item.Code} on invoice {invoice.Code} should have a price");
+            });
+        });
+    }
+
+    [Fact]
     public async Task SaveAsync_WithUnpairIfNecessary_ShouldSucceed()
     {
         const string invoiceCode = "125029454";
