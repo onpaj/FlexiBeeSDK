@@ -8,21 +8,22 @@ using Rem.FlexiBeeSDK.Model;
 using Rem.FlexiBeeSDK.Model.Payments;
 using Rem.FlexiBeeSDK.Model.Response;
 
-namespace Rem.FlexiBeeSDK.Client.Clients.Banks;
+namespace Rem.FlexiBeeSDK.Client.Clients.CashRegisters;
 
-public class BankClient : ResourceClient, IBankClient
+public class CashRegisterClient : ResourceClient, ICashRegisterClient
 {
-    public BankClient(
+    public CashRegisterClient(
         FlexiBeeSettings connection,
         IHttpClientFactory httpClientFactory,
         IResultHandler resultHandler,
-        ILogger<BankClient> logger
+        ILogger<CashRegisterClient> logger
     )
         : base(connection, httpClientFactory, resultHandler, logger)
     {
     }
 
-    protected override string ResourceIdentifier => Agenda.Bank;
+    protected override string ResourceIdentifier => Agenda.CashRegister;
+
     public Task<OperationResult<OperationResultDetail>> UnPairPayment(string paymentCode, CancellationToken cancellationToken = default)
     {
         var id = paymentCode.StartsWith("code:") ? paymentCode : $"code:{paymentCode}";

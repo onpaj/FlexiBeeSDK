@@ -9,6 +9,7 @@ using Moq.Protected;
 using Newtonsoft.Json;
 using Rem.FlexiBeeSDK.Client;
 using Rem.FlexiBeeSDK.Client.Clients.Banks;
+using Rem.FlexiBeeSDK.Client.Clients.CashRegisters;
 using Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model.Response;
@@ -19,6 +20,7 @@ namespace Rem.FlexiBeeSDK.Tests;
 public class IssuedInvoiceUnpairTests
 {
     private readonly Mock<IBankClient> _bankClientMock = new();
+    private readonly Mock<ICashRegisterClient> _cashRegisterClientMock = new();
     private readonly Mock<HttpMessageHandler> _httpHandlerMock = new();
     private readonly IssuedInvoiceClient _client;
 
@@ -38,7 +40,8 @@ public class IssuedInvoiceUnpairTests
             httpClientFactory.Object,
             resultHandler.Object,
             NullLogger<IssuedInvoiceClient>.Instance,
-            _bankClientMock.Object
+            _bankClientMock.Object,
+            _cashRegisterClientMock.Object
         );
     }
 
@@ -53,9 +56,8 @@ public class IssuedInvoiceUnpairTests
             ["typVazbyK"] = "typVazbyDokl.uhrada",
             ["castka"] = 1379.0,
             ["storno"] = false,
-            ["b"] = "90313",
-            ["b@internalId"] = 90313,
-            ["b@evidencePath"] = "banka"
+            ["b"] = "code:90313",
+            ["b@ref"] = "/c/test_company/banka/90313.json"
         };
 
         var getResponse = new Dictionary<string, object>
@@ -89,14 +91,14 @@ public class IssuedInvoiceUnpairTests
         SetupHttpResponse(HttpMethod.Post, postResponse);
 
         _bankClientMock
-            .Setup(b => b.UnPairPayment(90313, It.IsAny<CancellationToken>()))
+            .Setup(b => b.UnPairPayment("code:90313", It.IsAny<CancellationToken>()))
             .ReturnsAsync(new OperationResult<OperationResultDetail>(HttpStatusCode.OK));
 
         var invoice = new Model.Invoices.IssuedInvoiceDetailFlexiDto { Code = "INV-001" };
 
         await _client.SaveAsync(invoice, unpairIfNecessary: true);
 
-        _bankClientMock.Verify(b => b.UnPairPayment(90313, It.IsAny<CancellationToken>()), Times.Once);
+        _bankClientMock.Verify(b => b.UnPairPayment("code:90313", It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]
@@ -118,7 +120,7 @@ public class IssuedInvoiceUnpairTests
 
         await _client.SaveAsync(invoice, unpairIfNecessary: false);
 
-        _bankClientMock.Verify(b => b.UnPairPayment(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Never);
+        _bankClientMock.Verify(b => b.UnPairPayment(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 
     [Fact]
@@ -150,7 +152,7 @@ public class IssuedInvoiceUnpairTests
 
         var result = await _client.SaveAsync(invoice, unpairIfNecessary: true);
 
-        _bankClientMock.Verify(b => b.UnPairPayment(It.IsAny<int>(), It.IsAny<CancellationToken>()), Times.Never);
+        _bankClientMock.Verify(b => b.UnPairPayment(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
         Assert.True(result.IsSuccess);
     }
 

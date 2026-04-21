@@ -108,10 +108,16 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
         [JsonProperty("vazby")] public List<InvoiceReference> References { get; set; } = new ();
 
 
-        public List<int> GetBankPaymentsIds() => 
+        public List<string> GetBankPaymentsIds() =>
             References
-                .Where(w => w.ReferenceType == InvoiceReference.ReferenceTypePayment && w.BEvidencePath == Agenda.Bank)
-                .Select(s => s.ReferenceBId)
+                .Where(w => w.ReferenceType == InvoiceReference.ReferenceTypePayment && w.BAgenda == Agenda.Bank)
+                .Select(s => s.ReferenceB)
+                .ToList();
+
+        public List<string> GetCashRegisterPaymentsIds() =>
+            References
+                .Where(w => w.ReferenceType == InvoiceReference.ReferenceTypePayment && w.BAgenda == Agenda.CashRegister)
+                .Select(s => s.ReferenceB)
                 .ToList();
 
        

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Rem.FlexiBeeSDK.Client.Clients.Banks;
+using Rem.FlexiBeeSDK.Client.Clients.CashRegisters;
 using Rem.FlexiBeeSDK.Client.ResultFilters;
 using Rem.FlexiBeeSDK.Model;
 using Rem.FlexiBeeSDK.Model.Invoices;
@@ -17,17 +18,20 @@ namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
     public class IssuedInvoiceClient : ResourceClient, IIssuedInvoiceClient
     {
         private readonly IBankClient _bankClient;
+        private readonly ICashRegisterClient _cashRegisterClient;
 
         public IssuedInvoiceClient(
             FlexiBeeSettings connection,
             IHttpClientFactory httpClientFactory,
             IResultHandler  resultHandler,
             ILogger<IssuedInvoiceClient> logger,
-            IBankClient bankClient
+            IBankClient bankClient,
+            ICashRegisterClient cashRegisterClient
             )
             : base(connection, httpClientFactory, resultHandler, logger)
         {
             _bankClient = bankClient;
+            _cashRegisterClient = cashRegisterClient;
         }
 
         protected override string ResourceIdentifier => Agenda.IssuedInvoices;
@@ -38,6 +42,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
                 .ByCode(code)
                 .WithRelation(Relations.Items)
                 .WithRelation(Relations.References)
+                .WithFullDetail()
                 .Build();
 
            var found = await GetAsync<IssuedInvoiceDetailFlexiDto>(query, cancellationToken: cancellationToken);
@@ -56,11 +61,10 @@ namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
                 try
                 {
                     var existing = await GetAsync(invoice.Code, cancellationToken);
-                    var paymentIds = existing.GetBankPaymentsIds();
-                    foreach (var paymentId in paymentIds)
-                    {
+                    foreach (var paymentId in existing.GetBankPaymentsIds())
                         await _bankClient.UnPairPayment(paymentId, cancellationToken);
-                    }
+                    foreach (var paymentId in existing.GetCashRegisterPaymentsIds())
+                        await _cashRegisterClient.UnPairPayment(paymentId, cancellationToken);
                 }
                 catch (Exception e) when (e is KeyNotFoundException or HttpRequestException)
                 {

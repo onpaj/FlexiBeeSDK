@@ -33,10 +33,11 @@ public class InvoiceReference
     [JsonProperty("b")]
     public string ReferenceB { get; set; }
 
-    [JsonProperty("b@evidencePath")]
-    public string BEvidencePath { get; set; }
+    [JsonProperty("b@ref")]
+    public string BRef { get; set; }
 
-    [JsonProperty("b@internalId")]
-    public int ReferenceBId { get; set; }
+    // Extracts the agenda segment from BRef: "/c/{company}/{agenda}/{id}.json" → "{agenda}"
+    public string BAgenda => BRef?.Split('/') is { Length: > 3 } parts ? parts[3] : null;
+
 }
 

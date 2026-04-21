@@ -7,6 +7,7 @@ using Rem.FlexiBeeSDK.Client.Clients.Accounting.Departments;
 using Rem.FlexiBeeSDK.Client.Clients.Accounting.Ledger;
 using Rem.FlexiBeeSDK.Client.Clients.BankAccounts;
 using Rem.FlexiBeeSDK.Client.Clients.Banks;
+using Rem.FlexiBeeSDK.Client.Clients.CashRegisters;
 using Rem.FlexiBeeSDK.Client.Clients.Contacts;
 using Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices;
 using Rem.FlexiBeeSDK.Client.Clients.IssuedOrders;
@@ -29,6 +30,7 @@ public static class ServiceCollectionExtensions
 
         services.AddSingleton<IIssuedInvoiceClient, IssuedInvoiceClient>();
         services.AddSingleton<IBankClient, BankClient>();
+        services.AddSingleton<ICashRegisterClient, CashRegisterClient>();
         services.AddSingleton<IBoMClient, BoMClient>();
         services.AddSingleton<IBankAccountClient, BankAccountClient>();
         services.AddSingleton<IStockToDateClient, StockToDateClient>();

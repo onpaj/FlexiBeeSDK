@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
 using Rem.FlexiBeeSDK.Client.Clients.Banks;
+using Rem.FlexiBeeSDK.Client.Clients.CashRegisters;
 using Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices;
 using Rem.FlexiBeeSDK.Model.Invoices;
 using Xunit;
@@ -19,9 +20,11 @@ public class IssuedInvoiceIntegrationTests
     {
         _fixture = FlexiFixture.Setup();
 
-        // Inject a real BankClient so unpair calls actually hit the API
+        // Inject real clients so unpair calls actually hit the API
         var bankClient = _fixture.Create<BankClient>();
         _fixture.Inject<IBankClient>(bankClient);
+        var cashRegisterClient = _fixture.Create<CashRegisterClient>();
+        _fixture.Inject<ICashRegisterClient>(cashRegisterClient);
 
         _client = _fixture.Create<IssuedInvoiceClient>();
     }
@@ -29,7 +32,7 @@ public class IssuedInvoiceIntegrationTests
     [Fact]
     public async Task SaveAsync_WithUnpairIfNecessary_ShouldSucceed()
     {
-        const string invoiceCode = "126000060";
+        const string invoiceCode = "125029454";
         var today = DateTime.Today.ToString("yyyy-MM-dd");
 
         // Fetch existing invoice to obtain its internal Id (required for update, not create)

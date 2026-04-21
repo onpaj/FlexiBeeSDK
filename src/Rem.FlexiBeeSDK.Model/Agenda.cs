@@ -3,6 +3,7 @@ namespace Rem.FlexiBeeSDK.Model;
 public class Agenda
 {
     public const string Bank = "banka";
+    public const string CashRegister = "pokladni-pohyb";
     public const string BankAccount = "bankovni-ucet";
     public const string References = "vazby";
     public const string Items = "polozkyDokladu";
