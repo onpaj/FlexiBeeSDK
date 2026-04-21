@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -34,7 +35,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
         public async Task<IssuedInvoiceDetailFlexiDto> GetAsync(string code, CancellationToken cancellationToken = default)
         {
             var query = new QueryBuilder()
-                .Raw($"kod='{code}'")
+                .ByCode(code)
                 .WithRelation(Relations.Items)
                 .WithRelation(Relations.References)
                 .Build();
@@ -61,7 +62,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices
                         await _bankClient.UnPairPayment(paymentId, cancellationToken);
                     }
                 }
-                catch (KeyNotFoundException)
+                catch (Exception e) when (e is KeyNotFoundException or HttpRequestException)
                 {
                     // Invoice doesn't exist yet, no need to unpair
                 }
