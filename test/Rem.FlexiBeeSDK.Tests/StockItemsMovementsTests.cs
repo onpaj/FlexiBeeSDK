@@ -308,8 +308,8 @@ namespace Rem.FlexiBeeSDK.Tests
                     {
                         ProductCode = "SEZ001001M",
                         ProductName = "Lesa pán - meziprodukt",
-                        Amount = 28.2,
-                        AmountIssued = 28.2,
+                        Amount = 28.2m,
+                        AmountIssued = 28.2m,
                         LotNumber = null,
                         Expiration = null,
                         UnitPrice = 0,
