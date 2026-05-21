@@ -115,6 +115,18 @@ public class LedgerItemFlexiDto
     [JsonProperty("idDokl@evidencePath")]
     public string DocumentIdEvidencePath { get; set; }
 
+    [JsonProperty("postingPeriod")]
+    public string? Period { get; set; }
+
+    [JsonProperty("firma@ref")]
+    public string? ContactRef { get; set; }
+
+    [JsonProperty("firma@showAs")]
+    public string? ContactShowAs { get; set; }
+
+    // Not available in ucetni-denik API; reserved as nullable placeholder
+    public string? AccountingTemplate { get; set; }
+
     [JsonProperty("lastUpdate")]
     public DateTimeOffset? LastUpdate { get; set; }
 }

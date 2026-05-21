@@ -26,7 +26,7 @@ public class LedgerRequest
 
     [JsonProperty("detail")]
     public string Detail { get; set; } =
-        "custom:parSymbol,datVyst,datUcto,doklad,nazFirmy,stredisko(nazev,kod,id),popis,sumTuz,sumMen,mena(kod),kurz,mdUcet(kod,nazev,id),dalUcet(kod,nazev,id),zuctovano,idUcetniDenik,idDokl,lastUpdate";
+        "custom:parSymbol,datVyst,datUcto,doklad,nazFirmy,stredisko(nazev,kod,id),popis,sumTuz,sumMen,mena(kod),kurz,mdUcet(kod,nazev,id),dalUcet(kod,nazev,id),zuctovano,idUcetniDenik,idDokl,postingPeriod,firma,lastUpdate";
 
     [JsonProperty("limit")] public int Limit { get; set; } = 0;
 
