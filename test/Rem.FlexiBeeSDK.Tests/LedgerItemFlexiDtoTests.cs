@@ -22,10 +22,8 @@ public class LedgerItemFlexiDtoTests
         Assert.NotNull(dto);
         Assert.NotNull(dto.LastUpdate);
         Assert.Equal(42, dto.Id);
-        // FlexiBee returns offset-aware strings; Newtonsoft converts to local DateTime
-        // so we compare the UTC representation
-        var expectedUtc = new DateTimeOffset(2025, 5, 20, 14, 30, 0, TimeSpan.FromHours(2)).UtcDateTime;
-        Assert.Equal(expectedUtc, dto.LastUpdate!.Value.ToUniversalTime());
+        var expected = new DateTimeOffset(2025, 5, 20, 14, 30, 0, TimeSpan.FromHours(2));
+        Assert.Equal(expected, dto.LastUpdate!.Value);
     }
 
     [Fact]

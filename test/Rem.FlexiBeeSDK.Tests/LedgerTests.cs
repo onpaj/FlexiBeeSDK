@@ -104,13 +104,13 @@ namespace Rem.FlexiBeeSDK.Tests
         public async Task GetChangedSince_ReturnsRowsWithPopulatedLastUpdate()
         {
             var client = _fixture.Create<LedgerClient>();
-            var since = DateTime.UtcNow.AddDays(-30);
+            var since = DateTimeOffset.UtcNow.AddDays(-30);
 
-            var items = await client.GetChangedSinceAsync(since, limit: 10);
+            var items = await client.GetChangedSinceAsync(since.UtcDateTime, limit: 10);
 
             items.Should().NotBeNull();
             items.Should().OnlyContain(item => item.LastUpdate.HasValue);
-            items.Should().OnlyContain(item => item.LastUpdate!.Value.ToUniversalTime() >= since.ToUniversalTime());
+            items.Should().OnlyContain(item => item.LastUpdate!.Value >= since);
         }
 
         [Fact]
