@@ -374,5 +374,21 @@ namespace Rem.FlexiBeeSDK.Tests
             Assert.Equal(0, request.Limit);
             Assert.Equal(0, request.Start);
         }
+
+        [Fact]
+        public void Constructor_WithUnspecifiedKind_ThrowsArgumentException()
+        {
+            var since = new DateTime(2025, 5, 21, 10, 30, 0);
+
+            Assert.Throws<ArgumentException>(() => new LedgerRequest(since));
+        }
+
+        [Fact]
+        public void Constructor_WithLocalKind_ThrowsArgumentException()
+        {
+            var since = new DateTime(2025, 5, 21, 10, 30, 0, DateTimeKind.Local);
+
+            Assert.Throws<ArgumentException>(() => new LedgerRequest(since));
+        }
     }
 }

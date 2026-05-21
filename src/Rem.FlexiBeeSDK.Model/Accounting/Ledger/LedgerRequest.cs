@@ -15,7 +15,10 @@ public class LedgerRequest
 
     public LedgerRequest(DateTime since)
     {
-        Filter = $"(lastUpdate gte \"{since.ToUniversalTime():yyyy-MM-ddTHH:mm:ss}Z\")";
+        if (since.Kind != DateTimeKind.Utc)
+            throw new ArgumentException("since must be DateTimeKind.Utc", nameof(since));
+
+        Filter = $"(lastUpdate gte \"{since:yyyy-MM-ddTHH:mm:ss}Z\")";
         Order = "lastUpdate";
     }
 
