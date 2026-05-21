@@ -7,7 +7,7 @@ public class BankUnpairRequest
 {
     [JsonProperty("id")]
     public string Id { get; set; }
-        
+
     [JsonProperty("odparovani")]
     public List<object> Args { get; set; } = new();
 }

@@ -10,6 +10,13 @@ FlexiBeeSDK is a .NET SDK for integrating with the FlexiBee accounting system AP
 - **Rem.FlexiBeeSDK.Client** - HTTP client implementations and API communication logic
 - **Rem.FlexiBeeSDK.Tests** - Unit tests using xUnit, AutoFixture, and Moq
 
+## External References
+
+- **FlexiBee API Evidence List** - https://demo.flexibee.eu/c/demo/evidence-list
+  - Lists all available FlexiBee resources and their data structures; use when implementing new clients or DTOs
+- **FlexiBee REST API Documentation** - https://intercom.help/podpora-flexi/cs/collections/2592813-dokumentace-rest-api
+  - Full API docs with many subpages; use when unsure about endpoints, query params, or behavior
+
 ## Development Commands
 
 ### Building the Solution

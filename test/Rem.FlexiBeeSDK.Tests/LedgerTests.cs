@@ -92,12 +92,37 @@ namespace Rem.FlexiBeeSDK.Tests
             var dateFrom = DateTime.Parse("2025-06-01");
             var dateTo = DateTime.Parse("2025-06-30");
             var departmentId = "VYROBA";
-            
+
 
             var ledger = await client.GetAsync(dateFrom, dateTo, departmentId: departmentId);
 
             ledger.Should().NotBeEmpty();
             ledger.Should().OnlyContain(w => w.CreditAccount != null && w.Department.Code.Equals(departmentId, StringComparison.InvariantCultureIgnoreCase));
+        }
+
+        [Fact]
+        public async Task GetChangedSince_ReturnsRowsWithPopulatedLastUpdate()
+        {
+            var client = _fixture.Create<LedgerClient>();
+            var since = DateTimeOffset.UtcNow.AddDays(-30);
+
+            var items = await client.GetChangedSinceAsync(since.UtcDateTime, limit: 10);
+
+            items.Should().NotBeNull();
+            items.Should().OnlyContain(item => item.LastUpdate.HasValue);
+            items.Should().OnlyContain(item => item.LastUpdate!.Value >= since);
+        }
+
+        [Fact]
+        public async Task GetChangedSince_WithFutureDate_ReturnsEmptyList()
+        {
+            var client = _fixture.Create<LedgerClient>();
+            var futureDate = DateTime.UtcNow.AddDays(1);
+
+            var items = await client.GetChangedSinceAsync(futureDate);
+
+            items.Should().NotBeNull();
+            items.Should().BeEmpty();
         }
     }
 }

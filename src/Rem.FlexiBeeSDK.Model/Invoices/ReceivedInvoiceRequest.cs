@@ -9,32 +9,32 @@ public class ReceivedInvoiceRequest
     public ReceivedInvoiceRequest(DateTime? dateFrom = null, DateTime? dateTo = null, string? label = null, string? accountingTemplate = null, string? documentNumber = null, string? companyId = null)
     {
         var filters = new List<string>();
-        
+
         if (dateFrom.HasValue && dateTo.HasValue)
         {
             filters.Add($"(datVyst gte \"{dateFrom.Value:yyyy-MM-dd}\" and datVyst lte \"{dateTo.Value:yyyy-MM-dd}\")");
         }
-        
+
         var labelFilter = GetLabelFilterString(label);
         if (!string.IsNullOrEmpty(labelFilter))
             filters.Add(labelFilter);
-            
+
         var accountingTemplateFilter = GetAccountingTemplateFilterString(accountingTemplate);
         if (!string.IsNullOrEmpty(accountingTemplateFilter))
             filters.Add(accountingTemplateFilter);
-            
+
         var documentNumberFilter = GetDocumentNumberFilterString(documentNumber);
         if (!string.IsNullOrEmpty(documentNumberFilter))
             filters.Add(documentNumberFilter);
-            
+
         var companyIdFilter = GetCompanyIdFilterString(companyId);
         if (!string.IsNullOrEmpty(companyIdFilter))
             filters.Add(companyIdFilter);
-        
+
         Filter = filters.Count > 0 ? $"({string.Join(" and ", filters)})" : string.Empty;
     }
-    
-    
+
+
     [JsonProperty("add-row-count")] public bool AddRowCount { get; set; } = true;
 
     [JsonProperty("detail")]
@@ -56,37 +56,37 @@ public class ReceivedInvoiceRequest
     [JsonProperty("no-ext-ids")] public bool NoExtIds { get; set; } = true;
 
     [JsonProperty("@version")] public string Version { get; set; } = "1.0";
-    
+
     [JsonProperty("filter")] public string Filter { get; private set; }
 
-        
+
     private string GetLabelFilterString(string? label = null)
     {
-        if(label == null)
+        if (label == null)
             return String.Empty;
 
         return $"stitky eq \"code:{label}\"";
     }
-    
+
     private string GetAccountingTemplateFilterString(string? accountingTemplate = null)
     {
-        if(accountingTemplate == null)
+        if (accountingTemplate == null)
             return String.Empty;
 
         return $"typUcOp.kod eq \"{accountingTemplate}\"";
     }
-    
+
     private string GetDocumentNumberFilterString(string? documentNumber = null)
     {
-        if(documentNumber == null)
+        if (documentNumber == null)
             return String.Empty;
 
         return $"kod eq \"{documentNumber}\"";
     }
-    
+
     private string GetCompanyIdFilterString(string? companyId = null)
     {
-        if(companyId == null)
+        if (companyId == null)
             return String.Empty;
 
         return $"ic eq \"code:{companyId}\"";

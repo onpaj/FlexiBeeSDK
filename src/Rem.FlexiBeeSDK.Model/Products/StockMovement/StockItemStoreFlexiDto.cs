@@ -9,7 +9,7 @@ public class StockItemStoreFlexiDto
 
     [JsonProperty("nazev")]
     public string Name { get; set; }
-    
+
     [JsonProperty("kod")]
     public string Code { get; set; }
 }

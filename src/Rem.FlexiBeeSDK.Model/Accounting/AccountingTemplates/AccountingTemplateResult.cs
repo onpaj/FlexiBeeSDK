@@ -12,5 +12,5 @@ public class AccountingTemplateResult
     public string RowCount { get; set; }
 
     [JsonProperty("predpis-zauctovani")]
-    public List<AccountingTemplateFlexiDto> AccountingTemplates { get; set; } = new ();
+    public List<AccountingTemplateFlexiDto> AccountingTemplates { get; set; } = new();
 }

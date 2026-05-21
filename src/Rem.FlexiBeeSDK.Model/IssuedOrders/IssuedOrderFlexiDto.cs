@@ -26,7 +26,7 @@ public class IssuedOrderFlexiDto
 
     [JsonProperty("stredisko")]
     public List<IssuedOrderDepartmentFlexiDto> DepartmentList { get; set; }
-       
+
     [JsonIgnore]
     public IssuedOrderDepartmentFlexiDto? Department => DepartmentList.FirstOrDefault();
 
@@ -51,13 +51,13 @@ public class IssuedOrderFlexiDto
 
     [JsonProperty("stavDoklObch")]
     public List<IssuedOrderStateFlexiDto> StateList { get; set; }
-        
+
     [JsonIgnore]
     IssuedOrderStateFlexiDto State => StateList.First();
 
     [JsonProperty("popis")]
     public string Description { get; set; }
-    
+
     [JsonProperty("polozkyObchDokladu")]
     public List<IssuedOrderItemFlexiDto> Items { get; set; }
 }

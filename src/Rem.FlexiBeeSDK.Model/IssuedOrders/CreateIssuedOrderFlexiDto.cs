@@ -40,7 +40,7 @@ public class CreateIssuedOrderFlexiDto
 
     [JsonProperty("typDoklNabFak")]
     public string WarehouseDocumentTypeFormated => $"code:{WarehouseDocumentType}";
-    
+
     [JsonIgnore]
     public string WarehouseDocumentType { get; set; }
 

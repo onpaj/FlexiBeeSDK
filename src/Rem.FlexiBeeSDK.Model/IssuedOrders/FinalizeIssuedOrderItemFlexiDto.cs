@@ -6,7 +6,7 @@ namespace Rem.FlexiBeeSDK.Model.IssuedOrders;
 public class FinalizeIssuedOrderItemFlexiDto
 {
     [JsonProperty("id")] public string Id { get; set; }
-    
+
     [JsonProperty("mj")]
     public double Amount { get; set; }
 

@@ -12,12 +12,21 @@ public class LedgerRequest
         Filter =
             $"((datUcto gte \"{dateFrom:yyyy-MM-dd}\" and datUcto lte \"{dateTo:yyyy-MM-dd}\") {GetAccountFilterString("mdUcet", debitAccountPrefixes)} {GetAccountFilterString("dalUcet", creditAccountPrefixes)} {GetDepartmentFilterString(departmentId)})";
     }
-    
+
+    public LedgerRequest(DateTime since)
+    {
+        if (since.Kind != DateTimeKind.Utc)
+            throw new ArgumentException("since must be DateTimeKind.Utc", nameof(since));
+
+        Filter = $"(lastUpdate gte \"{since:yyyy-MM-ddTHH:mm:ss}Z\")";
+        Order = "lastUpdate";
+    }
+
     [JsonProperty("add-row-count")] public bool AddRowCount { get; set; } = true;
 
     [JsonProperty("detail")]
     public string Detail { get; set; } =
-        "custom:parSymbol,datVyst,datUcto,doklad,nazFirmy,stredisko(nazev,kod,id),popis,sumTuz,sumMen,mena(kod),kurz,mdUcet(kod,nazev,id),dalUcet(kod,nazev,id),zuctovano,idUcetniDenik,idDokl";
+        "custom:parSymbol,datVyst,datUcto,doklad,nazFirmy,stredisko(nazev,kod,id),popis,sumTuz,sumMen,mena(kod),kurz,mdUcet(kod,nazev,id),dalUcet(kod,nazev,id),zuctovano,idUcetniDenik,idDokl,lastUpdate";
 
     [JsonProperty("limit")] public int Limit { get; set; } = 0;
 
@@ -34,21 +43,21 @@ public class LedgerRequest
     [JsonProperty("no-ext-ids")] public bool NoExtIds { get; set; } = true;
 
     [JsonProperty("@version")] public string Version { get; set; } = "1.0";
-    
+
     [JsonProperty("filter")] public string Filter { get; private set; }
 
     private string GetAccountFilterString(string fieldName, IEnumerable<string>? accountPrefixes = null)
     {
-        if(accountPrefixes == null || !accountPrefixes.Any())
+        if (accountPrefixes == null || !accountPrefixes.Any())
             return String.Empty;
 
         var accounts = accountPrefixes.Select(s => $"{fieldName}.kod begins \"{s}\"");
         return $" and ({string.Join(" or ", accounts)})";
     }
-    
+
     private string GetDepartmentFilterString(string? departmentId = null)
     {
-        if(departmentId == null)
+        if (departmentId == null)
             return String.Empty;
 
         return $" and stredisko.kod = \"{departmentId}\"";

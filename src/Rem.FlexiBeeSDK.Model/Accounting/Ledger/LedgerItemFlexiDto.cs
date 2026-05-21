@@ -83,8 +83,8 @@ public class LedgerItemFlexiDto
 
     [JsonProperty("mdUcet")]
     public List<AccountFlexiDto> DebitAccountList { get; set; }
-    
-    public AccountFlexiDto? DebitAccount => DebitAccountList.FirstOrDefault(); 
+
+    public AccountFlexiDto? DebitAccount => DebitAccountList.FirstOrDefault();
 
     [JsonProperty("dalUcet@evidencePath")]
     public string CreditAccountEvidencePath { get; set; }
@@ -100,8 +100,8 @@ public class LedgerItemFlexiDto
 
     [JsonProperty("dalUcet")]
     public List<AccountFlexiDto> CreditAccountList { get; set; }
-    
-    public AccountFlexiDto? CreditAccount => CreditAccountList.FirstOrDefault(); 
+
+    public AccountFlexiDto? CreditAccount => CreditAccountList.FirstOrDefault();
 
     [JsonProperty("zuctovano")]
     public bool IsCleared { get; set; }
@@ -114,4 +114,7 @@ public class LedgerItemFlexiDto
 
     [JsonProperty("idDokl@evidencePath")]
     public string DocumentIdEvidencePath { get; set; }
+
+    [JsonProperty("lastUpdate")]
+    public DateTimeOffset? LastUpdate { get; set; }
 }

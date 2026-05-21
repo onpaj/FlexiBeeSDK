@@ -5,7 +5,7 @@ namespace Rem.FlexiBeeSDK.Model.Products.StockTaking;
 
 public class StockTakingHeaderRequest
 {
-    [JsonProperty("datKonec")] 
+    [JsonProperty("datKonec")]
     public DateTime DatKonec => Date;
 
     [JsonProperty("datZahaj")]

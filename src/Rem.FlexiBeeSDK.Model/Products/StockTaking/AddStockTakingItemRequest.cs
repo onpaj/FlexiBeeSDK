@@ -8,7 +8,7 @@ public class AddStockTakingItemRequest
     [JsonProperty("cenik")]
     public string ProductCode { get; set; }
 
-    [JsonProperty("expirace")] 
+    [JsonProperty("expirace")]
     public string Expiration { get; set; } = "";
 
     [JsonProperty("inventura")]
@@ -17,7 +17,7 @@ public class AddStockTakingItemRequest
     [JsonProperty("mnozMjReal")]
     public decimal Amount { get; set; }
 
-    [JsonProperty("sarze")] 
+    [JsonProperty("sarze")]
     public string Lot { get; set; } = "";
 
     [JsonProperty("sklad")]

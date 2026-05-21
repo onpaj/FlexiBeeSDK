@@ -14,7 +14,7 @@ public class StockItemMovementFlexiDto
     public List<StockItemDocumentFlexiDto> DocumentList { get; set; }
 
     public StockItemDocumentFlexiDto Document => DocumentList.First();
-    
+
     [JsonProperty("datVyst")]
     public DateTime Date { get; set; }
 

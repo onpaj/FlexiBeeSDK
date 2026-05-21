@@ -6,7 +6,7 @@ namespace Rem.FlexiBeeSDK.Model.IssuedOrders;
 public class IssuedOrderItemFlexiDto
 {
     [JsonProperty("id", NullValueHandling = NullValueHandling.Ignore)] public string? Id { get; set; }
-    
+
     [JsonProperty("autogen")] public bool Autogenerate => false;
 
     [JsonProperty("cenJednotka")] public int PriceUnit => 1;
@@ -36,7 +36,7 @@ public class IssuedOrderItemFlexiDto
 
     [JsonProperty("sklad")]
     public string WarehouseCodeFormatted => $"code:{WarehouseCode}";
-    
+
     [JsonIgnore]
     public string WarehouseCode { get; set; }
 

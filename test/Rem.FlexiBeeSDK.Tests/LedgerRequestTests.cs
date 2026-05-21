@@ -197,7 +197,7 @@ namespace Rem.FlexiBeeSDK.Tests
             Assert.True(request.UseInternalId);
             Assert.True(request.NoExtIds);
             Assert.Equal("1.0", request.Version);
-            Assert.Equal("custom:parSymbol,datVyst,datUcto,doklad,nazFirmy,stredisko(nazev,kod,id),popis,sumTuz,sumMen,mena(kod),kurz,mdUcet(kod,nazev,id),dalUcet(kod,nazev,id),zuctovano,idUcetniDenik,idDokl", request.Detail);
+            Assert.Equal("custom:parSymbol,datVyst,datUcto,doklad,nazFirmy,stredisko(nazev,kod,id),popis,sumTuz,sumMen,mena(kod),kurz,mdUcet(kod,nazev,id),dalUcet(kod,nazev,id),zuctovano,idUcetniDenik,idDokl,lastUpdate", request.Detail);
             Assert.Equal("/ucetni-denik/stredisko,/ucetni-denik/mena,/ucetni-denik/mdUcet,/ucetni-denik/dalUcet", request.Includes);
         }
         
@@ -302,11 +302,93 @@ namespace Rem.FlexiBeeSDK.Tests
         {
             var dateFrom = new DateTime(2025, 6, 1);
             var dateTo = new DateTime(2025, 6, 30);
-            var request = new LedgerRequest(dateFrom, dateTo, 
+            var request = new LedgerRequest(dateFrom, dateTo,
                 debitAccountPrefixes: new List<string> { "52", "53" });
-            
+
             var expectedFilter = "((datUcto gte \"2025-06-01\" and datUcto lte \"2025-06-30\")  and (mdUcet.kod begins \"52\" or mdUcet.kod begins \"53\")  )";
             Assert.Equal(expectedFilter, request.Filter);
+        }
+    }
+
+    public class LedgerChangedSinceRequestTests
+    {
+        [Fact]
+        public void Constructor_WithSince_FilterContainsLastUpdateGte()
+        {
+            var since = new DateTime(2025, 5, 21, 10, 30, 0, DateTimeKind.Utc);
+
+            var request = new LedgerRequest(since);
+
+            Assert.Contains("lastUpdate gte", request.Filter);
+            Assert.Contains("2025-05-21T10:30:00Z", request.Filter);
+        }
+
+        [Fact]
+        public void Constructor_WithSince_FilterDoesNotContainDatUcto()
+        {
+            var since = new DateTime(2025, 5, 21, 10, 30, 0, DateTimeKind.Utc);
+
+            var request = new LedgerRequest(since);
+
+            Assert.DoesNotContain("datUcto", request.Filter);
+        }
+
+        [Fact]
+        public void Constructor_WithSince_FilterMatchesExpectedFormat()
+        {
+            var since = new DateTime(2025, 5, 21, 10, 30, 0, DateTimeKind.Utc);
+
+            var request = new LedgerRequest(since);
+
+            Assert.Equal("(lastUpdate gte \"2025-05-21T10:30:00Z\")", request.Filter);
+        }
+
+        [Fact]
+        public void Constructor_WithSince_FilterAlwaysContainsUtcMarker()
+        {
+            var since = new DateTime(2025, 5, 21, 10, 30, 0, DateTimeKind.Utc);
+
+            var request = new LedgerRequest(since);
+
+            // Filter must always contain a UTC representation (timestamp ends with Z)
+            Assert.Contains("Z\"", request.Filter);
+        }
+
+        [Fact]
+        public void Constructor_WithSince_OrderIsLastUpdate()
+        {
+            var since = new DateTime(2025, 5, 21, 0, 0, 0, DateTimeKind.Utc);
+
+            var request = new LedgerRequest(since);
+
+            Assert.Equal("lastUpdate", request.Order);
+        }
+
+        [Fact]
+        public void Constructor_WithSince_DefaultPaginationIsZero()
+        {
+            var since = new DateTime(2025, 5, 21, 0, 0, 0, DateTimeKind.Utc);
+
+            var request = new LedgerRequest(since);
+
+            Assert.Equal(0, request.Limit);
+            Assert.Equal(0, request.Start);
+        }
+
+        [Fact]
+        public void Constructor_WithUnspecifiedKind_ThrowsArgumentException()
+        {
+            var since = new DateTime(2025, 5, 21, 10, 30, 0);
+
+            Assert.Throws<ArgumentException>(() => new LedgerRequest(since));
+        }
+
+        [Fact]
+        public void Constructor_WithLocalKind_ThrowsArgumentException()
+        {
+            var since = new DateTime(2025, 5, 21, 10, 30, 0, DateTimeKind.Local);
+
+            Assert.Throws<ArgumentException>(() => new LedgerRequest(since));
         }
     }
 }
