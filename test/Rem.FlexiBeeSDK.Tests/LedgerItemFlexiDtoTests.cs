@@ -36,4 +36,39 @@ public class LedgerItemFlexiDtoTests
         Assert.NotNull(dto);
         Assert.Null(dto.LastUpdate);
     }
+
+    [Fact]
+    public void Deserialize_WithPeriodAndContact_PopulatesProperties()
+    {
+        var json = """
+            {
+                "id": 1,
+                "postingPeriod": "2024001",
+                "firma@ref": "code:ACME",
+                "firma@showAs": "ACME s.r.o."
+            }
+            """;
+
+        var dto = JsonConvert.DeserializeObject<LedgerItemFlexiDto>(json);
+
+        Assert.NotNull(dto);
+        Assert.Equal("2024001", dto.Period);
+        Assert.Equal("code:ACME", dto.ContactRef);
+        Assert.Equal("ACME s.r.o.", dto.ContactShowAs);
+        Assert.Null(dto.AccountingTemplate);
+    }
+
+    [Fact]
+    public void Deserialize_WithoutPeriodAndContact_PropertiesAreNull()
+    {
+        var json = """{ "id": 1 }""";
+
+        var dto = JsonConvert.DeserializeObject<LedgerItemFlexiDto>(json);
+
+        Assert.NotNull(dto);
+        Assert.Null(dto.Period);
+        Assert.Null(dto.ContactRef);
+        Assert.Null(dto.ContactShowAs);
+        Assert.Null(dto.AccountingTemplate);
+    }
 }

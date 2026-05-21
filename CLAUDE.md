@@ -17,6 +17,12 @@ FlexiBeeSDK is a .NET SDK for integrating with the FlexiBee accounting system AP
 - **FlexiBee REST API Documentation** - https://intercom.help/podpora-flexi/cs/collections/2592813-dokumentace-rest-api
   - Full API docs with many subpages; use when unsure about endpoints, query params, or behavior
 
+## Model Validation Rule
+
+**MANDATORY: Every new or modified property in a DTO/model MUST be validated against the FlexiBee API before implementation.**
+
+Use `https://demo.flexibee.eu/c/demo/{evidence-name}/properties.json` to get the exact field names and types for any evidence. Never assume field names — always confirm they exist in the API response schema.
+
 ## Development Commands
 
 ### Building the Solution
