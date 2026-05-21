@@ -7,7 +7,7 @@ public class StockTakingHeader
 {
     [JsonProperty("id")]
     public int Id { get; set; }
-    
+
     [JsonProperty("lastUpdate")]
     public DateTime LastUpdate { get; set; }
 

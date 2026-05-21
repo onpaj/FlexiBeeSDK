@@ -14,5 +14,5 @@ public class LotsItem
     [JsonProperty("cenik")]
     public string ProductCode { get; set; }
     [JsonProperty("pocet")]
-    public decimal Amount { get; set; } 
+    public decimal Amount { get; set; }
 }

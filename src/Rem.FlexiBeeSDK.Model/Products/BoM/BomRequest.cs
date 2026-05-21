@@ -35,7 +35,7 @@ public class BomRequest
         Filter = $"otecCenik.kod eq \"{Code}\"";
         return this;
     }
-    
+
     public BomRequest FindByIngredientCode(string code)
     {
         Code = code;

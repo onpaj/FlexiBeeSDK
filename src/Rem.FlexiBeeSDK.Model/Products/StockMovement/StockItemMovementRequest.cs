@@ -7,9 +7,9 @@ public class StockItemMovementRequest
 {
     // "(doklSklad.typDokl eq \"56\" and doklSklad.typPohybuK in (\"typPohybu.prijem\") and (doklSklad.datVyst gte \"2025-06-01\" and doklSklad.datVyst lte \"2025-06-30\"))",
     public StockItemMovementRequest(
-        DateTime dateFrom, 
-        DateTime dateTo, 
-        StockMovementDirection direction, 
+        DateTime dateFrom,
+        DateTime dateTo,
+        StockMovementDirection direction,
         string? storeCode = null,
         int? documentTypeId = null,
         string? documentCode = null
@@ -47,37 +47,37 @@ public class StockItemMovementRequest
     [JsonProperty("no-ext-ids")] public bool NoExtIds { get; set; } = true;
 
     [JsonProperty("@version")] public string Version { get; set; } = "1.0";
-    
+
     [JsonProperty("filter")] public string Filter { get; private set; }
 
-    
+
     private string GetDocumentTypeFilterString(int? documentTypeId = null)
     {
-        if(documentTypeId == null)
+        if (documentTypeId == null)
             return String.Empty;
 
         return $"and doklSklad.typDokl eq \"{documentTypeId}\"";
     }
-        
+
     private string GetDocumentNumberFilterString(string? documentNumber = null)
     {
-        if(documentNumber == null)
+        if (documentNumber == null)
             return String.Empty;
 
         return $"and doklSklad.kod eq \"{documentNumber}\"";
     }
-    
+
     private string GetStoreCodeFilterString(string? storeCode = null)
     {
-        if(storeCode == null)
+        if (storeCode == null)
             return String.Empty;
 
         return $"and sklad.kod eq \"{storeCode}\"";
     }
-        
+
     private string GetDirectionFilterString(StockMovementDirection direction)
     {
-        if(direction == StockMovementDirection.Any)
+        if (direction == StockMovementDirection.Any)
             return String.Empty;
 
         return $"and doklSklad.typPohybuK in (\"typPohybu.{(direction == StockMovementDirection.In ? "prijem" : "vydej")}\")";

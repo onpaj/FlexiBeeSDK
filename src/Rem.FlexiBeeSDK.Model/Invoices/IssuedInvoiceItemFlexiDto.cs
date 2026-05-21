@@ -42,39 +42,39 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
 
         [JsonProperty("mena@showAs", NullValueHandling = NullValueHandling.Ignore)]
         public string CurrencyShowAs { get; set; }
-        
+
         [JsonProperty("mj", NullValueHandling = NullValueHandling.Ignore)]
         public string MeasureUnit { get; set; }
         [JsonProperty("cenaMj", NullValueHandling = NullValueHandling.Ignore)]
         public decimal PricePerUnit { get; set; }
         [JsonProperty("sumZklMen", NullValueHandling = NullValueHandling.Ignore)]
         public decimal? SumBaseC { get; set; }
-        [JsonProperty("sumZkl", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("sumZkl", NullValueHandling = NullValueHandling.Ignore)]
         public decimal? SumBase { get; set; }
         [JsonProperty("typSzbDphK", NullValueHandling = NullValueHandling.Ignore)]
         public string VatRateType { get; set; }
-        [JsonProperty("typCenyDphK", NullValueHandling = NullValueHandling.Ignore)] 
+        [JsonProperty("typCenyDphK", NullValueHandling = NullValueHandling.Ignore)]
         public string PriceVatType { get; set; }
-        
-        [JsonProperty("zklMdUcet", NullValueHandling = NullValueHandling.Ignore)] 
+
+        [JsonProperty("zklMdUcet", NullValueHandling = NullValueHandling.Ignore)]
         public string AccountBaseMd { get; set; }
-        
-        [JsonProperty("zklDalUcet", NullValueHandling = NullValueHandling.Ignore)] 
+
+        [JsonProperty("zklDalUcet", NullValueHandling = NullValueHandling.Ignore)]
         public string AccountBaseDal { get; set; }
-        
-        [JsonProperty("dphMdUcet", NullValueHandling = NullValueHandling.Ignore)] 
+
+        [JsonProperty("dphMdUcet", NullValueHandling = NullValueHandling.Ignore)]
         public string AccountVatMd { get; set; }
-        
-        [JsonProperty("dphDalUcet", NullValueHandling = NullValueHandling.Ignore)] 
+
+        [JsonProperty("dphDalUcet", NullValueHandling = NullValueHandling.Ignore)]
         public string AccountVatDal { get; set; }
-        
-        [JsonProperty("clenKonVykDph", NullValueHandling = NullValueHandling.Ignore)] 
+
+        [JsonProperty("clenKonVykDph", NullValueHandling = NullValueHandling.Ignore)]
         public string CategoryVatReport { get; set; }
 
         [JsonProperty("kopClenKonVykDph", NullValueHandling = NullValueHandling.Ignore)]
         public bool CopyCategoryVatReport { get; set; } = true;
-        
-        [JsonProperty("clenDph", NullValueHandling = NullValueHandling.Ignore)] 
+
+        [JsonProperty("clenDph", NullValueHandling = NullValueHandling.Ignore)]
         public string CategoryVat { get; set; }
 
         [JsonProperty("kopClenDph", NullValueHandling = NullValueHandling.Ignore)]

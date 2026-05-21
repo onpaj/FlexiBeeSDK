@@ -9,7 +9,7 @@ public class StockItemsMovementUpsertRequestEnvelopeFlexiDto
     {
         StockMovement = [stockMovementRequest];
     }
-    
+
     [JsonProperty("skladovy-pohyb", NullValueHandling = NullValueHandling.Ignore)]
     public List<StockItemsMovementUpsertRequestFlexiDto> StockMovement { get; set; }
 

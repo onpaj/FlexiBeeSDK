@@ -77,7 +77,7 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
 
         [JsonProperty("duzpUcto", NullValueHandling = NullValueHandling.Ignore)]
         public string DateTaxAcc { get; set; }
-        
+
         [JsonProperty("nazFirmy", NullValueHandling = NullValueHandling.Ignore)]
         public string CompanyName { get; set; }
         [JsonProperty("ulice", NullValueHandling = NullValueHandling.Ignore)]
@@ -105,7 +105,7 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
         [JsonProperty("formaUhradyCis", NullValueHandling = NullValueHandling.Ignore)]
         public object PaymentType { get; set; }
 
-        [JsonProperty("vazby")] public List<InvoiceReference> References { get; set; } = new ();
+        [JsonProperty("vazby")] public List<InvoiceReference> References { get; set; } = new();
 
 
         public List<string> GetBankPaymentsIds() =>
@@ -120,7 +120,7 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
                 .Select(s => s.ReferenceB)
                 .ToList();
 
-       
+
         public void Validate()
         {
             StoreCorrections();
@@ -142,11 +142,11 @@ namespace Rem.FlexiBeeSDK.Model.Invoices
             }
         }
 
-        
-        
+
+
         private void StoreCorrections()
         {
-            foreach(var p in Items)
+            foreach (var p in Items)
                 StoreCorrections(p);
         }
 

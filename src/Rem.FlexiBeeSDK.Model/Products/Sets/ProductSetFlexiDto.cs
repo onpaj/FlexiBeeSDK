@@ -16,7 +16,7 @@ public class ProductSetFlexiDto
     public List<ProductSetsProductFlexiDto> ProductList { get; set; }
 
     public ProductSetsProductFlexiDto Product => ProductList.FirstOrDefault()!;
-    
+
     [JsonProperty("cenikSada@showAs")]
     public string SetName { get; set; }
 

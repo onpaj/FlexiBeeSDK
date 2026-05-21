@@ -5,7 +5,7 @@ namespace Rem.FlexiBeeSDK.Model.Invoices;
 public class InvoiceReference
 {
     public const string ReferenceTypePayment = "typVazbyDokl.uhrada";
-    
+
     [JsonProperty("id")]
     public int Id { get; set; }
 

@@ -43,7 +43,7 @@ public class StockItemsMovementUpsertRequestFlexiDto
     public string MovementTypeString => $"typPohybu.{(StockMovementDirection == StockMovementDirection.In ? "prijem" : "vydej")}";
 
     public StockMovementDirection StockMovementDirection { get; set; }
-    
+
     [JsonProperty("typPohybuSkladK", NullValueHandling = NullValueHandling.Ignore)]
     public string StockMovementTypeString => $"typPohybuSklad.{(StockMovementDirection == StockMovementDirection.In ? "prijemHoly" : "vydejHoly")}";
 

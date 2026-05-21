@@ -8,7 +8,7 @@ public class ProductSetsRequest
     {
         Filter = $"cenikSada eq \"code:{productCode}\"";
     }
-    
+
     [JsonProperty("add-row-count")] public bool AddRowCount { get; set; } = true;
 
     [JsonProperty("detail")] public string Detail { get; set; } = "custom:mnozMj,cenik(nazev,kod,id),cenikSada(nazev,kod,id),poznam,id";
@@ -26,6 +26,6 @@ public class ProductSetsRequest
     [JsonProperty("no-ext-ids")] public bool NoExtIds { get; set; } = true;
 
     [JsonProperty("@version")] public string Version { get; set; } = "1.0";
-    
+
     [JsonProperty("filter")] public string Filter { get; private set; }
 }

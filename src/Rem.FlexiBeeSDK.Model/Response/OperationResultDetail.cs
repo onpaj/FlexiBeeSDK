@@ -16,6 +16,6 @@ public class OperationResultDetail
 
     [JsonProperty("message")]
     public string Message { get; set; }
-    
+
     public bool IsSuccess => Success == "true";
 }

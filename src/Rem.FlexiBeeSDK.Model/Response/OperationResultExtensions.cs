@@ -7,7 +7,7 @@ public static class OperationResultExtensions
     {
         if (result.IsSuccess)
             return null;
-        
+
         return result.ErrorMessage ?? result.Result?.Results?.FirstOrDefault()?.Errors?.FirstOrDefault()?.Message;
     }
 }

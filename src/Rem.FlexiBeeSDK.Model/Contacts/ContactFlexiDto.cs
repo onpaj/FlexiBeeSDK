@@ -40,7 +40,7 @@ namespace Rem.FlexiBeeSDK.Model.Contacts
 
         [JsonProperty("stat@showAs", NullValueHandling = NullValueHandling.Ignore)]
         public string CountryShowAs { get; set; }
-        
+
         [JsonProperty("email", NullValueHandling = NullValueHandling.Ignore)]
         public string Email { get; set; }
 

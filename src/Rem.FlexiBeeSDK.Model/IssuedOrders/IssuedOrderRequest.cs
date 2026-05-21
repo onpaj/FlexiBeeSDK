@@ -10,7 +10,7 @@ public class IssuedOrderRequest
         Filter =
             $"(kod eq \"{documentNumber}\")";
     }
-    
+
     public IssuedOrderRequest(int id)
     {
         Filter =
@@ -45,12 +45,12 @@ public class IssuedOrderRequest
     [JsonProperty("no-ext-ids")] public bool NoExtIds { get; set; } = true;
 
     [JsonProperty("@version")] public string Version { get; set; } = "1.0";
-    
+
     [JsonProperty("filter")] public string Filter { get; private set; }
 
     private string GetDocumentTypeFilterString(int? documentTypeId)
     {
-        if(documentTypeId == null)
+        if (documentTypeId == null)
             return String.Empty;
 
         return $" and typDokl = \"{documentTypeId}\"";

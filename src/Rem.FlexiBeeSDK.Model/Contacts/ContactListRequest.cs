@@ -8,7 +8,7 @@ public class ContactListRequest
 {
     public ContactListRequest(ContactType contactType) : this([contactType])
     {
-        
+
     }
 
     public ContactListRequest(IEnumerable<ContactType> contactTypes)
@@ -37,7 +37,7 @@ public class ContactListRequest
 
         return "vsechno";
     }
-    
+
     private static ContactType ToContactType(string contactType)
     {
         switch (contactType)

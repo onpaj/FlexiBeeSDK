@@ -18,13 +18,13 @@ public class StockItemDocumentFlexiDto
 
     [JsonProperty("kod")]
     public string DocumentCode { get; set; }
-    
+
     [JsonProperty("typPohybuK")]
     public string MovementDirectionCode { get; set; }
 
     [JsonProperty("typPohybuK@showAs")]
     public string MovementDirectionName { get; set; }
-    
+
     [JsonProperty("typUcOp")]
     public string AccountTemplateRaw { get; set; }
 

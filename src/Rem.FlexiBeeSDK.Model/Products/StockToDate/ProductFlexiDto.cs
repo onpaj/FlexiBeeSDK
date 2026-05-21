@@ -15,22 +15,22 @@ public class ProductFlexiDto
 
     [JsonProperty("baleniNazev1")]
     public string MoqName { get; set; }
-    
+
     [JsonProperty("baleniMj1")]
     public string MoqAmount { get; set; }
-    
+
     [JsonProperty("evidSarze")]
     public bool HasLots { get; set; }
-    
+
     [JsonProperty("evidExpir")]
     public bool HasExpiration { get; set; }
-    
+
     [JsonProperty("objem")]
     public double Volume { get; set; }
 
     [JsonProperty("hmotMj")]
     public double Weight { get; set; }
-    
+
     [JsonProperty("dodavatel")]
     public string SupplierCode { get; set; }
 
@@ -39,7 +39,7 @@ public class ProductFlexiDto
 
     [JsonProperty("dodavatel@showAs")]
     public string SupplierName { get; set; }
-    
+
     [JsonProperty("poznam")]
     public string Note { get; set; }
 }

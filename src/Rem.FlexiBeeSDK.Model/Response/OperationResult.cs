@@ -8,7 +8,7 @@ namespace Rem.FlexiBeeSDK.Model.Response
         {
             StatusCode = statusCode;
         }
-        
+
         public OperationResult(HttpStatusCode statusCode, string error)
         {
             StatusCode = statusCode;
@@ -25,6 +25,6 @@ namespace Rem.FlexiBeeSDK.Model.Response
         public HttpStatusCode StatusCode { get; }
         public string? ErrorMessage { get; set; }
 
-        public bool IsSuccess => (int) StatusCode < 300 && (int) StatusCode >= 200;
+        public bool IsSuccess => (int)StatusCode < 300 && (int)StatusCode >= 200;
     }
 }

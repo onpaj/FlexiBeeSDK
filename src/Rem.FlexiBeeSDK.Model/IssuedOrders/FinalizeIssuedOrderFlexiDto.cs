@@ -11,13 +11,13 @@ public class FinalizeIssuedOrderFlexiDto
 
     public FinalizeIssuedOrderFlexiDto(string orderNumber)
     {
-         Id = $"code:{orderNumber}";   
+        Id = $"code:{orderNumber}";
     }
-    
+
     [JsonProperty("id")] public string Id { get; private set; }
 
     [JsonProperty("realizaceObj@type")] public string FinalizeStockMovementType => "skladovy-pohyb";
 
     [JsonProperty("realizaceObj")]
-    public IssuedOrderStockMovementFlexiDto FinalizeStockMovement { get; set; } =  new IssuedOrderStockMovementFlexiDto();
+    public IssuedOrderStockMovementFlexiDto FinalizeStockMovement { get; set; } = new IssuedOrderStockMovementFlexiDto();
 }

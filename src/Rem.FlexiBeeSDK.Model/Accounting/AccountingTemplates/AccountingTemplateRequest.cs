@@ -15,7 +15,7 @@ public class AccountingTemplateRequest
     [JsonProperty("start")] public int Start { get; set; } = 0;
 
     [JsonProperty("includes")]
-    public string Includes { get; set; } ="";
+    public string Includes { get; set; } = "";
 
     [JsonProperty("order")] public string Order { get; set; } = "id";
 
