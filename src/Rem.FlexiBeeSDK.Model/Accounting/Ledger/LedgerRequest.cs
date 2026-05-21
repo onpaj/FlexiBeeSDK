@@ -13,6 +13,12 @@ public class LedgerRequest
             $"((datUcto gte \"{dateFrom:yyyy-MM-dd}\" and datUcto lte \"{dateTo:yyyy-MM-dd}\") {GetAccountFilterString("mdUcet", debitAccountPrefixes)} {GetAccountFilterString("dalUcet", creditAccountPrefixes)} {GetDepartmentFilterString(departmentId)})";
     }
 
+    public LedgerRequest(DateTime since)
+    {
+        Filter = $"(lastUpdate gte \"{since.ToUniversalTime():yyyy-MM-ddTHH:mm:ss}Z\")";
+        Order = "lastUpdate";
+    }
+
     [JsonProperty("add-row-count")] public bool AddRowCount { get; set; } = true;
 
     [JsonProperty("detail")]
