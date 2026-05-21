@@ -114,4 +114,7 @@ public class LedgerItemFlexiDto
 
     [JsonProperty("idDokl@evidencePath")]
     public string DocumentIdEvidencePath { get; set; }
+
+    [JsonProperty("lastUpdate")]
+    public DateTime? LastUpdate { get; set; }
 }
