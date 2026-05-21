@@ -38,4 +38,22 @@ public class LedgerClient : ResourceClient, ILedgerClient
 
         return result?.Result?.LedgerItems ?? new List<LedgerItemFlexiDto>();
     }
+
+    public async Task<IReadOnlyList<LedgerItemFlexiDto>> GetChangedSinceAsync(
+        DateTime since,
+        int? limit = null,
+        int? skip = null,
+        CancellationToken cancellationToken = default)
+    {
+        var queryDoc = new LedgerRequest(since)
+        {
+            Limit = limit ?? 0,
+            Start = skip ?? 0,
+        };
+
+        var query = new FlexiQuery();
+        var result = await PostAsync<LedgerRequest, LedgerResult>(queryDoc, query, cancellationToken: cancellationToken);
+
+        return result?.Result?.LedgerItems ?? new List<LedgerItemFlexiDto>();
+    }
 }
