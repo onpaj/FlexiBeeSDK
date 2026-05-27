@@ -17,5 +17,18 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
         Task<ProductWeightFlexiDto?> GetBomWeight(string productCode, CancellationToken cancellationToken = default);
 
         Task UpdateIngredientAmountAsync(string productCode, string ingredientCode, double newAmount, CancellationToken cancellationToken = default);
+
+        Task UpdateBoMItemAsync(
+            int id,
+            int? order = null,
+            string? name = null,
+            string? nameA = null,
+            string? nameB = null,
+            string? nameC = null,
+            CancellationToken cancellationToken = default);
+
+        Task SetItemsOrderAsync(
+            IEnumerable<(int Id, int Order)> items,
+            CancellationToken cancellationToken = default);
     }
 }

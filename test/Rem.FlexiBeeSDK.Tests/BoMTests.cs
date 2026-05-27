@@ -133,5 +133,102 @@ namespace Rem.FlexiBeeSDK.Tests
             await act.Should().ThrowAsync<InvalidOperationException>()
                 .WithMessage("*DOES_NOT_EXIST*");
         }
+
+        [Fact]
+        public async Task UpdateBoMItem_SetsNameC_AndRestores()
+        {
+            var client = _fixture.Create<BoMClient>();
+            const string productCode = "KRE003030";
+
+            // Fetch current BoM and pick a non-header row
+            var bom = await client.GetAsync(productCode);
+            var row = bom.FirstOrDefault(r => r.Level != 1);
+            row.Should().NotBeNull($"product {productCode} must have at least one non-header BoM row");
+
+            var originalNameC = row!.NameC;
+            var newNameC = $"sdk-test-{Guid.NewGuid():N}";
+
+            // Set NameC
+            await client.UpdateBoMItemAsync(row.Id, nameC: newNameC);
+
+            // Verify persistence
+            var updated = (await client.GetAsync(productCode)).Single(r => r.Id == row.Id);
+            updated.NameC.Should().Be(newNameC);
+
+            // Restore
+            await client.UpdateBoMItemAsync(row.Id, nameC: originalNameC ?? string.Empty);
+        }
+
+        [Fact]
+        public async Task UpdateBoMItem_SetsOrder_AndRestores()
+        {
+            var client = _fixture.Create<BoMClient>();
+            const string productCode = "KRE003030";
+
+            var bom = await client.GetAsync(productCode);
+            var row = bom.FirstOrDefault(r => r.Level != 1);
+            row.Should().NotBeNull();
+
+            var originalOrder = row!.Order;
+            var newOrder = originalOrder + 100;
+
+            await client.UpdateBoMItemAsync(row.Id, order: newOrder);
+
+            var updated = (await client.GetAsync(productCode)).Single(r => r.Id == row.Id);
+            updated.Order.Should().Be(newOrder);
+
+            await client.UpdateBoMItemAsync(row.Id, order: originalOrder);
+        }
+
+        [Fact]
+        public async Task UpdateBoMItem_ThrowsWhenNothingProvided()
+        {
+            var client = _fixture.Create<BoMClient>();
+
+            var act = async () => await client.UpdateBoMItemAsync(id: 1);
+
+            await act.Should().ThrowAsync<InvalidOperationException>();
+        }
+
+        [Fact]
+        public async Task SetItemsOrderAsync_BulkReorder_AndRestores()
+        {
+            var client = _fixture.Create<BoMClient>();
+            const string productCode = "KRE003030";
+
+            var bom = await client.GetAsync(productCode);
+            var rows = bom.Where(r => r.Level != 1).ToList();
+            rows.Should().HaveCountGreaterThan(1,
+                $"product {productCode} must have at least two non-header rows for a bulk reorder test");
+
+            var originalPairs = rows.Select(r => (r.Id, r.Order)).ToList();
+
+            // Swap order between the first two rows
+            var swapped = new List<(int Id, int Order)>
+            {
+                (rows[0].Id, rows[1].Order),
+                (rows[1].Id, rows[0].Order),
+            };
+
+            await client.SetItemsOrderAsync(swapped);
+
+            // Verify
+            var afterSwap = await client.GetAsync(productCode);
+            afterSwap.Single(r => r.Id == rows[0].Id).Order.Should().Be(rows[1].Order);
+            afterSwap.Single(r => r.Id == rows[1].Id).Order.Should().Be(rows[0].Order);
+
+            // Restore
+            await client.SetItemsOrderAsync(originalPairs);
+        }
+
+        [Fact]
+        public async Task SetItemsOrderAsync_EmptyInput_IsNoOp()
+        {
+            var client = _fixture.Create<BoMClient>();
+
+            var act = async () => await client.SetItemsOrderAsync(Array.Empty<(int, int)>());
+
+            await act.Should().NotThrowAsync();
+        }
     }
 }

@@ -110,6 +110,55 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
             await PutAsync(document, cancellationToken: cancellationToken);
         }
 
+        public async Task UpdateBoMItemAsync(
+            int id,
+            int? order = null,
+            string? name = null,
+            string? nameA = null,
+            string? nameB = null,
+            string? nameC = null,
+            CancellationToken cancellationToken = default)
+        {
+            if (order is null && name is null && nameA is null && nameB is null && nameC is null)
+                throw new InvalidOperationException("At least one field must be provided to update.");
+
+            var document = new Dictionary<string, object>
+            {
+                {
+                    ResourceIdentifier,
+                    new UpdateBoMItemRequest
+                    {
+                        Id = id,
+                        Order = order,
+                        Name = name,
+                        NameA = nameA,
+                        NameB = nameB,
+                        NameC = nameC,
+                    }
+                }
+            };
+
+            await PutAsync(document, cancellationToken: cancellationToken);
+        }
+
+        public async Task SetItemsOrderAsync(
+            IEnumerable<(int Id, int Order)> items,
+            CancellationToken cancellationToken = default)
+        {
+            var payload = items
+                .Select(i => new UpdateBoMItemRequest { Id = i.Id, Order = i.Order })
+                .ToList();
+
+            if (payload.Count == 0) return;
+
+            var document = new Dictionary<string, object>
+            {
+                { ResourceIdentifier, payload }
+            };
+
+            await PutAsync(document, cancellationToken: cancellationToken);
+        }
+
         private static string? StripCodePrefix(string? code)
         {
             if (code == null) return null;
