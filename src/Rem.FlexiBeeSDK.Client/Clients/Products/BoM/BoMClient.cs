@@ -120,7 +120,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
             CancellationToken cancellationToken = default)
         {
             if (order is null && name is null && nameA is null && nameB is null && nameC is null)
-                throw new ArgumentException("At least one field must be provided to update.");
+                throw new InvalidOperationException("At least one field must be provided to update.");
 
             var document = new Dictionary<string, object>
             {

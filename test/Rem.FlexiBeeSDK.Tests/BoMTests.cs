@@ -187,7 +187,7 @@ namespace Rem.FlexiBeeSDK.Tests
 
             var act = async () => await client.UpdateBoMItemAsync(id: 1);
 
-            await act.Should().ThrowAsync<ArgumentException>();
+            await act.Should().ThrowAsync<InvalidOperationException>();
         }
 
         [Fact]
