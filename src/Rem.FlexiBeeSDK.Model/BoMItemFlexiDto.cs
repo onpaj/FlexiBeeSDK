@@ -16,6 +16,15 @@ public class BoMItemFlexiDto
     [JsonProperty("nazev")]
     public string Name { get; set; }
 
+    [JsonProperty("nazevA")]
+    public string? NameA { get; set; }
+
+    [JsonProperty("nazevB")]
+    public string? NameB { get; set; }
+
+    [JsonProperty("nazevC")]
+    public string? NameC { get; set; }
+
     [JsonProperty("mnoz")]
     public double Amount { get; set; }
 
