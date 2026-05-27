@@ -26,5 +26,9 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
             string? nameB = null,
             string? nameC = null,
             CancellationToken cancellationToken = default);
+
+        Task SetItemsOrderAsync(
+            IEnumerable<(int Id, int Order)> items,
+            CancellationToken cancellationToken = default);
     }
 }

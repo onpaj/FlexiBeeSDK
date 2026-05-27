@@ -141,6 +141,24 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.BoM
             await PutAsync(document, cancellationToken: cancellationToken);
         }
 
+        public async Task SetItemsOrderAsync(
+            IEnumerable<(int Id, int Order)> items,
+            CancellationToken cancellationToken = default)
+        {
+            var payload = items
+                .Select(i => new UpdateBoMItemRequest { Id = i.Id, Order = i.Order })
+                .ToList();
+
+            if (payload.Count == 0) return;
+
+            var document = new Dictionary<string, object>
+            {
+                { ResourceIdentifier, payload }
+            };
+
+            await PutAsync(document, cancellationToken: cancellationToken);
+        }
+
         private static string? StripCodePrefix(string? code)
         {
             if (code == null) return null;
