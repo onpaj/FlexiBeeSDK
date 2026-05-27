@@ -133,5 +133,61 @@ namespace Rem.FlexiBeeSDK.Tests
             await act.Should().ThrowAsync<InvalidOperationException>()
                 .WithMessage("*DOES_NOT_EXIST*");
         }
+
+        [Fact]
+        public async Task UpdateBoMItem_SetsNameC_AndRestores()
+        {
+            var client = _fixture.Create<BoMClient>();
+            const string productCode = "KRE003030";
+
+            // Fetch current BoM and pick a non-header row
+            var bom = await client.GetAsync(productCode);
+            var row = bom.FirstOrDefault(r => r.Level != 1);
+            row.Should().NotBeNull($"product {productCode} must have at least one non-header BoM row");
+
+            var originalNameC = row!.NameC;
+            var newNameC = $"sdk-test-{Guid.NewGuid():N}";
+
+            // Set NameC
+            await client.UpdateBoMItemAsync(row.Id, nameC: newNameC);
+
+            // Verify persistence
+            var updated = (await client.GetAsync(productCode)).Single(r => r.Id == row.Id);
+            updated.NameC.Should().Be(newNameC);
+
+            // Restore
+            await client.UpdateBoMItemAsync(row.Id, nameC: originalNameC ?? string.Empty);
+        }
+
+        [Fact]
+        public async Task UpdateBoMItem_SetsOrder_AndRestores()
+        {
+            var client = _fixture.Create<BoMClient>();
+            const string productCode = "KRE003030";
+
+            var bom = await client.GetAsync(productCode);
+            var row = bom.FirstOrDefault(r => r.Level != 1);
+            row.Should().NotBeNull();
+
+            var originalOrder = row!.Order;
+            var newOrder = originalOrder + 100;
+
+            await client.UpdateBoMItemAsync(row.Id, order: newOrder);
+
+            var updated = (await client.GetAsync(productCode)).Single(r => r.Id == row.Id);
+            updated.Order.Should().Be(newOrder);
+
+            await client.UpdateBoMItemAsync(row.Id, order: originalOrder);
+        }
+
+        [Fact]
+        public async Task UpdateBoMItem_ThrowsWhenNothingProvided()
+        {
+            var client = _fixture.Create<BoMClient>();
+
+            var act = async () => await client.UpdateBoMItemAsync(id: 1);
+
+            await act.Should().ThrowAsync<ArgumentException>();
+        }
     }
 }
