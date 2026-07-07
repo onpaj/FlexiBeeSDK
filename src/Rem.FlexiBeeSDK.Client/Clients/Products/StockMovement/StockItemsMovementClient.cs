@@ -76,7 +76,10 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockMovement
         
         public async Task<OperationResult<OperationResultDetail>> SaveAsync(StockItemsMovementUpsertRequestFlexiDto stockMovementRequest, CancellationToken cancellationToken = default)
         {
-            var result = await PostAsync(new StockItemsMovementUpsertRequestEnvelopeFlexiDto(stockMovementRequest), cancellationToken: cancellationToken);
+            // Import (create) is only allowed on the document-level evidence "skladovy-pohyb".
+            // The item-level evidence ("skladovy-pohyb-polozka", used by ResourceIdentifier for
+            // reads) rejects import with "importNotAllowed", so target the document evidence here.
+            var result = await PostAsync(new StockItemsMovementUpsertRequestEnvelopeFlexiDto(stockMovementRequest), customResourceIdentifier: Agenda.StockMovement, cancellationToken: cancellationToken);
 
             if (!result.IsSuccess)
                 return result;
