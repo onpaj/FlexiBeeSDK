@@ -9,6 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      id-token: write # required for nuget.org trusted publishing (OIDC)
+
     steps:
       - uses: actions/checkout@v2
         with:
@@ -37,16 +41,16 @@ jobs:
       - name: Pack
         run: dotnet pack /p:PackageVersion=${{ env.GitVersion_SemVer }} --no-build --configuration Release --output out
 
-      - name: Push
-        uses: actions/setup-dotnet@v1
+      # Exchange the GitHub OIDC token for a short-lived nuget.org API key.
+      # The key is valid for 1 hour, so request it immediately before pushing.
+      - name: NuGet login
+        id: login
+        uses: NuGet/login@v1
         with:
-          dotnet-version: '8.0.x' # Replace this with your .NET version
-          source-url: https://api.nuget.org/v3/index.json
-        env:
-          NUGET_AUTH_TOKEN: ${{secrets.NUGET_API_KEY}}
+          user: Remiiik # nuget.org account that owns the trusted publishing policy
 
       - name: Publish nupkg
-        run: dotnet nuget push "**/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
-        
+        run: dotnet nuget push "**/*.nupkg" --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+
       - name: Publish snupkg
-        run: dotnet nuget push "**/*.snupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://www.nuget.org/api/v2/symbolpackage
+        run: dotnet nuget push "**/*.snupkg" --api-key ${{steps.login.outputs.NUGET_API_KEY}} --source https://www.nuget.org/api/v2/symbolpackage
