@@ -1,18 +1,27 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json;
 
 namespace Rem.FlexiBeeSDK.Model.Invoices;
 
 public class ReceivedInvoiceRequest
 {
-    public ReceivedInvoiceRequest(DateTime? dateFrom = null, DateTime? dateTo = null, string? label = null, string? accountingTemplate = null, string? documentNumber = null, string? companyId = null)
+    public ReceivedInvoiceRequest(
+        DateTime? dateFrom = null,
+        DateTime? dateTo = null,
+        string? label = null,
+        string? accountingTemplate = null,
+        string? documentNumber = null,
+        string? companyId = null,
+        IEnumerable<string>? vatIds = null,
+        string dateField = "datVyst")
     {
         var filters = new List<string>();
 
         if (dateFrom.HasValue && dateTo.HasValue)
         {
-            filters.Add($"(datVyst gte \"{dateFrom.Value:yyyy-MM-dd}\" and datVyst lte \"{dateTo.Value:yyyy-MM-dd}\")");
+            filters.Add($"({dateField} gte \"{dateFrom.Value:yyyy-MM-dd}\" and {dateField} lte \"{dateTo.Value:yyyy-MM-dd}\")");
         }
 
         var labelFilter = GetLabelFilterString(label);
@@ -31,6 +40,10 @@ public class ReceivedInvoiceRequest
         if (!string.IsNullOrEmpty(companyIdFilter))
             filters.Add(companyIdFilter);
 
+        var vatIdFilter = GetVatIdsFilterString(vatIds);
+        if (!string.IsNullOrEmpty(vatIdFilter))
+            filters.Add(vatIdFilter);
+
         Filter = filters.Count > 0 ? $"({string.Join(" and ", filters)})" : string.Empty;
     }
 
@@ -39,7 +52,7 @@ public class ReceivedInvoiceRequest
 
     [JsonProperty("detail")]
     public string Detail { get; set; } =
-        "custom:datVyst,kod,typDokl(kod,typDoklK),nazFirmy,cisDosle,varSym,stredisko(id,kod),datSplat,sumZklCelkemMen,sumZklCelkem,mena(kod,id),sumCelkemMen,sumCelkem,juhSum,stavUhrK,juhSumMen,storno,popis,buc,stitky,smerKod(kod),iban,bic,zuctovano,datUcto,typUcOp(nazev,kod,id),id,podpisPrik,zamekK,stavOdpocetK,stavUzivK,bezPolozek,firma,ic,polozkyDokladu(id,nazev,kod,mnozMj,sumZkl,sumDph,sumCelkem,cenaMj,poznam)";
+        "custom:datVyst,kod,typDokl(kod,typDoklK),nazFirmy,cisDosle,varSym,stredisko(id,kod),datSplat,sumZklCelkemMen,sumZklCelkem,mena(kod,id),sumCelkemMen,sumCelkem,juhSum,stavUhrK,juhSumMen,storno,popis,buc,stitky,smerKod(kod),iban,bic,zuctovano,datUcto,typUcOp(nazev,kod,id),id,podpisPrik,zamekK,stavOdpocetK,stavUzivK,bezPolozek,firma,ic,dic,polozkyDokladu(id,nazev,kod,mnozMj,sumZkl,sumDph,sumCelkem,cenaMj,poznam)";
 
     [JsonProperty("limit")] public int Limit { get; set; } = 0;
 
@@ -90,5 +103,14 @@ public class ReceivedInvoiceRequest
             return String.Empty;
 
         return $"ic eq \"code:{companyId}\"";
+    }
+
+    private static string GetVatIdsFilterString(IEnumerable<string>? vatIds)
+    {
+        var ids = vatIds?.Where(v => !string.IsNullOrWhiteSpace(v)).Select(v => v.Trim()).ToList();
+        if (ids == null || ids.Count == 0)
+            return String.Empty;
+
+        return $"dic in ({string.Join(",", ids.Select(v => $"\"{v}\""))})";
     }
 }

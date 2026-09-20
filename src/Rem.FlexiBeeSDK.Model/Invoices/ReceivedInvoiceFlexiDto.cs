@@ -189,6 +189,9 @@ public class ReceivedInvoiceFlexiDto
     [JsonProperty("ic")]
     public string CompanyId { get; set; }
 
+    [JsonProperty("dic")]
+    public string? VatId { get; set; }
+
     [JsonProperty("stitky")]
     public string Labels { get; set; }
 

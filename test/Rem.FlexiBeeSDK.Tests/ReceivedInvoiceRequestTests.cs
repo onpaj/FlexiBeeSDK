@@ -334,9 +334,53 @@ namespace Rem.FlexiBeeSDK.Tests
         public void Constructor_WithOnlyAccountingTemplate_GeneratesCorrectFilter()
         {
             var request = new ReceivedInvoiceRequest(accountingTemplate: "SLUZBY-OSTATNI");
-            
+
             var expectedFilter = "(typUcOp.kod eq \"SLUZBY-OSTATNI\")";
             Assert.Equal(expectedFilter, request.Filter);
+        }
+
+        [Fact]
+        public void Constructor_WithVatIds_GeneratesInFilter()
+        {
+            var request = new ReceivedInvoiceRequest(
+                new DateTime(2026, 8, 1), new DateTime(2026, 8, 31),
+                vatIds: new[] { "IE9692928F", "CZ26168685" });
+
+            Assert.Equal(
+                "((datVyst gte \"2026-08-01\" and datVyst lte \"2026-08-31\") and dic in (\"IE9692928F\",\"CZ26168685\"))",
+                request.Filter);
+        }
+
+        [Fact]
+        public void Constructor_WithEmptyVatIds_AddsNoVatFilter()
+        {
+            var request = new ReceivedInvoiceRequest(new DateTime(2026, 8, 1), new DateTime(2026, 8, 31), vatIds: Array.Empty<string>());
+            Assert.Equal("((datVyst gte \"2026-08-01\" and datVyst lte \"2026-08-31\"))", request.Filter);
+        }
+
+        [Fact]
+        public void Constructor_WithAccountingDateField_FiltersOnDatUcto()
+        {
+            var request = new ReceivedInvoiceRequest(new DateTime(2026, 8, 1), new DateTime(2026, 8, 31), dateField: "datUcto");
+            Assert.Equal("((datUcto gte \"2026-08-01\" and datUcto lte \"2026-08-31\"))", request.Filter);
+        }
+
+        [Fact]
+        public void DetailProperty_ContainsDic()
+        {
+            var request = new ReceivedInvoiceRequest(DateTime.Now, DateTime.Now);
+            Assert.Contains(",dic,", request.Detail);
+        }
+
+        [Fact]
+        public void Dto_DeserializesDicIntoVatId()
+        {
+            const string json = "{\"id\":1,\"kod\":\"PF2608001\",\"dic\":\"IE9692928F\",\"storno\":false,\"sumZklCelkem\":1000.5,\"datUcto\":\"2026-08-05\"}";
+            var dto = JsonConvert.DeserializeObject<ReceivedInvoiceFlexiDto>(json)!;
+            Assert.Equal("IE9692928F", dto.VatId);
+            Assert.False(dto.IsCancelled);
+            Assert.Equal(1000.5, dto.TotalBaseAmount);
+            Assert.Equal(new DateTime(2026, 8, 5), dto.AccountingDate);
         }
     }
 }
