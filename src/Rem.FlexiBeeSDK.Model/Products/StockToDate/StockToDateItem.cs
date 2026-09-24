@@ -28,4 +28,18 @@ public class StockToDateItem
 
     [JsonProperty("stavMJPozad")]
     public double AmountRequired { get; set; }
+
+    /// <summary>
+    /// Stock value in CZK (<c>tuz</c>), rounded to 2 decimals by FlexiBee.
+    /// </summary>
+    [JsonProperty("tuz")]
+    public double StockValue { get; set; }
+
+    /// <summary>
+    /// Exact average price computed as <c>tuz / stavMJ</c>. <c>prumCena</c> from this endpoint is rounded
+    /// to 2 decimals, which is materially wrong for per-gram materials. Falls back to <see cref="AveragePrice"/>
+    /// when quantity or value is not positive.
+    /// </summary>
+    [JsonIgnore]
+    public double ExactAveragePrice => Amount > 0 && StockValue > 0 ? StockValue / Amount : AveragePrice;
 }
