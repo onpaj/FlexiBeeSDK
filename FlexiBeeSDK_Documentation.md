@@ -225,6 +225,10 @@ var stockItems = await client.GetAsync(
 
 **Transformace**: FlexiBee komplexní strukturu → `StockToDateSummary`
 
+**Ceny**: `Price` = `prumCena`, kterou tento endpoint zaokrouhluje na 2 desetinná místa (u materiálů v gramech výrazně nepřesné).
+Pro přesnou průměrnou cenu použij `ExactAveragePrice` = `tuz / stavMJ` (`StockValue / OnStock`); pokud množství
+nebo hodnota není kladná, vrací `Price`.
+
 ### 8. StockTakingClient (Inventury)
 
 **FlexiBee Resource**: `inventura`
