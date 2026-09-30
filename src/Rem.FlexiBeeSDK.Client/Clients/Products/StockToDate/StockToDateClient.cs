@@ -62,6 +62,7 @@ namespace Rem.FlexiBeeSDK.Client.Clients.Products.StockToDate
                 SupplierId = s.Product.FirstOrDefault()?.SupplierId,
                 SupplierName = s.Product.FirstOrDefault()?.SupplierName,
                 Note = s.Product.FirstOrDefault()?.Note,
+                DescriptionC = s.Product.FirstOrDefault()?.DescriptionC,
             }).ToList() ?? new List<StockToDateSummary>();
         }
     }

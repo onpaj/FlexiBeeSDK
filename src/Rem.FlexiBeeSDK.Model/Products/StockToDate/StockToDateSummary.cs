@@ -35,4 +35,5 @@ public class StockToDateSummary
     public int? SupplierId { get; set; }
     public string? SupplierName { get; set; }
     public string? Note { get; set; }
+    public string? DescriptionC { get; set; }
 }

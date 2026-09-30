@@ -42,4 +42,7 @@ public class ProductFlexiDto
 
     [JsonProperty("poznam")]
     public string Note { get; set; }
+
+    [JsonProperty("popisC")]
+    public string DescriptionC { get; set; }
 }
