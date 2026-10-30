@@ -11,6 +11,7 @@ using Rem.FlexiBeeSDK.Client.Clients.CashRegisters;
 using Rem.FlexiBeeSDK.Client.Clients.Contacts;
 using Rem.FlexiBeeSDK.Client.Clients.IssuedInvoices;
 using Rem.FlexiBeeSDK.Client.Clients.IssuedOrders;
+using Rem.FlexiBeeSDK.Client.Clients.Products.Attributes;
 using Rem.FlexiBeeSDK.Client.Clients.Products.BoM;
 using Rem.FlexiBeeSDK.Client.Clients.Products.StockMovement;
 using Rem.FlexiBeeSDK.Client.Clients.Products.StockTaking;
@@ -43,6 +44,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IContactClient, ContactClient>();
         services.AddSingleton<IProductSetsClient, ProductSetsClient>();
         services.AddSingleton<IPriceListClient, PriceListClient>();
+        services.AddSingleton<IProductAttributeClient, ProductAttributeClient>();
         services.AddSingleton<IReceivedInvoiceClient, ReceivedInvoiceClient>();
         services.AddSingleton<ILotsClient, LotsClient>();
         services.AddSingleton<IStockTakingClient, StockTakingClient>();
