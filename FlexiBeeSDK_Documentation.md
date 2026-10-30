@@ -48,6 +48,7 @@ Tabulka všech dostupných klientů v SDK:
 | `IBankAccountClient` | `bankovni-ucet` | ImportStatement | Bankovní účty |
 | `IBoMClient` | `kusovnik` | Get, GetByIngredient, RecalculatePurchasePrice, GetBomWeight | Kusovníky |
 | `IPriceListClient` | `cenik` | Save | Ceníky |
+| `IProductAttributeClient` | `atribut` (+ `typ-atributu`) | Get, Set, Clear | Hodnota atributu ceníku (čtení, upsert, smazání) |
 | `IProductSetsClient` | Product sets | Get | Product sets |
 | `IStockToDateClient` | `stav-skladu-k-datu` | Get | Stavy skladu k datu |
 | `IStockMovementClient` | `skladovy-pohyb` | Get, GetByCode, Save, Update | Hlavičky skladových pohybů |
@@ -90,6 +91,7 @@ services.AddFlexiBee(configuration);
 - `IBankAccountClient` - bankovní účty
 - `IContactClient` - kontakty/firmy
 - `IBoMClient` - kusovníky
+- `IProductAttributeClient` - atributy ceníku (zápis/čtení jedné hodnoty)
 - `IStockToDateClient` - stavy skladu k datu
 - `IStockTakingClient` - inventury
 - `ILotsClient` - šarže/expirace
@@ -455,6 +457,30 @@ var results = await client.GetAsync(
 ```
 
 **Použití**: Pro flexibilní queries kdy potřebujete plnou kontrolu nad parametry.
+
+### 20. ProductAttributeClient (Atributy ceníku)
+
+**FlexiBee Resource**: `atribut` (řádek atributu u ceníku), `typ-atributu` (definice, jen čtení pro kontrolu typu)
+
+Atribut se adresuje číselným ID definice (`typ-atributu`). Produkt se zadá přes `ProductReference` (kód nebo ID).
+Chyby se vrací přes `OperationResult` (nevyhazují se); neplatné argumenty vyhazují `ArgumentException`.
+
+```csharp
+var product = ProductReference.FromCode("ABC001");   // nebo ProductReference.FromId(1033)
+
+// Čtení: Result == null znamená "atribut není nastaven"
+var current = await client.GetAsync(product, attributeTypeId: 90, cancellationToken);
+bool isSet = current.IsSuccess && current.Result?.BooleanValue == true;
+
+// Upsert (update existujícího řádku, jinak create). Typ hodnoty musí odpovídat definici (jinak 400)
+await client.SetAsync(product, 90, ProductAttributeValue.FromBoolean(true), cancellationToken);
+
+// Smazání řádku atributu (idempotentní; bez zápisu, pokud řádek neexistuje)
+await client.ClearAsync(product, 90, cancellationToken);
+```
+
+Hodnoty: `FromBoolean` (`valBoolean`, `typAtribut.boolean`), `FromString` (`valString`, `typAtribut.retezec`),
+`FromInteger` (`valInteger`), `FromNumeric` (`valNumeric`). Více řádků téhož atributu u jednoho ceníku vrací `409 Conflict`.
 
 ## Datové modely
 
